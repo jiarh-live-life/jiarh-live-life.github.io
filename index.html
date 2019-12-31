@@ -170,341 +170,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/adb-shell/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jiarh">
-      <meta itemprop="description" content="coding change the world .">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/31/adb-shell/" class="post-title-link" itemprop="url">adb shell</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-31 14:14:26 / 修改时间：14:29:24" itemprop="dateCreated datePublished" datetime="2019-12-31T14:14:26+08:00">2019-12-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://github.com/mzlogin/awesome-adb" target="_blank" rel="noopener">文章来源</a></p>
-<p>[TOC]</p>
-<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="命令语法"><a href="#命令语法" class="headerlink" title="命令语法"></a>命令语法</h3><p>adb 命令的基本语法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb [-d|-e|-s &lt;serialNumber&gt;] &lt;command&gt;</span><br></pre></td></tr></table></figure>
-
-<p>如果只有一个设备/模拟器连接时，可以省略掉 <code>[-d|-e|-s ]</code> 这一部分，直接使用 <code>adb</code>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/31/adb-shell/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/性能优化/性能优化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jiarh">
-      <meta itemprop="description" content="coding change the world .">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/31/性能优化/性能优化/" class="post-title-link" itemprop="url">性能优化</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-31 14:07:07 / 修改时间：14:32:06" itemprop="dateCreated datePublished" datetime="2019-12-31T14:07:07+08:00">2019-12-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="App优化"><a href="#App优化" class="headerlink" title="App优化"></a>App优化</h2><ol>
-<li><p>app 启动优化（视觉体验优化）</p>
-<ul>
-<li>白屏、黑屏问题？(不会缩短实际冷启动时间)</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".base.App"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppThemeBase"</span></span></span><br><span class="line"><span class="tag">    &gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>styles.xml 增加一个主题叫AppThemeBase</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppThemeBase"</span> <span class="attr">parent</span>=<span class="string">"XUITheme.Phone"</span>&gt;</span></span><br><span class="line">   ...</span><br><span class="line"><span class="xml">    <span class="comment">&lt;!--  设置启动白屏的图片背景 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowBackground"</span>&gt;</span>@drawable/theme_bg<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/31/性能优化/性能优化/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/android自定义View/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jiarh">
-      <meta itemprop="description" content="coding change the world .">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/31/android自定义View/" class="post-title-link" itemprop="url">android自定义View</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-31 14:01:02 / 修改时间：14:30:19" itemprop="dateCreated datePublished" datetime="2019-12-31T14:01:02+08:00">2019-12-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Android自定义View"><a href="#Android自定义View" class="headerlink" title="Android自定义View"></a>Android自定义View</h2><blockquote>
-<p>根据需求整合几个控件，使用</p>
-<p>扩展或者更改原始控件的功能逻辑</p>
-<p>实现一些无法用原始控件实现的布局，或简化布局复杂程度，提高性能</p>
-</blockquote>
-<ul>
-<li><p>布局</p>
-</li>
-<li><p>绘制</p>
-</li>
-<li><p>触摸反馈</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/31/android自定义View/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/Android-触摸事件-事件分发机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="jiarh">
-      <meta itemprop="description" content="coding change the world .">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/31/Android-触摸事件-事件分发机制/" class="post-title-link" itemprop="url">Android 触摸事件&&事件分发机制</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-31 13:58:55 / 修改时间：14:30:34" itemprop="dateCreated datePublished" datetime="2019-12-31T13:58:55+08:00">2019-12-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Android-触摸事件"><a href="#Android-触摸事件" class="headerlink" title="Android 触摸事件"></a>Android 触摸事件</h2><blockquote>
-<p>触摸反馈的本质就是把一系列的触摸反馈解读为对应的事件。</p>
-<p>比如：点击，按下移动，抬起</p>
-<p>触摸事件不是独立的，是成组出现。</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/31/Android-触摸事件-事件分发机制/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/Android-新技术盘点/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -627,14 +292,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
             </span>
@@ -720,7 +385,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-31 14:25:05" itemprop="dateModified" datetime="2019-12-31T14:25:05+08:00">2019-12-31</time>
+                <time title="修改时间：2019-12-31 14:38:30" itemprop="dateModified" datetime="2019-12-31T14:38:30+08:00">2019-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -728,20 +393,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/android/" itemprop="url" rel="index">
                     <span itemprop="name">android</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
             </span>
@@ -1241,14 +900,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
             </span>
@@ -1795,7 +1454,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-31 14:25:09" itemprop="dateModified" datetime="2019-12-31T14:25:09+08:00">2019-12-31</time>
+                <time title="修改时间：2019-12-31 14:38:23" itemprop="dateModified" datetime="2019-12-31T14:38:23+08:00">2019-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1803,20 +1462,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/android/" itemprop="url" rel="index">
                     <span itemprop="name">android</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
             </span>
@@ -1910,14 +1563,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
                   </a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
                   ，
@@ -1952,6 +1605,507 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/10/07/HashMap使用笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/07/HashMap使用笔记/" class="post-title-link" itemprop="url">HashMap使用笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-07 11:15:31" itemprop="dateCreated datePublished" datetime="2019-10-07T11:15:31+08:00">2019-10-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 14:31:05" itemprop="dateModified" datetime="2019-12-31T14:31:05+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集合框架/" itemprop="url" rel="index">
+                    <span itemprop="name">集合框架</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p><a href="https://www.jianshu.com/p/32f67f9e71b5" target="_blank" rel="noopener">文稿来源</a></p>
+<ol>
+<li><p>HashMap<code>其实就是</code>ArrayList<code>和</code>LinkedList<code>的数据结构加上</code>hashCode<code>和</code>equals`方法的思想设计出来的。</p>
+</li>
+<li><p><code>HashMap</code>是基于<code>Map</code>接口实现的一种键-值对的存储结构，允许<code>null</code>值，同时非有序，非同步(即线程不安全)。</p>
+</li>
+<li><p><code>HashMap</code>的底层实现是数组 + 链表 + 红黑树（JDK1.8增加了红黑树部分）。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/07/HashMap使用笔记/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/10/03/LinkedList使用笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/03/LinkedList使用笔记/" class="post-title-link" itemprop="url">LinkedList使用笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-03 11:12:11" itemprop="dateCreated datePublished" datetime="2019-10-03T11:12:11+08:00">2019-10-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 14:33:28" itemprop="dateModified" datetime="2019-12-31T14:33:28+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集合框架/" itemprop="url" rel="index">
+                    <span itemprop="name">集合框架</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><ol>
+<li><p>LinkedList底层是双向链表，同时实现了List接口和Deque接口</p>
+</li>
+<li><p>可以看作是一个顺序容器，也可以看作是一个队列(Queue)，同时也可以看作是一个栈(Stack)</p>
+</li>
+<li><p>如果想使用栈或队列等数据结构的话，推荐使用ArrayDeque，它作为栈或队列会比LinkedList有更好的使用性能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/03/LinkedList使用笔记/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/10/02/ArrayList使用笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/02/ArrayList使用笔记/" class="post-title-link" itemprop="url">ArrayList使用笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-02 11:08:08" itemprop="dateCreated datePublished" datetime="2019-10-02T11:08:08+08:00">2019-10-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 14:33:14" itemprop="dateModified" datetime="2019-12-31T14:33:14+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/集合框架/" itemprop="url" rel="index">
+                    <span itemprop="name">集合框架</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Arraylist"><a href="#Arraylist" class="headerlink" title="Arraylist"></a>Arraylist</h2><ol>
+<li><p>Arraylist 就是数组列表</p>
+</li>
+<li><p>当我们转载的是基本数据int,long,byte,boolean,float,double,char,short的时候，只能存储他们对应的包装类。</p>
+</li>
+<li><p>底层实现主要是  transient Object[] elementData;</p>
+<blockquote>
+<p> Java语言的关键字，变量修饰符，如果用<strong>transient</strong>声明一个实例变量，当对象存储时，它的值不需要维持。换句话来说就是，用<strong>transient</strong>关键字标记的成员变量不参与序列化过程。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/02/ArrayList使用笔记/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/09/25/深入理解动态代理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/09/25/深入理解动态代理/" class="post-title-link" itemprop="url">深入理解动态代理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-25 20:50:20" itemprop="dateCreated datePublished" datetime="2019-09-25T20:50:20+08:00">2019-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 14:38:16" itemprop="dateModified" datetime="2019-12-31T14:38:16+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id><a href="#" class="headerlink" title></a></h2><h1 id="深入理解动态代理"><a href="#深入理解动态代理" class="headerlink" title="深入理解动态代理"></a>深入理解动态代理</h1><p><a href="https://juejin.im/post/5c70094051882562a12aec51" target="_blank" rel="noopener">来源</a></p>
+<h1 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h1><p>最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。</p>
+<h1 id="二、关于代理"><a href="#二、关于代理" class="headerlink" title="二、关于代理"></a>二、关于代理</h1><p>中华名族是一个含蓄的名族，讲究微妙和间接的交流方式。对象之间的间接通信也是同样是面向对象设计中一条重要的审美观，迪米特法则也指出“一个对象应该对其他对象保持最少的了解”,间接间通信可以达到“高内聚，低耦合”的效果。<br>代理是一种重要的手段之一，比如生活中的微商代理，厂家委托其代理销售商品，我们只跟微商打交道，不知道背后的“厂家是谁”，微商和厂家就可以抽象为 “代理类”和“委托类”，这样就可以，隐藏委托类的实现、实现客户与委托类之间的解耦，可以不用修改委托类的情况下做一些额外的处理</p>
+<h2 id="2-1、代理模式简介"><a href="#2-1、代理模式简介" class="headerlink" title="2.1、代理模式简介"></a>2.1、代理模式简介</h2><p>在《Java与模式》一书中指出”代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的访问”，类图如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d98d4237?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image.png"></p>
+<p>通过类图可以发现，代理模式的代理对象<code>Proxy</code>和目标对象<code>Subject</code>实现同一个接口，客户调用的是<code>Proxy</code>对象，<code>Proxy</code>可以控制<code>Subject</code>的访问，真正的功能实现是在<code>Subject</code>完成的。</p>
+<p>适用场景:</p>
+<ul>
+<li>不希望某些类被直接访问。</li>
+<li>访问之前希望先进行一些预处理。</li>
+<li>希望对被访问的对象进行内存、权限等方面的控制。</li>
+</ul>
+<p>优点如下</p>
+<ul>
+<li>代理模式是通过使用引用代理对象来访问真实对象，在这里代理对象充当用于连接客户端和真实对象的中介者。</li>
+<li>代理模式主要用于远程代理、虚拟代理和保护代理。其中保护代理可以进行访问权限控制。</li>
+</ul>
+<h2 id="2-2、静态代理"><a href="#2-2、静态代理" class="headerlink" title="2.2、静态代理"></a>2.2、静态代理</h2><p>“静态”代理，若代理类在程序运行前已经存在，这种通常称为静态代理，比如微商A只代理A品牌的面膜,消费者通过微商才能买到某厂的面膜(控制权)，其中微商和工厂都实现了了Sell的接口</p>
+<blockquote>
+<p>委托类面膜工厂</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class  FactoryOne :SellMask&#123;</span><br><span class="line">    override fun sell() &#123;</span><br><span class="line">        println(&quot;FactoryOne: 来自工厂A的面膜&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>微商静态代理</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class BusinessAgent : SellMask &#123;</span><br><span class="line">    private lateinit var sellMask: SellMask</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        sellMask = FactoryOne()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    override fun sell() &#123;</span><br><span class="line">        println(&quot;BusinessAgent: 微商代理开始在朋友圈打广告&quot;)</span><br><span class="line">        sellMask.sell()</span><br><span class="line">        print(&quot;BusinessAgent: 赚了一大把&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>共同接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">interface SellMask &#123;</span><br><span class="line">    fun sell()</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3、相似模式的比较"><a href="#2-3、相似模式的比较" class="headerlink" title="2.3、相似模式的比较"></a>2.3、相似模式的比较</h2><p>既然获得引用就可以做一些扩展之类的事情，这点跟装饰者模式、适配器模式看起来很像，三者都属于结构型模式，但是代理模式核心是为其它对象提供一种代理以控制对这个对象的访问()</p>
+<blockquote>
+<p>代理模式 VS 适配器模式</p>
+</blockquote>
+<p>看上去很像，它们都可视为一个对象提供一种前置的接口，但是适配器模式的用意是改变所考虑的对象的接口，而代理模式并不能改变所代理的对象的接口，这一点上两个模式有着明显的区别，下图分别是 对象适配器和类的适配器UML图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d9a53c4a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image.png"></p>
+<blockquote>
+<p>代理模式VS 装饰模式</p>
+</blockquote>
+<p>装饰者模式与所装饰的对象有着相同的接口，这一点跟代理模式相同，但是装饰模式更强调为所装饰的对象提供增强功能，而代理模式则是对对象的使用施加控制，并不提供对象本身的增强功能；被代理对象由代理对象创建，客户端甚至不需要知道被代理类的存在；被装饰对象由客户端创建并传给装饰对象。装饰者UML图如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d9bb2a1a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image.png"></p>
+<p>你以为这就完了吗？下面👇才是重头戏！</p>
+<h1 id="三、深入理解动态代理"><a href="#三、深入理解动态代理" class="headerlink" title="三、深入理解动态代理"></a>三、深入理解动态代理</h1><h2 id="3-1、什么是动态代理"><a href="#3-1、什么是动态代理" class="headerlink" title="3.1、什么是动态代理"></a>3.1、什么是动态代理</h2><p>代理类在程序运行时创建的代理方式被成为 动态代理。即代理类并不是在代码中定义的，而是在运行时根据我们在Java代码中”规定”的信息自动生成。静态代理容易造成代码的膨胀，。相比于静态代理， 动态代理的优势在于可以很方便的对代理类的函数进行统一的处理，而不用修改每个代理类的函数。 还是以上面的卖面膜微商为例，她在进货市场进行一番比较之后再决定代理哪个品牌的面膜。</p>
+<h2 id="3-2、如何使用动态代理"><a href="#3-2、如何使用动态代理" class="headerlink" title="3.2、如何使用动态代理"></a>3.2、如何使用动态代理</h2><p>跟上文一样，微商和面膜工厂都实现了sell接口，这里就不赘述了，下面看下与众不同的地方，实现动态代理需要实现InvocationHandler接口</p>
+<blockquote>
+<p>实现InvocationHandler接口</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class DynamicProxy implements InvocationHandler &#123;</span><br><span class="line">    private Object object;//被引用的代理</span><br><span class="line"></span><br><span class="line">    public Object newProxyInstance(Object object) &#123;</span><br><span class="line">        this.object = object;</span><br><span class="line">        return Proxy.newProxyInstance(object.getClass().getClassLoader(),object.getClass().getInterfaces(),this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;代理商 包装发朋友圈&quot;);</span><br><span class="line">        Object result = method.invoke(object,args);</span><br><span class="line">        System.out.println(&quot;代理商 赚钱&quot;);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>target 属性表示委托类对象</li>
+<li><code>InvocationHandler</code>是负责连接代理类和委托类的中间类必须实现的接口。其中只有一个 invoke函数需要实现</li>
+<li>invoke函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public Object invoke(Object proxy, Method method, Object[] args)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>下面好好看看这个核心函数的参数含义</p>
+<ul>
+<li>proxy 代通过dynamicproxy.newProxyInstance(business)自动生成的代理类 $Proxy0.class(下文会详细介绍)</li>
+<li>method表示代理对象被调用的函数，比如sellMask接口里面的sell方法</li>
+<li>args 表示代理大力调用函数的的参数，这里sell方法无参数</li>
+</ul>
+<p>调用代理对象的每个函数，实际上最终都是走到InvocationHandler的invoke函数，因此可以在这里做一些统一的处理，AOP的雏形就慢慢出现了，我们也可以根据method方法名做一些判断，从而实现对某些函数的特殊处理。</p>
+<blockquote>
+<p>使用动态代理</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;, &quot;true&quot;)  //加入这个可以获取代理类</span><br><span class="line"></span><br><span class="line">    var maskFactory = FactoryMaskOne()</span><br><span class="line"></span><br><span class="line">    var dynamicproxy: DynamicProxy = DynamicProxy()</span><br><span class="line"></span><br><span class="line">    var sellMask: SellMask = dynamicproxy.newProxyInstance(maskFactory) as SellMask</span><br><span class="line"></span><br><span class="line">    sellMask.sell()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>我们将委托类面膜工程FactoryMaskOne传到dynamicproxy.newProxyInstance中，通过下面的函数返回了一个代理对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public Object newProxyInstance(Object object) &#123;</span><br><span class="line">        this.object = object;</span><br><span class="line">        return Proxy.newProxyInstance(object.getClass().getClassLoader(),object.getClass().getInterfaces(),this);</span><br><span class="line">    &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>实际代理类就是在这个时候动态生成的，后续调用到这个代理类的函数就会直接调用invoke函数，让我们细细看下这个Proxy.newProxyInstance</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>法的三个参数含义分别如下：</p>
+<ul>
+<li>loader：定义了代理类的ClassLoder;</li>
+<li>interfaces：代理类实现的接口列表</li>
+<li>h：调用处理器，也就是我们上面定义的实现了InvocationHandler接口的类实例</li>
+</ul>
+<p>这里简单总结一下，委托类通过*<em>newProxyInstance *</em>方法获取动态生成的代理类的实例(本例是$Proxy0.class),然后可以通过这个代理类实例调用代理的方法获得委托类的控制权，对代理类的调用实际上都会走到invoke方法，在这里我们调用委托类的相应方法，并且可以添加自己的一些逻辑，比如统一处理登陆、校验之类的。</p>
+<h2 id="3-3、动态生成的代理类-Proxy0"><a href="#3-3、动态生成的代理类-Proxy0" class="headerlink" title="3.3、动态生成的代理类$Proxy0"></a>3.3、动态生成的代理类$Proxy0</h2><p>在Android Studio中调用不了<code>ProxyGenerator</code>这个类,这个类在sun.misc包中,使用IntelliJ IDE创建java工程，需要看一下<a href="https://juejin.im/post/5c70094051882562a12aec51" target="_blank" rel="noopener">jdk</a>的反射中Proxy和生成的代理类$Proxy0的源码，可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//生成$Proxy0的class文件</span><br><span class="line">System.getProperties().put(&quot;sun.misc.ProxyGenerator.saveGeneratedFiles&quot;, &quot;true&quot;);</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>生成的代理类在com.sun.proxy包里面完整代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">public final class $Proxy0 extends Proxy implements SellMask &#123;</span><br><span class="line">    private static Method m1;</span><br><span class="line">    private static Method m2;</span><br><span class="line">    private static Method m3;</span><br><span class="line">    private static Method m0;</span><br><span class="line"></span><br><span class="line">    public $Proxy0(InvocationHandler var1) throws  &#123;</span><br><span class="line">        super(var1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public final boolean equals(Object var1) throws  &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return (Boolean)super.h.invoke(this, m1, new Object[]&#123;var1&#125;);</span><br><span class="line">        &#125; catch (RuntimeException | Error var3) &#123;</span><br><span class="line">            throw var3;</span><br><span class="line">        &#125; catch (Throwable var4) &#123;</span><br><span class="line">            throw new UndeclaredThrowableException(var4);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public final String toString() throws  &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return (String)super.h.invoke(this, m2, (Object[])null);</span><br><span class="line">        &#125; catch (RuntimeException | Error var2) &#123;</span><br><span class="line">            throw var2;</span><br><span class="line">        &#125; catch (Throwable var3) &#123;</span><br><span class="line">            throw new UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    public final void sell() throws  &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">          //可以看到接口方法都交由h的invoke方法处理，h在父类Proxy中定义为InvocationHandler接口</span><br><span class="line">            super.h.invoke(this, m3, (Object[])null);</span><br><span class="line">        &#125; catch (RuntimeException | Error var2) &#123;</span><br><span class="line">            throw var2;</span><br><span class="line">        &#125; catch (Throwable var3) &#123;</span><br><span class="line">            throw new UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public final int hashCode() throws  &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            return (Integer)super.h.invoke(this, m0, (Object[])null);</span><br><span class="line">        &#125; catch (RuntimeException | Error var2) &#123;</span><br><span class="line">            throw var2;</span><br><span class="line">        &#125; catch (Throwable var3) &#123;</span><br><span class="line">            throw new UndeclaredThrowableException(var3);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            m1 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;equals&quot;, Class.forName(&quot;java.lang.Object&quot;));</span><br><span class="line">            m2 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;toString&quot;);</span><br><span class="line">            m3 = Class.forName(&quot;dev.proxy.SellMask&quot;).getMethod(&quot;sell&quot;);</span><br><span class="line">            m0 = Class.forName(&quot;java.lang.Object&quot;).getMethod(&quot;hashCode&quot;);</span><br><span class="line">        &#125; catch (NoSuchMethodException var2) &#123;</span><br><span class="line">            throw new NoSuchMethodError(var2.getMessage());</span><br><span class="line">        &#125; catch (ClassNotFoundException var3) &#123;</span><br><span class="line">            throw new NoClassDefFoundError(var3.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>从生成的代理类中可以看到</p>
+<ul>
+<li>动态生成的代理类是以<code>$Proxy</code>为类名前缀，继承自<code>Proxy</code>，并且实现了<code>Proxy.newProxyInstance(…)</code>第二个参数传入的所有接口的类。</li>
+<li>接口方法都交由h的invoke方法处理，h在父类Proxy中定义为InvocationHandler接口，为Proxy.newProxyInstance(…)的第三个参数</li>
+</ul>
+<h2 id="3-4-动态代理类如何生成"><a href="#3-4-动态代理类如何生成" class="headerlink" title="3.4 动态代理类如何生成"></a>3.4 动态代理类如何生成</h2><ul>
+<li>关注点1 Proxy.newProxyInstance(……)函数</li>
+</ul>
+<p>动态代理类是在调用 Proxy.newProxyInstance(……)函数时生成的，精简后的核心代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public static Object newProxyInstance(ClassLoader loader,</span><br><span class="line">                                          Class&lt;?&gt;[] interfaces,</span><br><span class="line">                                          InvocationHandler h)</span><br><span class="line">        throws IllegalArgumentException</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        final Class&lt;?&gt;[] intfs = interfaces.clone();</span><br><span class="line">        ……</span><br><span class="line">        /*</span><br><span class="line">         * Look up or generate the designated proxy class.</span><br><span class="line">         * 得到动态代理类</span><br><span class="line">         */</span><br><span class="line">        Class&lt;?&gt; cl = getProxyClass0(loader, intfs);</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line">         * Invoke its constructor with the designated invocation handler.</span><br><span class="line">         */</span><br><span class="line">        try &#123;</span><br><span class="line">            ……</span><br><span class="line">            final Constructor&lt;?&gt; cons = cl.getConstructor(constructorParams);</span><br><span class="line">            final InvocationHandler ih = h;</span><br><span class="line">            if (!Modifier.isPublic(cl.getModifiers())) &#123;</span><br><span class="line">                AccessController.doPrivileged(new PrivilegedAction&lt;Void&gt;() &#123;</span><br><span class="line">                    public Void run() &#123;</span><br><span class="line">                        cons.setAccessible(true);</span><br><span class="line">                        return null;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            //然后将InvocationHandler作为代理类构造函数入参新建代理类对象</span><br><span class="line">            return cons.newInstance(new Object[]&#123;h&#125;);</span><br><span class="line">        &#125; catch (IllegalAccessException|InstantiationException e) &#123;</span><br><span class="line">           ……</span><br><span class="line">    &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 首先调用它先调用<code>getProxyClass(loader, interfaces)</code>得到动态代理类，然后将<code>InvocationHandler</code>作为代理类构造函数入参新建代理类对象。</p>
+<ul>
+<li>关注点2 Class&lt;?&gt; cl = getProxyClass0(loader, intfs);</li>
+</ul>
+<p>如何获取到 生成动态代理类呢，一步步追踪，我们发现，在Proxy#ProxyClassFactory类中，在ProxyGenerator中去生成动态代理，类名以$Proxy+num作为标记</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">						/*</span><br><span class="line">             * Generate the specified proxy class.</span><br><span class="line">             */</span><br><span class="line">            byte[] proxyClassFile = ProxyGenerator.generateProxyClass(</span><br><span class="line">                proxyName, interfaces, accessFlags);</span><br><span class="line">            try &#123;</span><br><span class="line">                return defineClass0(loader, proxyName,</span><br><span class="line">                                    proxyClassFile, 0, proxyClassFile.length);</span><br><span class="line">            &#125; catch (ClassFormatError e) &#123;</span><br><span class="line">                throw new IllegalArgumentException(e.toString());</span><br><span class="line">            &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>本篇主要java中的代理模式以及跟其他模式的对比，并重点介绍了JDK中的动态代理机制，像AOP、retrofit核心机制之一就使用到了这种技术，但Java动态代理是基于接口的，如果对象没有实现接口我们该如何代理呢？那就需要CGLIB了，<a href="https://github.com/cglib/cglib" target="_blank" rel="noopener">CGLIB</a>(<em>Code Generation Library</em>)是一个基于<a href="http://www.baeldung.com/java-asm" target="_blank" rel="noopener">ASM</a>的字节码生成库，它允许我们在运行时对字节码进行修改和动态生成。CGLIB通过继承方式实现代理，这里就不展开赘述了。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://juejin.im/post/5a99048a6fb9a028d5668e62" target="_blank" rel="noopener">juejin.im/post/5a9904…</a></li>
+<li><a href="https://juejin.im/post/5ad3e6b36fb9a028ba1fee6a" target="_blank" rel="noopener">juejin.im/post/5ad3e6…</a></li>
+<li><a href="http://www.cnblogs.com/xiaoluo501395377/p/3383130.html" target="_blank" rel="noopener">www.cnblogs.com/xiaoluo5013…</a></li>
+<li><a href="https://www.zhihu.com/question/20794107" target="_blank" rel="noopener">www.zhihu.com/question/20…</a></li>
+<li><a href="https://blog.csdn.net/qq_27095957/article/details/80184291" target="_blank" rel="noopener">blog.csdn.net/qq_27095957…</a></li>
+<li>[a.codekk.com/detail/Andr…](<a href="http://a.codekk.com/detail/Android/Caij/公共技术点之" target="_blank" rel="noopener">http://a.codekk.com/detail/Android/Caij/公共技术点之</a> Java 动态代理)</li>
+<li><a href="https://www.jianshu.com/p/0391a8e93d3d" target="_blank" rel="noopener">www.jianshu.com/p/0391a8e93…</a></li>
+</ul>
+
       
     </div>
 
