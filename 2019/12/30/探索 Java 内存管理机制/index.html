@@ -46,20 +46,20 @@
   };
 </script>
 
-  <meta name="description" content="探索 Java 内存管理机制来源  目录 什么是内存？ 什么是 Java 内存模型？ 什么是 JVM？ JVM 是怎么划分内存的？ 栈帧中的数据有什么用？ 什么是可达性算法？ Java 中有哪几种引用？ 什么是垃圾回收器？ 参考文献">
-<meta name="keywords" content="android,java,内存管理">
+  <meta name="description" content="探索 Java 内存管理机制来源">
+<meta name="keywords" content="java,android,内存管理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="探索 Java 内存管理机制">
 <meta property="og:url" content="http://jrhlive.com/2019/12/30/探索 Java 内存管理机制/index.html">
 <meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
-<meta property="og:description" content="探索 Java 内存管理机制来源  目录 什么是内存？ 什么是 Java 内存模型？ 什么是 JVM？ JVM 是怎么划分内存的？ 栈帧中的数据有什么用？ 什么是可达性算法？ Java 中有哪几种引用？ 什么是垃圾回收器？ 参考文献">
+<meta property="og:description" content="探索 Java 内存管理机制来源">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/7/26/16c2c9fa9f1d2480?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/7/26/16c2c9faa050dff7?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:updated_time" content="2019-12-31T06:27:59.119Z">
+<meta property="og:updated_time" content="2019-12-31T06:46:50.428Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探索 Java 内存管理机制">
-<meta name="twitter:description" content="探索 Java 内存管理机制来源  目录 什么是内存？ 什么是 Java 内存模型？ 什么是 JVM？ JVM 是怎么划分内存的？ 栈帧中的数据有什么用？ 什么是可达性算法？ Java 中有哪几种引用？ 什么是垃圾回收器？ 参考文献">
+<meta name="twitter:description" content="探索 Java 内存管理机制来源">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/7/26/16c2c9fa9f1d2480?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 
 <link rel="canonical" href="http://jrhlive.com/2019/12/30/探索 Java 内存管理机制/">
@@ -204,7 +204,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-31 14:27:59" itemprop="dateModified" datetime="2019-12-31T14:27:59+08:00">2019-12-31</time>
+                <time title="修改时间：2019-12-31 14:46:50" itemprop="dateModified" datetime="2019-12-31T14:46:50+08:00">2019-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,6 +237,8 @@
       
         <h1 id="探索-Java-内存管理机制"><a href="#探索-Java-内存管理机制" class="headerlink" title="探索 Java 内存管理机制"></a>探索 Java 内存管理机制</h1><p><a href="https://juejin.im/post/5d3a870df265da1b855c9d41" target="_blank" rel="noopener">来源</a></p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/7/26/16c2c9fa9f1d2480?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="首图.jpg"></p>
+<a id="more"></a>
+
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
 <li>什么是内存？</li>
 <li>什么是 Java 内存模型？</li>
@@ -248,8 +250,6 @@
 <li>什么是垃圾回收器？</li>
 <li>参考文献</li>
 </ol>
-<a id="more"></a>
-
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章是我自己回顾和再学习 Java 内存管理相关知识的过程中整理出来的。</p>
 <p>整理的目的是让我自己能对 Java 内存管理相关的知识的认识更全面一些，分享的目的是希望大家也能从这些知识中得到一些启发。</p>
 <h2 id="1-什么是内存？"><a href="#1-什么是内存？" class="headerlink" title="1. 什么是内存？"></a>1. 什么是内存？</h2><p>内存是计算机中重要的部件之一，是与 CPU 进行沟通的桥梁，是 CPU 能直接寻址的存储空间，由半导体器件制成。</p>
@@ -620,8 +620,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/android/" rel="tag"># android</a>
               <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/android/" rel="tag"># android</a>
               <a href="/tags/内存管理/" rel="tag"># 内存管理</a>
           </div>
 

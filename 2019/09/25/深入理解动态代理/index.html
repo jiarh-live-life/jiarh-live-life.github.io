@@ -46,21 +46,21 @@
   };
 </script>
 
-  <meta name="description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。 二、关于代理中华名族是一个含蓄的名族，讲究微妙和间接的交流方式。对象之间的间接通信也是同样是面向对象设计中一条重要的审美观，迪米特法则也指出“一个对象应该对其他对象保持最少的了解”,间接间通信可以达到“高内聚，低耦">
-<meta name="keywords" content="android,java">
+  <meta name="description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。">
+<meta name="keywords" content="java,android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解动态代理">
 <meta property="og:url" content="http://jrhlive.com/2019/09/25/深入理解动态代理/index.html">
 <meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
-<meta property="og:description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。 二、关于代理中华名族是一个含蓄的名族，讲究微妙和间接的交流方式。对象之间的间接通信也是同样是面向对象设计中一条重要的审美观，迪米特法则也指出“一个对象应该对其他对象保持最少的了解”,间接间通信可以达到“高内聚，低耦">
+<meta property="og:description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d98d4237?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d9a53c4a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d9bb2a1a?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-<meta property="og:updated_time" content="2019-12-31T06:38:16.560Z">
+<meta property="og:updated_time" content="2019-12-31T06:47:17.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解动态代理">
-<meta name="twitter:description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。 二、关于代理中华名族是一个含蓄的名族，讲究微妙和间接的交流方式。对象之间的间接通信也是同样是面向对象设计中一条重要的审美观，迪米特法则也指出“一个对象应该对其他对象保持最少的了解”,间接间通信可以达到“高内聚，低耦">
+<meta name="twitter:description" content="深入理解动态代理来源 一、概述最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d98d4237?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
 
 <link rel="canonical" href="http://jrhlive.com/2019/09/25/深入理解动态代理/">
@@ -205,7 +205,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-31 14:38:16" itemprop="dateModified" datetime="2019-12-31T14:38:16+08:00">2019-12-31</time>
+                <time title="修改时间：2019-12-31 14:47:17" itemprop="dateModified" datetime="2019-12-31T14:47:17+08:00">2019-12-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,6 +238,8 @@
       
         <h2 id><a href="#" class="headerlink" title></a></h2><h1 id="深入理解动态代理"><a href="#深入理解动态代理" class="headerlink" title="深入理解动态代理"></a>深入理解动态代理</h1><p><a href="https://juejin.im/post/5c70094051882562a12aec51" target="_blank" rel="noopener">来源</a></p>
 <h1 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h1><p>最近在阅读retrofit源码时,有个关键的所在就是动态代理，细细回想了一下动态代理,发现之前有些细节还没有理解到位，本篇博文将重新深入理解一下动态代理。</p>
+<a id="more"></a>
+
 <h1 id="二、关于代理"><a href="#二、关于代理" class="headerlink" title="二、关于代理"></a>二、关于代理</h1><p>中华名族是一个含蓄的名族，讲究微妙和间接的交流方式。对象之间的间接通信也是同样是面向对象设计中一条重要的审美观，迪米特法则也指出“一个对象应该对其他对象保持最少的了解”,间接间通信可以达到“高内聚，低耦合”的效果。<br>代理是一种重要的手段之一，比如生活中的微商代理，厂家委托其代理销售商品，我们只跟微商打交道，不知道背后的“厂家是谁”，微商和厂家就可以抽象为 “代理类”和“委托类”，这样就可以，隐藏委托类的实现、实现客户与委托类之间的解耦，可以不用修改委托类的情况下做一些额外的处理</p>
 <h2 id="2-1、代理模式简介"><a href="#2-1、代理模式简介" class="headerlink" title="2.1、代理模式简介"></a>2.1、代理模式简介</h2><p>在《Java与模式》一书中指出”代理模式给某一个对象提供一个代理对象，并由代理对象控制对原对象的访问”，类图如下</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/2/22/16915a41d98d4237?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="image.png"></p>
@@ -361,8 +363,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/android/" rel="tag"># android</a>
               <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/android/" rel="tag"># android</a>
           </div>
 
         
