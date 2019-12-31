@@ -304,10 +304,10 @@
 </ol>
 <h4 id="2-2-1-输入测量命令"><a href="#2-2-1-输入测量命令" class="headerlink" title="2.2.1 输入测量命令"></a>2.2.1 输入测量命令</h4><p>我们在终端中输入一条 adb 命令打开我们要测量的应用，打开后系统会输出应用的启动时间。</p>
 <p>下面就是测量启动时间的 adb 命令。</p>
-<p>![adb 命令1.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="946" height="362"/>)</p>
+<p>![adb 命令1.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="946" height="362">)</svg></p>
 <p>首屏 Activity 也要加上包名，比如下面这样的。</p>
-<p>![adb 命令2.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1022" height="362"/>)</p>
-<h4 id="2-2-2-分析测量结果"><a href="#2-2-2-分析测量结果" class="headerlink" title="2.2.2 分析测量结果"></a>2.2.2 分析测量结果</h4><p>![adb 输出结果.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="684"/>)</p>
+<p>![adb 命令2.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1022" height="362">)</svg></p>
+<h4 id="2-2-2-分析测量结果"><a href="#2-2-2-分析测量结果" class="headerlink" title="2.2.2 分析测量结果"></a>2.2.2 分析测量结果</h4><p>![adb 输出结果.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="684">)</svg></p>
 <p>上面是命令执行完成后显示的内容，在输出中可以看到三个值：ThisTime、TotalTime 和 WaitTime。</p>
 <p>下面我们来看下这三个值分别代表什么。</p>
 <ul>
@@ -334,16 +334,16 @@
 <h4 id="2-2-1-定义埋点工具类"><a href="#2-2-1-定义埋点工具类" class="headerlink" title="2.2.1 定义埋点工具类"></a>2.2.1 定义埋点工具类</h4><p>使用埋点测量的第一步是定义一个记录埋点工具类。</p>
 <p>在这里要注意的是，除了 System.currentTimeMillis() 以外，我们还可以用 SystemClock.currentThreadTimeMillis() 记录时间。</p>
 <p>通过 SystemClock 拿到的是 CPU 真正执行的时间，这个时间与下一大节要讲的 Systrace 上记录的时间点是一样的。</p>
-<p>![LaunchTimer.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1020" height="924"/>)</p>
+<p>![LaunchTimer.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1020" height="924">)</svg></p>
 <h4 id="2-2-2-记录启动时间"><a href="#2-2-2-记录启动时间" class="headerlink" title="2.2.2 记录启动时间"></a>2.2.2 记录启动时间</h4><p>使用埋点测量的第二步是记录启动时间。</p>
 <p>开始记录的位置放在 Application 的 attachBaseContext 方法中，attachBaseContext 是我们应用能接收到的最早的一个生命周期回调方法。</p>
-<p>![记录启动时间.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1124" height="644"/>)</p>
+<p>![记录启动时间.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1124" height="644">)</svg></p>
 <h4 id="2-2-3-计算启动耗时"><a href="#2-2-3-计算启动耗时" class="headerlink" title="2.2.3 计算启动耗时"></a>2.2.3 计算启动耗时</h4><p>计算启动耗时的一个误区就是在 onWindowFocusChanged 方法中计算启动耗时。</p>
 <p>onWindowFocusChanged 方法只是 Activity 的首帧时间，是 Activity 首次进行绘制的时间，首帧时间和界面完整展示出来还有一段时间差，不能真正代表界面已经展现出来了。</p>
 <p>按首帧时间计算启动耗时并不准确，我们要的是用户真正看到我们界面的时间。</p>
 <p>正确的计算启动耗时的时机是要等真实的数据展示出来，比如在列表第一项的展示时再计算启动耗时。</p>
 <p>在 Adapter 中记录启动耗时要加一个布尔值变量进行判断，避免 onBindViewHolder 方法被多次调用导致不必要的计算。</p>
-<p>![计算启动耗时.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="1205"/>)</p>
+<p>![计算启动耗时.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="1205">)</svg></p>
 <h3 id="2-3-小结"><a href="#2-3-小结" class="headerlink" title="2.3 小结"></a>2.3 小结</h3><h3 id="2-3-1-命令测量优缺点"><a href="#2-3-1-命令测量优缺点" class="headerlink" title="2.3.1 命令测量优缺点"></a>2.3.1 命令测量优缺点</h3><ul>
 <li><p>命令测量优点</p>
 <ul>
@@ -386,19 +386,19 @@
 <p>当我们调用了 Debug.stopMethodTracing() 停止跟踪方法后，系统就会为我们生成一个文件，我们可以通过 Traceview 查看这个文件记录的内容。</p>
 <p>文件生成的位置在 Android/data/包名/files 下，下面我们来看一个示例。</p>
 <p>我们在 Application 的 onCreate 方法的开头开始追踪方法，然后在结尾结束追踪，在这里只是对 BlockCanary 卡顿监测框架进行初始化。</p>
-<p>![startMethodTracing.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="679"/>)</p>
+<p>![startMethodTracing.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="679">)</svg></p>
 <p>startMethodTracing 方法真正调用的其实是另一个重载方法，在这个重载方法可以传入 bufferSize。</p>
 <p>bufferSize 就是分析结果文件的大小，默认是 8 兆。</p>
 <p>我们可以进行扩充，比如扩充为 16 兆、32 兆等。</p>
 <p>这个重载方法的第三个参数是标志位，这个标志位只有一个选项，就是 TRACE_COUNT_ALLOCS。</p>
-<p>![startMethodTracing2.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1144" height="608"/>)</p>
+<p>![startMethodTracing2.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1144" height="608">)</svg></p>
 <h4 id="3-1-2-分析结果"><a href="#3-1-2-分析结果" class="headerlink" title="3.1.2 分析结果"></a>3.1.2 分析结果</h4><p>运行了程序后，有两种方式可以获取到跟踪结果文件。</p>
 <p>第一种方式是通过下面的命令把文件拉到项目根目录。</p>
-<p>![pull 跟踪结果.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1086" height="364"/>)</p>
+<p>![pull 跟踪结果.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1086" height="364">)</svg></p>
 <p>第二种方式是在 AS 右下方的文件资源管理器中定位到 /sdcard/android/data/包名/files/ 目录下，然后自己找个地方保存。</p>
-<p>![文件资源管理器.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="482" height="784"/>)</p>
+<p>![文件资源管理器.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="482" height="784">)</svg></p>
 <p>我们在 AS 中打开跟踪文件 mytrace.trace 后，就可以用 Profiler 查看跟踪的分析结果。</p>
-<p>![查看跟踪文件.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="662"/>)</p>
+<p>![查看跟踪文件.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="662">)</svg></p>
 <p>在分析结果上比较重要的是 5 种信息。</p>
 <ul>
 <li><p>代码指定的时间范围</p>
@@ -426,11 +426,11 @@
 <li>查看跟踪结果</li>
 </ul>
 <h4 id="3-2-2-调用跟踪方法"><a href="#3-2-2-调用跟踪方法" class="headerlink" title="3.2.2 调用跟踪方法"></a>3.2.2 调用跟踪方法</h4><p>首先在 Application 中调用 Systrace 的跟踪方法。</p>
-<p>![beginSection.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1086" height="644"/>)</p>
+<p>![beginSection.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1086" height="644">)</svg></p>
 <p>然后连接设备，在终端中定位到 Android SDK 目录下，比如我的 Android SDK 目录在 /users/oushaoze/library/Android/sdk 。</p>
 <p>这时候我打开 SDK 目录下的 platform-tools/systrace 就能看到 systrace.py 的一个 python 文件。</p>
 <p>Systrace 是一个 Python 脚本，输入下面命令，运行 systrace ，开始追踪系统信息。</p>
-<p>![systrace命令.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="434"/>)</p>
+<p>![systrace命令.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="434">)</svg></p>
 <p>这行命令附加了下面一些选项。</p>
 <ul>
 <li><p>-t …</p>
@@ -445,9 +445,9 @@
 </ul>
 <p>输入完这行命令后，可以看到开始跟踪的提示。看到 Starting tracing 后可以打开打开我们的应用。</p>
 <p>10 秒后，会看到 Wrote trace HTML file: ….。</p>
-<p>![systrace输出.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="504"/>)</p>
+<p>![systrace输出.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="504">)</svg></p>
 <p>上面这段输出就是说追踪完毕，追踪到的信息都写到 trace.html 文件中了，接下来我们打开这个文件。</p>
-<h4 id="3-2-3-查看跟踪结果"><a href="#3-2-3-查看跟踪结果" class="headerlink" title="3.2.3 查看跟踪结果"></a>3.2.3 查看跟踪结果</h4><p>![Systrace.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="550"/>)</p>
+<h4 id="3-2-3-查看跟踪结果"><a href="#3-2-3-查看跟踪结果" class="headerlink" title="3.2.3 查看跟踪结果"></a>3.2.3 查看跟踪结果</h4><p>![Systrace.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="550">)</svg></p>
 <p>打开文件后我们可以看到上面这样的一个视图，在这里有几个需要特别关注的地方。</p>
 <ul>
 <li><p>8 核</p>
@@ -467,7 +467,7 @@
 </li>
 </ul>
 <p>我们往下移动，可以看到 MyAppplication 进程的线程活动情况。</p>
-<p>![Systrace_myapp.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="549"/>)</p>
+<p>![Systrace_myapp.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="549">)</svg></p>
 <p>在这个视图上我们主要关注三个点。</p>
 <ul>
 <li><p>主线程</p>
@@ -539,13 +539,13 @@
 <li>换回主题</li>
 </ol>
 <h4 id="4-1-1-定义闪屏图"><a href="#4-1-1-定义闪屏图" class="headerlink" title="4.1.1 定义闪屏图"></a>4.1.1 定义闪屏图</h4><p>第一步是在 drawable 目录下创建一个 splash.xml 文件。</p>
-<p>![splash.xml.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="644"/>)</p>
+<p>![splash.xml.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="644">)</svg></p>
 <h4 id="4-1-2-定义闪屏主题"><a href="#4-1-2-定义闪屏主题" class="headerlink" title="4.1.2 定义闪屏主题"></a>4.1.2 定义闪屏主题</h4><p>第二步是在 values/styles.xml 中定义一个 Splash 主题。</p>
-<p>![SplashTheme.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="854"/>)</p>
+<p>![SplashTheme.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="854">)</svg></p>
 <h4 id="4-1-3-设置主题"><a href="#4-1-3-设置主题" class="headerlink" title="4.1.3 设置主题"></a>4.1.3 设置主题</h4><p>第三步是在清单文件中设置 Theme。</p>
-<p>![ActivityTheme.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="644"/>)</p>
+<p>![ActivityTheme.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1066" height="644">)</svg></p>
 <h4 id="4-1-4-换回主题"><a href="#4-1-4-换回主题" class="headerlink" title="4.1.4 换回主题"></a>4.1.4 换回主题</h4><p>第四步是在调用 super.onCreate 方法前切换回来</p>
-<p>![换回主题.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600"/>)</p>
+<p>![换回主题.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="600">)</svg></p>
 <h3 id="4-2-异步初始化"><a href="#4-2-异步初始化" class="headerlink" title="4.2 异步初始化"></a>4.2 异步初始化</h3><p>我们这一节来看一下怎么用线程池进行异步初始化。</p>
 <p>本节内容包括如下部分，</p>
 <ul>
@@ -570,7 +570,7 @@
 </li>
 </ul>
 <h4 id="4-2-3-线程池基本用法"><a href="#4-2-3-线程池基本用法" class="headerlink" title="4.2.3 线程池基本用法"></a>4.2.3 线程池基本用法</h4><p>在这里我们可以参考 AsyncTask 的做法来设置线程池的大小，并把初始化的工作提交到线程池中。</p>
-<p>![线程池.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1054" height="1168"/>)</p>
+<p>![线程池.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1054" height="1168">)</svg></p>
 <h2 id="6-改进优化方案"><a href="#6-改进优化方案" class="headerlink" title="6. 改进优化方案"></a>6. 改进优化方案</h2><p>上一节介绍了怎么通过线程池处理初始化任务，这一节我们看一下改进的异步初始化工具：启动器（LaunchStarter）。</p>
 <p>这一节的内容包括如下部分。</p>
 <ul>
@@ -598,7 +598,7 @@
 <p>比如我们有个任务 A 和任务 B，任务 B 执行前需要任务 A 执行完，这样才能拿到特定的数据，比如上面提到的 initDeviceId。</p>
 <p>第三步是多线程根据排序后的优先级依次执行，比如我们现在有三个任务 A、B、C。</p>
 <p>假如任务 B 依赖于任务 A，这时候生成的有向无环图就是 ACB，A 和 C 可以提前执行，B 一定要排在 A 之后执行。</p>
-<h3 id="6-3-启动器工作流程"><a href="#6-3-启动器工作流程" class="headerlink" title="6.3 启动器工作流程"></a>6.3 启动器工作流程</h3><p>![启动器流程图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="577"/>)</p>
+<h3 id="6-3-启动器工作流程"><a href="#6-3-启动器工作流程" class="headerlink" title="6.3 启动器工作流程"></a>6.3 启动器工作流程</h3><p>![启动器流程图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="577">)</svg></p>
 <ul>
 <li><p>Head Task</p>
 <p>Head Task 就是所有任务执行前要做的事情，在这里初始化一些其他任务依赖的资源，也可以只是打个 Log。</p>
@@ -641,11 +641,11 @@
 <p>run() 方法中的代码就是需要做的初始化工作</p>
 </li>
 </ul>
-<p>![InitWeexTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1160" height="784"/>)</p>
+<p>![InitWeexTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1160" height="784">)</svg></p>
 <h4 id="6-4-3-开始任务"><a href="#6-4-3-开始任务" class="headerlink" title="6.4.3 开始任务"></a>6.4.3 开始任务</h4><p>定义好了任务后，我们就可以开始任务了。</p>
 <p>这里需要注意的是，如果我们的任务中有需要等待完成的任务，我们可以调用 TaskDispatcher 的 await() 方法等待这个任务完成，比如 InitWeexTask。</p>
 <p>使用 await() 方法要注意的是这个方法要在 start() 方法调用后才能使用。</p>
-<p>![startDispatcher.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1160" height="678"/>)</p>
+<p>![startDispatcher.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1160" height="678">)</svg></p>
 <h3 id="6-5-实现任务依赖关系"><a href="#6-5-实现任务依赖关系" class="headerlink" title="6.5 实现任务依赖关系"></a>6.5 实现任务依赖关系</h3><p>除了上面提到的等待功能以外，启动器还支持任务之间存在依赖关系，下面我们来看一个极光推送初始化任务的例子。</p>
 <p>在这一节会讲实现任务依赖关系的两个步骤。</p>
 <ul>
@@ -654,12 +654,12 @@
 </ul>
 <h4 id="6-5-1-定义任务"><a href="#6-5-1-定义任务" class="headerlink" title="6.5.1 定义任务"></a>6.5.1 定义任务</h4><p>在这里我们定义两个存在依赖关系的任务：GetDeviceIdTask 和 InitJPush Task。</p>
 <p>首先定义 GetDeviceIdTask ，这个任务负责初始化设备 ID 。</p>
-<p>![GetDeviceIdTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="766"/>)</p>
+<p>![GetDeviceIdTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="766">)</svg></p>
 <p>然后定义InitJPushTask，这个任务负责初始化极光推送 SDK，InitJPushTask 在启动器中是尾部任务 Tail Task。</p>
 <p>InitJPushTask 依赖于 GetDeviceIdTask，所以需要重写 dependsOn 方法，在 dependsOn 方法中创建一个 Class 列表，把想依赖的任务的 Class 添加到列表中并返回。</p>
-<p>![InitJPushTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="911"/>)</p>
+<p>![InitJPushTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="911">)</svg></p>
 <h4 id="6-5-2-开始任务"><a href="#6-5-2-开始任务" class="headerlink" title="6.5.2 开始任务"></a>6.5.2 开始任务</h4><p>GetDeviceIdTask 和 InitJPushTask 这两个任务都不需要等待 Application 的 onCreate 方法执行完成，所以我们这里不需要调用 TaskDispatcher 的 await 方法。</p>
-<p>![startTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="734"/>)</p>
+<p>![startTask.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="734">)</svg></p>
 <h4 id="6-5-3-小结"><a href="#6-5-3-小结" class="headerlink" title="6.5.3 小结"></a>6.5.3 小结</h4><p>上面这两个步骤就能实现通过启动器实现任务之间的依赖关系。</p>
 <h2 id="7-延迟执行任务"><a href="#7-延迟执行任务" class="headerlink" title="7. 延迟执行任务"></a>7. 延迟执行任务</h2><p>在我们应用的 Application 和 Activity 中可能存在部分优先级不高的初始化任务，我们可以考虑把这些任务进行延迟初始化，比如放在列表的第一项显示出来后再进行初始化。</p>
 <p>常规的延迟初始化方法有两种：onPreDraw 和 postDelayed。</p>
@@ -684,11 +684,11 @@
 <li>小结</li>
 </ul>
 <h4 id="7-1-1-声明回调接口"><a href="#7-1-1-声明回调接口" class="headerlink" title="7.1.1 声明回调接口"></a>7.1.1 声明回调接口</h4><p>第一步先声明一个 OnFeedShowCallback。</p>
-<p>![OnFeedShowCallback.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="994" height="504"/>)</p>
+<p>![OnFeedShowCallback.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="994" height="504">)</svg></p>
 <h4 id="7-1-2-调用接口方法"><a href="#7-1-2-调用接口方法" class="headerlink" title="7.1.2 调用接口方法"></a>7.1.2 调用接口方法</h4><p>第二步是在 Adapter 中的第一条显示的时候调用 onFeedShow() 方法。</p>
-<p>![AdapterOnFeedShow.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="1126"/>)</p>
+<p>![AdapterOnFeedShow.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="1126">)</svg></p>
 <h4 id="7-1-3-在-Activity-中监听"><a href="#7-1-3-在-Activity-中监听" class="headerlink" title="7.1.3 在 Activity 中监听"></a>7.1.3 在 Activity 中监听</h4><p>第三步是在 Activity 中调用 setOnFeedCallback 方法。</p>
-<p>![ActivityOnFeedShow.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1214" height="678"/>)</p>
+<p>![ActivityOnFeedShow.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1214" height="678">)</svg></p>
 <h4 id="7-1-4-小结"><a href="#7-1-4-小结" class="headerlink" title="7.1.4 小结"></a>7.1.4 小结</h4><p>直接在 onFeedShow 中执行初始化任务的弊端是有可能导致滑动卡顿。</p>
 <p>如果我们 onPreDraw 的方式延迟执行初始化任务，假如这个任务耗时是 2 秒，那就意味着在列表显示第一条后的 2 秒内，列表是无法滑动的，用户体验很差。</p>
 <h3 id="7-2-postDelayed"><a href="#7-2-postDelayed" class="headerlink" title="7.2 postDelayed"></a>7.2 postDelayed</h3><p>还有一种方式就是通过 Handler.postDelayed 方法发送一个延迟消息，比如延迟到 100 毫秒后执行。</p>
@@ -707,7 +707,7 @@
 <p>假如现在 MessageQueue 中有两条消息，在这两条消息处理完成后，MessageQueue 会通知 IdleHandler 现在是空闲状态，然后 IdleHandler 就会开始处理它接收到的任务。</p>
 <p>DelayInitDispatcher 配合 onFeedShow 回调来使用效果更好。</p>
 <p>下面是一段使用延迟启动器 DelayInitDispatcher 执行初始化任务的示例代码。</p>
-<p>![DelayInitDispatcher.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="993"/>)</p>
+<p>![DelayInitDispatcher.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="993">)</svg></p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>看完了上面提到的一些启动优化技巧，你有没有得到一些启发呢？</p>
 <p>又或者是你有没有自己的一些启动优化技巧，不妨在评论区给大家说说。</p>
 <p>可能你觉得不值一提的技巧，能解决了其他同学的一个大麻烦。</p>

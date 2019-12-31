@@ -453,7 +453,7 @@
 <p>从线程的角度来看，开发者调用了 start() 方法，就相当于是触发了 Thread 的 run() 方法。</p>
 <p>如果我们在上一个 Activity 的 onPause() 方法中进行了耗时操作，那么下一个 Activity 的显示也会因为这个耗时操作而慢一点显示，这就相当于是 Thread 的等待状态。</p>
 <p>线程的生命周期不仅可以由开发者触发，还会受到其他线程的影响，下面是线程各个状态之间的转换示意图。</p>
-<p>![线程的生命周期.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1015" height="1243"/>)</p>
+<p>![线程的生命周期.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1015" height="1243">)</svg></p>
 <p>我们可以通过 Thread.getState() 获取线程的状态，该方法返回的是一个枚举类 Thread.State。</p>
 <p>线程的状态有新建、可运行、阻塞、等待、限时等待和终止 6 种，下面我们就来看看这 6 种状态之间的转换过程。</p>
 <h4 id="3-4-2-新建状态"><a href="#3-4-2-新建状态" class="headerlink" title="3.4.2 新建状态"></a>3.4.2 新建状态</h4><p>当一个线程创建后未启动时，它就处于新建（NEW）状态。</p>
@@ -511,7 +511,7 @@
 <li>Java 线程调度机制</li>
 </ul>
 <h3 id="4-1-Java-的内存模型简介"><a href="#4-1-Java-的内存模型简介" class="headerlink" title="4.1 Java 的内存模型简介"></a>4.1 Java 的内存模型简介</h3><p>了解 Java 的内存模型，能帮助我们更好地理解线程的安全性问题，下面我们就来看看什么是 Java 的内存模型。</p>
-<p>![Java 内存模型.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="792" height="523"/>)</p>
+<p>![Java 内存模型.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="792" height="523">)</svg></p>
 <p>Java 内存模型（Java Memory Model，JMM）规定了所有变量都存储在主内存中，每条线程都有自己的工作内存。</p>
 <p>JVM 把内存划分成了好几块，其中方法区和堆内存区域是线程共享的。</p>
 <p>假如现在有三个线程同时对值为 5 的变量 a 进行自增操作，那最终的结果应该是 8 。</p>
@@ -523,14 +523,14 @@
 </ol>
 <p>假如线程 1 在进行到第二步的时候，其他两条线程读取了变量 a ，那么最终的结果就是 7，而不是预期的 8 。</p>
 <p>这种现象就是线程安全的其中一个问题：原子性。</p>
-<h3 id="4-2-高速缓存"><a href="#4-2-高速缓存" class="headerlink" title="4.2 高速缓存"></a>4.2 高速缓存</h3><h4 id="4-2-1-高速缓存简介"><a href="#4-2-1-高速缓存简介" class="headerlink" title="4.2.1 高速缓存简介"></a>4.2.1 高速缓存简介</h4><p>![现代计算机系统高速缓存结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="606" height="466"/>)</p>
+<h3 id="4-2-高速缓存"><a href="#4-2-高速缓存" class="headerlink" title="4.2 高速缓存"></a>4.2 高速缓存</h3><h4 id="4-2-1-高速缓存简介"><a href="#4-2-1-高速缓存简介" class="headerlink" title="4.2.1 高速缓存简介"></a>4.2.1 高速缓存简介</h4><p>![现代计算机系统高速缓存结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="606" height="466">)</svg></p>
 <p>现代处理器的处理能力要远胜于主内存（DRAM）的访问速率，主内存执行一次内存读/写操作需要的时间，如果给处理器使用，处理器可以执行上百条指令。</p>
 <p>为了弥补处理器与主内存之间的差距，硬件设计者在主内存与处理器之间加入了高速缓存（Cache）。</p>
 <p>处理器执行内存读写操作时，不是直接与主内存打交道，而是通过高速缓存进行的。</p>
 <p>高速缓存相当于是一个由硬件实现的容量极小的散列表，这个散列表的 key 是一个对象的内存地址，value 可以是内存数据的副本，也可以是准备写入内存的数据。</p>
-<h4 id="4-2-2-高速缓存内部结构"><a href="#4-2-2-高速缓存内部结构" class="headerlink" title="4.2.2 高速缓存内部结构"></a>4.2.2 高速缓存内部结构</h4><p>![高速缓存内部结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="627" height="349"/>)</p>
+<h4 id="4-2-2-高速缓存内部结构"><a href="#4-2-2-高速缓存内部结构" class="headerlink" title="4.2.2 高速缓存内部结构"></a>4.2.2 高速缓存内部结构</h4><p>![高速缓存内部结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="627" height="349">)</svg></p>
 <p>从内部结构来看，高速缓存相当于是一个链式散列表（Chained Hash Table），它包含若干个桶，每个桶包含若干个缓存条目（Cache Entry）。</p>
-<h4 id="4-2-3-缓存条目结构"><a href="#4-2-3-缓存条目结构" class="headerlink" title="4.2.3 缓存条目结构"></a>4.2.3 缓存条目结构</h4><p>![缓存条目结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="526" height="175"/>)</p>
+<h4 id="4-2-3-缓存条目结构"><a href="#4-2-3-缓存条目结构" class="headerlink" title="4.2.3 缓存条目结构"></a>4.2.3 缓存条目结构</h4><p>![缓存条目结构.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="526" height="175">)</svg></p>
 <p>缓存条目可进一步划分为 Tag、Data Block 和 Flag 三个部分。</p>
 <ul>
 <li><p>Tag</p>
@@ -593,7 +593,7 @@
 <h2 id="6-怎么实现线程安全？"><a href="#6-怎么实现线程安全？" class="headerlink" title="6. 怎么实现线程安全？"></a>6. 怎么实现线程安全？</h2><p>要实现线程安全就要保证上面说到的原子性、可见性和有序性。</p>
 <p>常见的实现线程安全的办法是使用锁和原子类型，而锁可分为内部锁、显式锁、读写锁、轻量级锁（volatile）四种。</p>
 <p>下面我们就来看看这四种锁和原子类型的用法和特点。</p>
-<h3 id="6-1-锁"><a href="#6-1-锁" class="headerlink" title="6.1 锁"></a>6.1 锁</h3><p>![锁示意图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="648"/>)</p>
+<h3 id="6-1-锁"><a href="#6-1-锁" class="headerlink" title="6.1 锁"></a>6.1 锁</h3><p>![锁示意图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1024" height="648">)</svg></p>
 <p>文章的开头提到的“打架扣 100”就是一种现实生活中的锁，可以让小张和老王乖乖干活，别再炒出不能吃的菜。</p>
 <p>这也就是锁（Lock）的作用，让多个线程更好地协作，避免多个线程的操作交错导致数据异常的问题。</p>
 <h4 id="6-1-1-锁的五个特点"><a href="#6-1-1-锁的五个特点" class="headerlink" title="6.1.1 锁的五个特点"></a>6.1.1 锁的五个特点</h4><ul>
@@ -751,7 +751,7 @@
 <p>当在四个线程中分别执行上面的四个函数时，我们可以得到下面的输出。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">写线程1获取了写锁</span><br><span class="line">写线程1开始执行操作</span><br><span class="line">写线程1释放了写锁</span><br><span class="line">写线程2获取了写锁</span><br><span class="line">写线程2开始执行操作</span><br><span class="line">写线程2释放了写锁</span><br><span class="line">读线程1获取了读锁</span><br><span class="line">读线程1开始执行操作</span><br><span class="line">读线程2获取了读锁</span><br><span class="line">读线程2开始执行操作</span><br><span class="line">读线程1释放了读锁</span><br><span class="line">读线程2释放了读锁</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
-<h3 id="6-6-volatile-关键字"><a href="#6-6-volatile-关键字" class="headerlink" title="6.6 volatile 关键字"></a>6.6 volatile 关键字</h3><p>![volatile 变量读写操作.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="718" height="432"/>)</p>
+<h3 id="6-6-volatile-关键字"><a href="#6-6-volatile-关键字" class="headerlink" title="6.6 volatile 关键字"></a>6.6 volatile 关键字</h3><p>![volatile 变量读写操作.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="718" height="432">)</svg></p>
 <p>volatile 关键字可用于修饰共享变量，对应的变量就叫 volatile 变量，volatile 变量有下面几个特点。</p>
 <ul>
 <li><p>易变化</p>
@@ -836,7 +836,7 @@
 <h2 id="7-什么是线程的活跃性问题？"><a href="#7-什么是线程的活跃性问题？" class="headerlink" title="7. 什么是线程的活跃性问题？"></a>7. 什么是线程的活跃性问题？</h2><p>上一大节介绍了锁的作用和基本用法，锁能让线程进入阻塞状态，而这种阻塞就会导致任务无法正常执行，也就是线程出现活跃性问题，这也就是我们这一节要讲的内容。</p>
 <p>活跃性问题不是说线程过于活跃，而是线程不够活跃，导致任务无法取得进展。</p>
 <p>我们这一节就来看一下常见的四个线程活跃性问题：死锁、锁死、活锁和饥饿。</p>
-<h3 id="7-1-线程的四个活跃性问题"><a href="#7-1-线程的四个活跃性问题" class="headerlink" title="7.1 线程的四个活跃性问题"></a>7.1 线程的四个活跃性问题</h3><h3 id="7-1-死锁"><a href="#7-1-死锁" class="headerlink" title="7.1 死锁"></a>7.1 死锁</h3><p>![死锁.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="557" height="573"/>)</p>
+<h3 id="7-1-线程的四个活跃性问题"><a href="#7-1-线程的四个活跃性问题" class="headerlink" title="7.1 线程的四个活跃性问题"></a>7.1 线程的四个活跃性问题</h3><h3 id="7-1-死锁"><a href="#7-1-死锁" class="headerlink" title="7.1 死锁"></a>7.1 死锁</h3><p>![死锁.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="557" height="573">)</svg></p>
 <p>死锁是线程的一种常见多线程活跃性问题，如果两个或更多的线程，因为相互等待对方而被永远暂停，那么这就叫死锁现象。</p>
 <p>下面我们就来看看死锁产生的四个条件和避免死锁的三个方法。</p>
 <h4 id="7-1-1-死锁产生的四个条件"><a href="#7-1-1-死锁产生的四个条件" class="headerlink" title="7.1.1 死锁产生的四个条件"></a>7.1.1 死锁产生的四个条件</h4><p>当多个线程发生了死锁后，这些线程和相关共享变量就会满足下面四个条件。</p>

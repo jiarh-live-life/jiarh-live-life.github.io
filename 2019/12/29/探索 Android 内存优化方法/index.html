@@ -289,7 +289,7 @@
 <p>而 Dalvik 会用 dx 工具将所有的 .class 文件转换为一个 .dex 文件，然后会从该 .dex 文件读取指令和数据。</p>
 </li>
 </ul>
-<p>![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="612" height="379"/>)</p>
+<p>![img](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="612" height="379">)</svg></p>
 <ul>
 <li><p>Zygote</p>
 <p>Dalvik 由 Zygote 孵化器创建，Zygote 本身也是一个 Dalvik VM 进程，当系统需要创建一个进程时，Zygote 就会进行 fork，快速创建和初始化一个 DVM 实例。</p>
@@ -426,7 +426,7 @@
 <p>堆中一块泄漏的内存就像是地上一块扫不掉的口香糖，都很让人讨厌。</p>
 <p>一个典型的例子就是匿名内部类持有外部类的引用，外部类应该被销毁时，GC 却无法回收它，比如在 Activity 中创建 Handler 就有可能出现这种情况。</p>
 <p>内存泄漏的表现就是可用内存逐渐减少，比如下图中是一种比较严重的内存泄漏现象，无法被回收的内存逐渐累积，直到无更多可用内存可申请时，就会导致 OOM。</p>
-<p>![内存泄漏.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="528"/>)</p>
+<p>![内存泄漏.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="528">)</svg></p>
 <h3 id="6-2-常见的内存泄漏原因"><a href="#6-2-常见的内存泄漏原因" class="headerlink" title="6.2 常见的内存泄漏原因"></a>6.2 常见的内存泄漏原因</h3><p>常见的造成内存泄漏的原因有如下几个。</p>
 <h4 id="6-2-1-非静态内部类"><a href="#6-2-1-非静态内部类" class="headerlink" title="6.2.1 非静态内部类"></a>6.2.1 非静态内部类</h4><ol>
 <li><p>原因</p>
@@ -471,7 +471,7 @@
 <h2 id="7-什么是内存抖动？"><a href="#7-什么是内存抖动？" class="headerlink" title="7. 什么是内存抖动？"></a>7. 什么是内存抖动？</h2><h3 id="7-1-内存抖动简介"><a href="#7-1-内存抖动简介" class="headerlink" title="7.1 内存抖动简介"></a>7.1 内存抖动简介</h3><p>当我们在短时间内频繁创建大量临时对象时，就会引起内存抖动，比如在一个 for 循环中创建临时对象实例。</p>
 <p>下面这张图就是内存抖动时的一个内存图表现，它的形状是锯齿形的，而中间的垃圾桶代表着一次 GC。</p>
 <p>这个是 Memory Profiler 提供的内存实时图，后面会对 Memory Profiler 进行一个更详细的介绍。</p>
-<p>![image](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1280" height="430"/>)</p>
+<p>![image](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1280" height="430">)</svg></p>
 <h3 id="7-2-预防内存抖动的方法"><a href="#7-2-预防内存抖动的方法" class="headerlink" title="7.2 预防内存抖动的方法"></a>7.2 预防内存抖动的方法</h3><ul>
 <li>尽量避免在循环体中创建对象</li>
 <li>尽量不要在自定义 View 的 onDraw() 方法中创建对象，因为这个方法会被频繁调用</li>
@@ -485,17 +485,17 @@
 <li>双击 shift 搜索 profiler</li>
 </ol>
 <p>打开 Profiler 后，可以看到下面这样的面板，而在左边的 SESSIONS 面板的右上角，有一个加号，在这里可以选择我们想要进行分析的应用。</p>
-<p>![Profiler](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="370"/>)</p>
+<p>![Profiler](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="370">)</svg></p>
 <h4 id="8-1-2-Profiler-高级选项"><a href="#8-1-2-Profiler-高级选项" class="headerlink" title="8.1.2 Profiler 高级选项"></a>8.1.2 Profiler 高级选项</h4><p>开了高级选项后，我们在 Memory Profiler 中就能看到用一个白色垃圾桶表示的 GC 动作。</p>
 <p>打开 Profiler 的方式：Run &gt; Edit Configucation &gt; Profiling &gt; Enable advanced profiling</p>
 <h3 id="8-2-Memory-Profiler-简介"><a href="#8-2-Memory-Profiler-简介" class="headerlink" title="8.2 Memory Profiler 简介"></a>8.2 Memory Profiler 简介</h3><p>Memory Profiler 是 Profiler 的其中一个功能，点击 Profiler 中蓝色的 Memory 面板，我们就进入了 Memory Profiler 界面。</p>
 <h3 id="8-3-堆转储"><a href="#8-3-堆转储" class="headerlink" title="8.3 堆转储"></a>8.3 堆转储</h3><p>在堆转储（Dump Java Heap）面板中有 Instance View（实例视图）面板，Instance View 面板的下方有 References 和 Bitmap Preview 两个面板，通过 Bitmap Preview，我们能查看该 Bitmap 对应的图片是哪一张，通过这种方式，很容易就能找到图片导致的内存问题。</p>
 <p>要注意的是，Bitmap Preview 功能只有在 7.1 及以下版本的设备中才能使用。</p>
-<p>![堆转储.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="761"/>)</p>
+<p>![堆转储.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="761">)</svg></p>
 <h3 id="8-4-查看内存分配详情"><a href="#8-4-查看内存分配详情" class="headerlink" title="8.4 查看内存分配详情"></a>8.4 查看内存分配详情</h3><p>在 7.1 及以下版本的设备中，可以通过 Record 按钮记录一段时间内的内存分配情况。</p>
 <p>而在 8.0 及以上版本的设别中，可以通过拖动时间线来查看一段时间内的内存分配情况。</p>
 <p>点击 Record 按钮后，Profiler 会为我们记录一段时间内的内存分配情况。在内存分配面板中，我们可以查看对象的分配的位置，比如下面的 Bitmap 就是在 onCreate 方法的 22 行创建的。</p>
-<p>![查看内存分配.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="647"/>)</p>
+<p>![查看内存分配.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1240" height="647">)</svg></p>
 <h2 id="9-什么是-MAT？"><a href="#9-什么是-MAT？" class="headerlink" title="9. 什么是 MAT？"></a>9. 什么是 MAT？</h2><h3 id="9-1-MAT-介绍"><a href="#9-1-MAT-介绍" class="headerlink" title="9.1 MAT 介绍"></a>9.1 MAT 介绍</h3><p>对于内存泄漏问题，Memory Profiler 只能给我们提供一个简单的分析，不能够帮我们确认具体发生问题的地方。</p>
 <p>而 MAT 就可以帮我们做到这一点，MAT 的全称是 Memory Analyzer Tool，它是一款功能强大的 Java 堆内存分析工具，可以用于查找内存泄漏以及查看内存消耗情况。</p>
 <h3 id="9-2-MAT-使用步骤"><a href="#9-2-MAT-使用步骤" class="headerlink" title="9.2 MAT 使用步骤"></a>9.2 MAT 使用步骤</h3><p>要想通过 MAT 分析内存泄漏，我们做下面几件事情。</p>
@@ -524,14 +524,14 @@
 </ol>
 <h2 id="10-怎么用-MAT-分析内存泄漏？"><a href="#10-怎么用-MAT-分析内存泄漏？" class="headerlink" title="10. 怎么用 MAT 分析内存泄漏？"></a>10. 怎么用 MAT 分析内存泄漏？</h2><p>我在项目中定义了一个静态的回调列表 sCallbacks，并且把 MemoryLeakActivity 添加到了这个列表中，然后反复进出这个 Activity，我们可以看到这个 Activity 的实例有 8 个，这就属于内存泄漏现象，下面我们来看下怎么找出这个内存泄漏。</p>
 <p>首先，按 9.2 小节的步骤打开我们的堆转储文件，打开后，我们可以看到 MAT 为我们分析的一个预览页。</p>
-<p>![MAT 预览页.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1122" height="930"/>)</p>
+<p>![MAT 预览页.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1122" height="930">)</svg></p>
 <p>打开左上角的直方图，我们可以看到一个类列表，输入我们想搜索的类，就可以看到它的实例数。</p>
-<p>![MAT 直方图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="714" height="503"/>)</p>
+<p>![MAT 直方图.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="714" height="503">)</svg></p>
 <p>我们右键 MemoryLeakActivity 类，选择 List Objects &gt; with incoming references 查看这个 Activity 的实例。</p>
 <p>点击后，我们能看到一个实例列表，再右键其中一个实例，选择 Path to GC Roots &gt; with all references 查看该实例被谁引用了，导致无法回收。</p>
-<p>![MAT 实例列表.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="714" height="503"/>)</p>
+<p>![MAT 实例列表.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="714" height="503">)</svg></p>
 <p>选择 with all references 后，我们可以看到该实例被静态对象 sCallbacks 持有，导致无法被释放。</p>
-<p>![MAT 查看引用](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="901" height="435"/>)</p>
+<p>![MAT 查看引用](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="901" height="435">)</svg></p>
 <p>这样就完成了一次简单的内存泄漏的分析。</p>
 <h2 id="11-什么是-LeakCanary？"><a href="#11-什么是-LeakCanary？" class="headerlink" title="11. 什么是 LeakCanary？"></a>11. 什么是 LeakCanary？</h2><h3 id="11-1-LeakCanary-简介"><a href="#11-1-LeakCanary-简介" class="headerlink" title="11.1 LeakCanary 简介"></a>11.1 LeakCanary 简介</h3><p>如果使用 MAT 来分析内存问题，会有一些难度，而且效率也不是很高。</p>
 <p>为了能迅速发现内存泄漏，Square 公司基于 MAT 开源了 <a href="https://github.com/square/leakcanary" target="_blank" rel="noopener">LeakCanary</a>。</p>
@@ -589,19 +589,19 @@
 </ol>
 <p>当安装完成，并且重新安装了应用后，我们可以在桌面看到 LeakCanary 用于分析内存泄漏的应用。</p>
 <p>下面这两张图中，第一个是 LeakCanary 为非 AndroidX 项目安装的应用，第二个是 LeakCanary 为 AndroidX 项目安装的应用。</p>
-<p>![内存泄漏进程.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="447" height="529"/>)</p>
+<p>![内存泄漏进程.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="447" height="529">)</svg></p>
 <h3 id="11-4-使用-LeakCanary-分析内存泄漏"><a href="#11-4-使用-LeakCanary-分析内存泄漏" class="headerlink" title="11.4 使用 LeakCanary 分析内存泄漏"></a>11.4 使用 LeakCanary 分析内存泄漏</h3><p>下面是一个静态变量持有 Activity 导致 Activity 无法被释放的一个例子。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   public class MemoryLeakActivity extends AppCompatActivity &#123;</span><br><span class="line">   </span><br><span class="line">       public static List&lt;Activity&gt; activities = new ArrayList&lt;&gt;();</span><br><span class="line">   </span><br><span class="line">       @Override</span><br><span class="line">       protected void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">           super.onCreate(savedInstanceState);</span><br><span class="line">           activities.add(this);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
 
 <p>我们可以在 Logcat 中看到泄漏实例的引用链。</p>
-<p>![Locat 内存泄漏信息](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="973" height="886"/>)</p>
+<p>![Locat 内存泄漏信息](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="973" height="886">)</svg></p>
 <p>除了 Logcat，我们还可以在 Leaks App 中看到引用链。</p>
 <p>点击桌面上 LeakCanary 为我们安装的 Leaks 应用后，可以看到 activities 变量，之所以在这里会显示这个变量，是因为 LeakCanary 分析的结果是这个变量持有了某个实例，导致该实例无法被回收。</p>
-<p>![Leaks1.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="660" height="368"/>)</p>
+<p>![Leaks1.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="660" height="368">)</svg></p>
 <p>点击这一项泄漏信息，我们可以看到一个泄漏信息概览页。</p>
-<p>![Leaks2](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="590" height="1280"/>)</p>
+<p>![Leaks2](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="590" height="1280">)</svg></p>
 <p>我们点击第一项 MemoryActivity Leaked，可以看到泄漏引用链的详情。</p>
-<p>![Leaks3.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1093" height="1280"/>)</p>
+<p>![Leaks3.png](data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1093" height="1280">)</svg></p>
 <p>通过上面这些步骤，很简单地就能找到 LeakCanary 为我们分析的导致内存泄漏的地方。</p>
 <h2 id="12-怎么获取和监听系统内存状态？"><a href="#12-怎么获取和监听系统内存状态？" class="headerlink" title="12. 怎么获取和监听系统内存状态？"></a>12. 怎么获取和监听系统内存状态？</h2><p>Android 提供了两种方式让我们可以监听系统内存状态，下面我们就来看看这两种方式的用法。</p>
 <h3 id="12-1-ComponentCallback2"><a href="#12-1-ComponentCallback2" class="headerlink" title="12.1 ComponentCallback2"></a>12.1 ComponentCallback2</h3><p>在 Android 4.0 后，Android 应用可以通过在 Activity 中实现 ComponentCallback2 接口获取系统内存的相关事件，这样就能在系统内存不足时提前知道这件事，提前做出释放内存的操作，避免我们自己的应用被系统干掉。</p>

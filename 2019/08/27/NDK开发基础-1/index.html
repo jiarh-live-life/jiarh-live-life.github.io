@@ -55,6 +55,9 @@
 <meta property="og:description" content="C 与 C++C面向过程的语言，C++ 面向对象的语言 oop，C++ 对C进行了扩展。 C是C++的子集，C++是C的超集，所以大部分C库都可以被C++使用。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://images.pexels.com/photos/21696/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&w=500">
+<meta property="og:image" content="http://jrhlive.com/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/内存布局.png">
+<meta property="og:image" content="http://jrhlive.com/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/内存布局解释.jpg">
+<meta property="og:image" content="http://jrhlive.com/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/brk.png">
 <meta property="og:updated_time" content="2019-12-31T02:30:53.465Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NDK开发基础[1]">
@@ -379,13 +382,13 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *a = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(<span class="number">10</span>);</span><br><span class="line"><span class="built_in">realloc</span>(a,<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
 
 <p>特别的：<br><strong>alloca</strong><br>在栈申请内存,因此无需释放.<br><code>int *p = (int *)alloca(sizeof(int) * 10);</code></p>
-
+<img src="/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/内存布局.png" title="内存布局">
 
 
 
 </li>
 </ol>
-   
+   <img src="/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/内存布局解释.jpg" title="内存布局解释">
 
 
 <p><strong>物理内存</strong><br>       物理内存指通过物理内存条而获得的内存空间</p>
@@ -401,7 +404,7 @@
 </ol>
 <p>   通过glibc (C标准库)中提供的malloc函数完成内存申请</p>
 <p>   malloc小于128k的内存，使用brk分配内存，将_edata往高地址推,大于128k则使用mmap</p>
-   
+   <img src="/2019/08/27/NDK开发基础-1/08/27/NDK开发基础-1/brk.png" title="brk申请内存">
 
 <ol start="6">
 <li><h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><p>int *p1;（没有初始化的指针，称为野指针）</p>
