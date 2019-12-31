@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://jrhlive.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Android 触摸事件 触摸反馈的本质就是把一系列的触摸反馈解读为对应的事件。 比如：点击，按下移动，抬起 触摸事件不是独立的，是成组出现。">
+<meta name="keywords" content="android,自定义View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 触摸事件&amp;&amp;事件分发机制">
+<meta property="og:url" content="http://jrhlive.com/2019/12/31/Android-触摸事件-事件分发机制/index.html">
+<meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
+<meta property="og:description" content="Android 触摸事件 触摸反馈的本质就是把一系列的触摸反馈解读为对应的事件。 比如：点击，按下移动，抬起 触摸事件不是独立的，是成组出现。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-31T06:30:34.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 触摸事件&amp;&amp;事件分发机制">
+<meta name="twitter:description" content="Android 触摸事件 触摸反馈的本质就是把一系列的触摸反馈解读为对应的事件。 比如：点击，按下移动，抬起 触摸事件不是独立的，是成组出现。">
+
+<link rel="canonical" href="http://jrhlive.com/2019/12/31/Android-触摸事件-事件分发机制/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Android 触摸事件&&事件分发机制 | STAY HUNGRY. STAY FOOLISH.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">STAY HUNGRY. STAY FOOLISH.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hi,sweet.A new day.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/Android-触摸事件-事件分发机制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android 触摸事件&&事件分发机制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-31 13:58:55 / 修改时间：14:30:34" itemprop="dateCreated datePublished" datetime="2019-12-31T13:58:55+08:00">2019-12-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Android-触摸事件"><a href="#Android-触摸事件" class="headerlink" title="Android 触摸事件"></a>Android 触摸事件</h2><blockquote>
+<p>触摸反馈的本质就是把一系列的触摸反馈解读为对应的事件。</p>
+<p>比如：点击，按下移动，抬起</p>
+<p>触摸事件不是独立的，是成组出现。</p>
+</blockquote>
+<a id="more"></a>
+
+<ol>
+<li><p>触摸事件的处理</p>
+<p>Android上当用户触摸屏幕时，触发<code>View.onTouchEvent(MotionEvent event)</code>方法。并把触摸事件传递给MotionEvent .</p>
+<p>一系列事件触发时，会不断的触发该方法。</p>
+</li>
+<li><p>如果写自己的触摸反馈的算法，需要重写<code>onTouchEvent()</code>  </p>
+</li>
+<li><p>事件分发</p>
+<p>解决事件冲突的机制</p>
+<p>当用户触摸屏幕时也就是一个事件组的第一个事件Down事件发生的时候，Android会从用户的触摸点上离用户最近的那个View开始，向下一个一个的调用每个View的<code>onTouchEvent()</code>事件，如果一个View的<code>onTouchEvent（）</code>事件对这个Down事件没有响应， 该事件就会向下一直传递，直到有一个View对该事件做出来了响应，消费了该事件，这个向下的过程才会结束。这个时候该View则成为该组事件的接受者。这组事件的后续事件，都会直接给这个View，直到改组事件结束，也就是up 或者<code>cancel</code>事件出现。</p>
+</li>
+<li><p>事件的响应指<code>onTouchEvent</code>()的返回值，如果down事件发生时，该返回值为true，表示消费，响应该事件。其它的<code>up</code>,<code>move</code>事件的返回值没有影响。</p>
+</li>
+<li><p>如果你点击的事件是在一个列表里面，点击一下列表，会触发点击事件，上下移动手指，列表上滑动，</p>
+<p>这种隔着一个按钮，屏幕列表滑动事件，是靠着Android的事件拦截机制。</p>
+<p>当用户触摸屏幕每一个触摸事件到达onTouchEvent()方法之前，Android会从activity最根本的那个View向上一级一级的去询问，你要不要拦截这组事件，自己处理消费。</p>
+<p>在实现上，是通过调用ViewGroup的<code>onInterceptTouchEvent</code>()来实现的。事件发生时，首先会从底部的View,向上递归的调用每个子View的<code>onInterceptTouchEvent</code>()方法，询问是不是拦截该事件，默认返回false不拦截，如果直到整个流程走完，全部返回false， 这个时候会走第二个流程：OnTouchEvent(),从上往下，如果中途某个View想拦截这组事件，直接在<code>onTouchEvent</code>()事件中返回true，该事件就不会再发生给它的子View，而是直接转交给他自己的onTouchEvent()来处理。后续的所有该组事件都会被拦截。</p>
+</li>
+<li><p><code>onTouchEvent()</code>事件 是否要消费这组事件，是在<code>onTouchEvent</code>() 中Down事件发生时，返回的<code>true</code>，false决定的，如果down事件，返回false，以后就与这组事件无缘。</p>
+</li>
+</ol>
+<ol start="7">
+<li><p><code>onInterceptTouchEvent</code>()事件在整个事件过程中，对每个事件进行观察。再需要的合适时机进行拦截，处理自己的逻辑。再在合适的时候取消拦截，恢复以前的事件流，当<code>onInterceptTouchEvent</code>()返回为<code>true</code>时，除了完成事件监管，还会对它的子View发生一个额外的<code>CANCEL</code>取消事件。因为当你接管事件时，可能上面的子View可能正处于一个中间状态，则可以在收到该事件恢复状态。</p>
+</li>
+<li><p>如果你不需要父View不要拦截事件，你需要调用到<code>requestDisallowInterceptTouchEvent</code>()，在子view里调用父view的这个方法。父View就不会去拦截该事件。该方法是一个递归方法，会依次调用所有的父View取消拦截该事件。不过仅限于当前事件流，当用户这个操作结束后，一切恢复正常。需要用时，再调用。</p>
+</li>
+<li><p><code>dispatchTouchEvent</code>() ,<code>onTouchEvent</code>() 和<code>onInterceptTouchEvent</code>()都是在该方法中调用的，其实一个事件的分发过程，就是从根View递归的调用了一次<code>dispatchTouchEvent</code>()的过程。</p>
+</li>
+</ol>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>自定义触摸反馈的关键：</p>
+<ol>
+<li>重写 <code>onTouchEvent()</code>，在里面写上你的触摸反馈算法，并返回 <code>true</code>（关键是 <code>ACTION_DOWN</code> 事件时返回 <code>true</code>）。</li>
+<li>如果是会发生触摸冲突的 <code>ViewGroup</code>，还需要重写 <code>onInterceptTouchEvent()</code>，在事件流开始时返回 <code>false</code>，并在确认接管事件流时返回一次 <code>true</code>，以实现对事件的拦截。</li>
+<li>当子 View 临时需要阻止父 View 拦截事件流时，可以调用父 View 的 <code>requestDisallowInterceptTouchEvent()</code> ，通知父 View 在当前事件流中不再尝试通过 <code>onInterceptTouchEvent()</code> 来拦截。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/android/" rel="tag"># android</a>
+              <a href="/tags/自定义View/" rel="tag"># 自定义View</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/31/Android-新技术盘点/" rel="prev" title="Android 新技术盘点">
+      <i class="fa fa-chevron-left"></i> Android 新技术盘点
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/31/android自定义View/" rel="next" title="android自定义View">
+      android自定义View <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-触摸事件"><span class="nav-number">1.</span> <span class="nav-text">Android 触摸事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结："><span class="nav-number">1.1.</span> <span class="nav-text">总结：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jiarh</p>
+  <div class="site-description" itemprop="description">coding change the world .</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiarh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

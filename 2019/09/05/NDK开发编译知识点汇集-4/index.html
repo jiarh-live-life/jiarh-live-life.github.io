@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://jrhlive.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Android NDK 开发指南Android NDK 是一组使您能将 C 或 C++（“原生代码”）嵌入到 Android 应用中的工具。能够在 Android 应用中使用原生代码对于想执行以下一项或多项操作的开发者特别有用：">
+<meta name="keywords" content="NDK,JNI,Jni,静态库,动态库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NDK开发编译知识点汇集[4]">
+<meta property="og:url" content="http://jrhlive.com/2019/09/05/NDK开发编译知识点汇集-4/index.html">
+<meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
+<meta property="og:description" content="Android NDK 开发指南Android NDK 是一组使您能将 C 或 C++（“原生代码”）嵌入到 Android 应用中的工具。能够在 Android 应用中使用原生代码对于想执行以下一项或多项操作的开发者特别有用：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-31T02:30:53.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NDK开发编译知识点汇集[4]">
+<meta name="twitter:description" content="Android NDK 开发指南Android NDK 是一组使您能将 C 或 C++（“原生代码”）嵌入到 Android 应用中的工具。能够在 Android 应用中使用原生代码对于想执行以下一项或多项操作的开发者特别有用：">
+
+<link rel="canonical" href="http://jrhlive.com/2019/09/05/NDK开发编译知识点汇集-4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>NDK开发编译知识点汇集[4] | STAY HUNGRY. STAY FOOLISH.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">STAY HUNGRY. STAY FOOLISH.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hi,sweet.A new day.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/09/05/NDK开发编译知识点汇集-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NDK开发编译知识点汇集[4]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-05 10:29:27" itemprop="dateCreated datePublished" datetime="2019-09-05T10:29:27+08:00">2019-09-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 10:30:53" itemprop="dateModified" datetime="2019-12-31T10:30:53+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NDK/" itemprop="url" rel="index">
+                    <span itemprop="name">NDK</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JNI/" itemprop="url" rel="index">
+                    <span itemprop="name">JNI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Android-NDK-开发指南"><a href="#Android-NDK-开发指南" class="headerlink" title="Android NDK 开发指南"></a>Android NDK 开发指南</h2><p>Android NDK 是一组使您能将 C 或 C++（“原生代码”）嵌入到 Android 应用中的工具。能够在 Android 应用中使用原生代码对于想执行以下一项或多项操作的开发者特别有用：</p>
+<a id="more"></a>
+
+<ul>
+<li>在平台之间移植其应用。</li>
+<li>重复使用现有库，或者提供其自己的库供重复使用。</li>
+<li>在某些情况下提高性能，特别是像游戏这种计算密集型应用。</li>
+</ul>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><h3 id="主要组件"><a href="#主要组件" class="headerlink" title="主要组件"></a>主要组件</h3><ul>
+<li>原生共享库：NDK 从 C/C++ 源代码编译这些库或 <code>.so</code> 文件。</li>
+<li>原生静态库：NDK 也可编译静态库或 <code>.a</code> 文件，而您可将静态库关联到其他库。</li>
+<li>Java 原生接口 (JNI)：JNI 是 Java 和 C++ 组件用以互相通信的接口。如需了解相关信息，请查阅 <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/jniTOC.html" target="_blank" rel="noopener">Java 原生接口规范</a>。</li>
+<li>应用二进制接口 (ABI)：ABI 可以非常精确地定义应用的机器代码在运行时应该如何与系统交互。NDK 根据这些定义编译 <code>.so</code> 文件。不同的 ABI 对应不同的架构：NDK 为 32 位 ARM、AArch64、x86 及 x86-64 提供 ABI 支持。有关详情，请参阅 <a href="https://developer.android.com/ndk/guides/abis.html" target="_blank" rel="noopener">ABI 管理</a>。</li>
+<li>清单：如果您编写的应用不包含 Java 组件，则必须在<a href="https://developer.android.com/guide/topics/manifest/manifest-intro.html" target="_blank" rel="noopener">清单</a>中声明 <code>NativeActivity</code> 类。<a href="https://developer.android.com/ndk/guides/concepts#naa" target="_blank" rel="noopener">原生 Activity 和应用</a>的“使用 <code>native_activity.h</code> 接口”部分进一步详细介绍了如何执行此操作。</li>
+</ul>
+<h3 id="android-交叉编译工具选择"><a href="#android-交叉编译工具选择" class="headerlink" title="android 交叉编译工具选择"></a>android 交叉编译工具选择</h3><p>从 r18 开始，所有独立工具链都使用 Clang 和 libc++，以前采用g++。除非编译的是静态可执行文件，否则默认情况下，将使用 libc++ 共享库。要强制使用静态库，请在创建链接时传递 <code>-static-libstdc++</code>。此行为与普通主机工具链的行为相符。</p>
+<p><a href="https://developer.android.com/ndk/guides/cpp-support.html" target="_blank" rel="noopener">C++支持库</a></p>
+<h3 id="android-ndk-工具链"><a href="#android-ndk-工具链" class="headerlink" title="android ndk 工具链"></a><a href="https://developer.android.com/ndk/guides/standalone_toolchain" target="_blank" rel="noopener">android ndk 工具链</a></h3><h4 id="创建工具链"><a href="#创建工具链" class="headerlink" title="创建工具链"></a>创建工具链</h4><p>NDK 会提供 <code>make_standalone_toolchain.py</code> 脚本以便您通过命令行执行自定义工具链安装。</p>
+<p>这是用来替代旧式 <code>make-standalone-toolchain.sh</code> 的新工具。此工具已在 Python 中重新实现，因此 Windows 用户无需安装 <a href="https://www.cygwin.com/" target="_blank" rel="noopener">Cygwin</a> 或 <a href="http://www.mingw.org/wiki/MSYS" target="_blank" rel="noopener">MSYS</a> 便可运行该工具。</p>
+<p>脚本位于 <code>$NDK/build/tools/</code> 目录中，其中 <code>$NDK</code> 是 NDK 的安装根目录。</p>
+<p>下面展示了使用此脚本的示例：(注意 在 NDK r19 之前请参考以下实现)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$NDK</span>/build/tools/make_standalone_toolchain.py \</span><br><span class="line">        --arch arm --api 21 --install-dir /tmp/my-android-toolchain</span><br></pre></td></tr></table></figure>
+
+<p>此命令会创建一个名为 <code>/tmp/my-android-toolchain/</code> 的目录，其中包含一个 <code>android-21/arch-arm</code> sysroot 的副本，以及适用于 32 位 ARM 目标的工具链二进制文件的副本。</p>
+<p>请注意，工具链二进制文件不依赖或包含主机专属路径。换言之，您可以将其安装在任意位置，甚至可以视需要改变其位置。</p>
+<p><code>--arch</code> 参数是必填项，但 API 级别将默认设为指定架构的最低支持级别（目前，级别 16 适用于 32 位架构，级别 21 适用于 64 位架构）。</p>
+<p>从 r18 开始，所有独立工具链都使用 Clang 和 libc++。除非编译的是静态可执行文件，否则默认情况下，将使用 libc++ 共享库。要强制使用静态库，请在创建链接时传递 <code>-static-libstdc++</code>。此行为与普通主机工具链的行为相符。</p>
+<p>如 <a href="https://developer.android.com/ndk/guides/cpp-support.html" target="_blank" rel="noopener">C++ 库支持</a>中所提到的那样，在链接到 libc++ 时常常需要传递 <code>-latomic</code>。</p>
+<p>请注意，如果您省略 <code>--install-dir</code> 选项，该工具将在名为 <code>$TOOLCHAIN_NAME.tar.bz2</code> 的当前目录中创建一个 tarball。使用 <code>--package-dir</code> 可将此 tarball 放入不同的目录中。</p>
+<p>如需了解更多选项和详情，请使用 <code>--help</code>。</p>
+<p><strong>NDK r20 大部分的工具目录 路径发生变化可以参考以下路径</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ $NDK/toolchains/llvm/prebuilt/$HOST_TAG/bin/clang++ \</span><br><span class="line">    -target aarch64-linux-android21 foo.cpp</span><br><span class="line">    </span><br><span class="line">或者</span><br><span class="line">$ $NDK/toolchains/llvm/prebuilt/$HOST_TAG/bin/aarch64-linux-android21-clang++ \</span><br><span class="line">    foo.cpp</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>$NDK 为NDK的 path</p>
+<p>$HOST_TAG 参考下面具体配置：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>NDK OS Variant</th>
+<th>Host Tag</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>macOS</td>
+<td><code>darwin-x86_64</code></td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><code>linux-x86_64</code></td>
+</tr>
+<tr>
+<td>32-bit Windows</td>
+<td><code>windows</code></td>
+</tr>
+<tr>
+<td>64-bit Windows</td>
+<td><code>windows-x86_64</code></td>
+</tr>
+</tbody></table>
+<h3 id="Android-ABI"><a href="#Android-ABI" class="headerlink" title="Android ABI"></a>Android ABI</h3><blockquote>
+<p>ABI全称:Application binary interface(应用程序二进制接口)</p>
+</blockquote>
+<p>不同的 Android 手机使用不同的 CPU，而不同的 CPU 支持不同的指令集。CPU 与指令集的每种组合都有专属的应用二进制接口，即 ABI。ABI 可以非常精确地定义应用的机器代码在运行时如何与系统交互。您必须为应用要使用的每个 CPU 架构指定 ABI。</p>
+<h4 id="典型的-ABI-包含以下信息"><a href="#典型的-ABI-包含以下信息" class="headerlink" title="典型的 ABI 包含以下信息"></a>典型的 ABI 包含以下信息</h4><ul>
+<li>机器代码应使用的 CPU 指令集。</li>
+<li>运行时内存存储和加载的字节顺序。</li>
+<li>可执行二进制文件（例如程序和共享库）的格式，以及它们支持的内容类型。</li>
+<li>在代码与系统之间传递数据的各种规范。这些规范包括对齐限制，以及系统调用函数时如何使用堆栈和寄存器。</li>
+<li>运行时可用于机器代码的函数符号列表 - 通常来自非常具体的库集。</li>
+</ul>
+<h3 id="android-支持的ABI"><a href="#android-支持的ABI" class="headerlink" title="android 支持的ABI"></a>android 支持的ABI</h3><h4 id="armeabi"><a href="#armeabi" class="headerlink" title="armeabi"></a>armeabi</h4><blockquote>
+<p><strong>注意</strong>：此 ABI 已在 NDK r17 中移除。</p>
+</blockquote>
+<p>此 ABI 适用于基于 ARM、至少支持 ARMv5TE 指令集的 CPU,此 ABI 不支持硬件辅助的浮点运算。相反，所有浮点运算都使用编译器的 <code>libgcc.a</code> 静态库中的软件辅助函数。</p>
+<h4 id="armeabi-v7a"><a href="#armeabi-v7a" class="headerlink" title="armeabi-v7a"></a>armeabi-v7a</h4><p>此 ABI 可扩展 armeabi 以包含多个 <a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0406c/index.html" target="_blank" rel="noopener">CPU 扩展指令集</a>。此 Android 特定 ABI 支持的扩展指令包括：</p>
+<ul>
+<li>Thumb-2 扩展指令集，其性能堪比 32 位 ARM 指令，简洁性类似于 Thumb-1。</li>
+<li>VFP 硬件 FPU 指令。更具体一点，是指 VFPv3-D16，它除了 ARM 核心中的 16 个 32 位寄存器之外，还包含 16 个专用 64 位浮点寄存器。</li>
+</ul>
+<p>v7-a ARM 规范描述的其他扩展指令集，包括<a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0388f/Beijfcja.html" target="_blank" rel="noopener">高级 SIMD</a>（亦称 NEON）、VFPv3-D32 和 ThumbEE，都是此 ABI 的可选扩展指令集。由于不能保证它们存在，因此系统在运行时应检查扩展指令集是否可用。如果不可用，您必须使用替代代码路径。此检查类似于系统在检查或使用 <a href="http://en.wikipedia.org/wiki/MMX_(instruction_set)" target="_blank" rel="noopener">MMX</a>、<a href="http://en.wikipedia.org/wiki/SSE2" target="_blank" rel="noopener">SSE2</a> 及 x86 CPU 上其他专用指令集时所执行的检查。</p>
+<p>要了解如何执行这些运行时检查，请参阅 <a href="https://developer.android.com/ndk/guides/cpu-features.html" target="_blank" rel="noopener"><code>cpufeatures</code> 库</a>。此外，如需有关 NDK 支持为 NEON 编译机器代码的信息，请参阅 <a href="https://developer.android.com/ndk/guides/cpu-arm-neon.html" target="_blank" rel="noopener">NEON 支持</a>。</p>
+<p><code>armeabi-v7a</code> ABI 使用 <code>-mfloat-abi=softfp</code> 开关强制实施以下规则：编译器在函数调用期间必须传递核心寄存器对中的所有双精度值，而不是专用浮点值。系统可以使用 FP 寄存器执行所有内部计算。这样可极大地提高计算速度。</p>
+<h4 id="arm64-v8a"><a href="#arm64-v8a" class="headerlink" title="arm64-v8a"></a>arm64-v8a</h4><p>此 ABI 适用于基于 ARMv8、支持 AArch64 的 CPU。它还包含 NEON 和 VFPv4 指令集。</p>
+<p>如需了解更多信息，请参阅 <a href="http://www.arm.com/files/downloads/ARMv8_Architecture.pdf" target="_blank" rel="noopener">ARMv8 技术预览</a>，并联系 ARM 进一步了解详情。</p>
+<h4 id="x86"><a href="#x86" class="headerlink" title="x86"></a>x86</h4><p>此 ABI 适用于支持通常称为“x86”或“IA-32”的指令集的 CPU。此 ABI 的特性包括：</p>
+<ul>
+<li>指令一般由具有编译器标记的 GCC 生成</li>
+<li>使用标准 Linux x86 32 位调用规范，与 SVR 使用的规范相反。详情请参阅<a href="http://www.agner.org/optimize/calling_conventions.pdf" target="_blank" rel="noopener">不同 C++ 编译器和操作系统的调用规范</a>的第 6 部分“寄存器的使用”。</li>
+</ul>
+<p>NDK 工具链假设在函数调用之前进行 16 字节堆栈对齐。默认工具和选项会强制实施此规则。如果编写的是汇编代码，必须确保堆栈对齐，而且其他编译器也遵守此规则。</p>
+<h3 id="C-库支持"><a href="#C-库支持" class="headerlink" title="C++ 库支持"></a>C++ 库支持</h3><p>NDK 支持多种 C++ 运行时库。</p>
+<h4 id="libc"><a href="#libc" class="headerlink" title="libc++"></a>libc++</h4><blockquote>
+<p> <a href="https://libcxx.llvm.org/" target="_blank" rel="noopener">LLVM 的 libc++</a> 是 C++ 标准库，自 Lollipop 以来 Android 操作系统便一直使用该库，并且从 NDK r18 开始成为 NDK 中唯一可用的 STL。</p>
+<p>libc++ 的共享库为 <code>libc++_shared.so</code>，静态库为 <code>libc++_static.a</code>。</p>
+<p><strong>注意</strong>：libc++ 不是系统库。如果使用 <code>libc++_shared.so</code>，则必须将其包括在您的 APK 中。如果使用 Gradle 编译应用，则此步骤会自动完成。</p>
+</blockquote>
+<h4 id="system"><a href="#system" class="headerlink" title="system"></a>system</h4><blockquote>
+<p>系统运行时指的是 <code>/system/lib/libstdc++.so</code>。请勿将该库与 GNU 的全功能 libstdc++ 混淆。在 Android 系统中，libstdc++ 只是 <code>new</code> 和 <code>delete</code>。对于全功能 C++ 标准库，请使用 libc++。</p>
+<p>系统 C++ 运行时支持基础 C++ 运行时 ABI。本质上此库提供 <code>new</code> 和 <code>delete</code>。不同于 NDK 中提供的其他选项，此库不支持异常处理和 RTTI。</p>
+<p>除 <code>&lt;cstdio&gt;</code> 等用于 C 库头文件的 C++ 封装容器之外，并无标准库支持。</p>
+</blockquote>
+<h4 id="none"><a href="#none" class="headerlink" title="none"></a>none</h4><p>另外，您还可选择不使用 STL。在这种情况下，没有关联或授权要求。不提供 C++ 标准头文件。</p>
+<h3 id="选择C-运行时"><a href="#选择C-运行时" class="headerlink" title="选择C++ 运行时"></a>选择C++ 运行时</h3><p>如果您要使用 CMake，则可使用模块级 <code>build.gradle</code> 文件中的 <code>ANDROID_STL</code> 变量，指定表 1 中的一个运行时。要了解详情，请参阅<a href="https://developer.android.com/ndk/guides/cmake.html#variables" target="_blank" rel="noopener">使用 CMake 变量</a>。</p>
+<p>如果您要使用 ndk-build，则可使用 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener">Application.mk</a> 文件中的 <code>APP_STL</code> 变量指定表 1 中的一个运行时。例如：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_STL := c++_shared</span><br></pre></td></tr></table></figure>
+
+<p>您只能为应用选择一个运行时，并且只能在 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener">Application.mk</a> 中进行选择。</p>
+<p>如果使用的是<a href="https://developer.android.com/ndk/guides/standalone_toolchain.html" target="_blank" rel="noopener">独立工具链</a>，工具链会默认使用共享 STL。要使用静态变体，请将 <code>-static-libstdc++</code> 添加至链接器标记中。</p>
+<h3 id="重要注意事项"><a href="#重要注意事项" class="headerlink" title="重要注意事项"></a>重要注意事项</h3><h4 id="静态运行时-静态库"><a href="#静态运行时-静态库" class="headerlink" title="静态运行时(静态库)"></a>静态运行时(静态库)</h4><p>如果应用的所有原生代码均位于一个共享库中，我们建议使用静态运行时。这样可让链接器最大限度内联和精简未使用的代码，使应用达到最优化状态且文件最小巧。这样做还能避免旧版 Android 中的 PackageManager 和动态链接器出现错误，此类错误可导致处理多个共享库变得困难，且容易出错。</p>
+<p>然而，在 C++ 中，在单一程序中定义多个相同函数或对象的副本并不安全。这是 C++ 标准中提出的<a href="http://en.cppreference.com/w/cpp/language/definition" target="_blank" rel="noopener">单一定义规则</a>的一个方面。</p>
+<p>如果使用静态运行时（以及一般静态库），很容易在不经意间破坏这条规则。例如，以下应用就破坏了这一规则：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Application.mk</span></span><br><span class="line">    APP_STL := c++_static</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Android.mk</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line">    LOCAL_MODULE := foo</span><br><span class="line">    LOCAL_SRC_FILES := foo.cpp</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$(BUILD_SHARED_LIBRARY)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$(CLEAR_VARS)</span></span><br><span class="line">    LOCAL_MODULE := bar</span><br><span class="line">    LOCAL_SRC_FILES := bar.cpp</span><br><span class="line">    LOCAL_SHARED_LIBRARIES := foo</span><br><span class="line">    <span class="keyword">include</span> <span class="variable">$(BUILD_SHARED_LIBRARY)</span></span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，包括全局数据和静态构造函数在内的 STL 将同时存在于两个库中。此应用的运行时行为未定义，因此在实际运行过程中，应用会经常崩溃。其他可能存在的问题包括：</p>
+<ul>
+<li>内存在一个库中分配，而在另一个库中释放，从而导致内存泄漏或堆损坏。</li>
+<li><code>libfoo.so</code> 中引发的异常在 <code>libbar.so</code> 中未被捕获，从而导致应用崩溃。</li>
+<li><code>std::cout</code> 的缓冲未正常运行。</li>
+</ul>
+<p>将静态运行时链接至多个库，除了会导致行为问题，还会在每个共享库中复制代码，从而增加应用的大小。</p>
+<p>一般情况下，只有在应用中有且只有一个共享库时，才能使用 C++ 运行时的静态变体。</p>
+<p><strong>注意</strong>：此规则既适用于您的代码，也适用于您的第三方依赖项。</p>
+<h4 id="共享运行时-动态库"><a href="#共享运行时-动态库" class="headerlink" title="共享运行时(动态库)"></a>共享运行时(动态库)</h4><p>如果应用包括多个共享库，则应使用 <code>libc++_shared.so</code>。</p>
+<p>在 Android 系统中，NDK 使用的 libc++ 不是操作系统的一部分。这使得 NDK 用户能够获得最新的 libc++ 功能和问题修复程序，即使应用以旧版 Android 为目标。需要权衡的是，如果使用 <code>libc++_shared.so</code>，则必须将其纳入 APK 中。如果使用 Gradle 编译应用，则此步骤会自动完成。</p>
+<p>旧版 Android 的 PackageManager 和动态链接器存在错误，导致原生库的安装、更新和加载不可靠。具体而言，如果应用以早于 Android 4.3（Android API 级别 18）的 Android 版本为目标，并且您使用 <code>libc++_shared.so</code>，则必须先加载共享库，再加载依赖于共享库的其他库。</p>
+<p><a href="https://github.com/KeepSafe/ReLinker" target="_blank" rel="noopener">ReLinker</a> 项目能够解决所有已知的原生库加载问题，而且相较于自行编写解决方法，它通常是更好的选择。</p>
+<h3 id="C-异常"><a href="#C-异常" class="headerlink" title="C++异常"></a>C++异常</h3><p>C++ 异常受 libc++ 支持，但其在 ndk-build 中默认为停用状态。这是因为之前 NDK 并不支持 C++ 异常。CMake 和独立工具链默认启用 C++ 异常。</p>
+<p>要在 ndk-build 中针对整个应用启用异常，请将下面这一行代码添加至 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener">Application.mk</a> 文件：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_CPPFLAGS := -fexceptions</span><br></pre></td></tr></table></figure>
+
+<p>要针对单一 ndk-build 模块启用异常，请将下面这一行代码添加至相应模块的 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 中：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPP_FEATURES := exceptions</span><br></pre></td></tr></table></figure>
+
+<p>或者，您可以使用：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPPFLAGS := -fexceptions</span><br></pre></td></tr></table></figure>
+
+<h3 id="RTTI"><a href="#RTTI" class="headerlink" title="RTTI"></a>RTTI</h3><p>与异常一样，RTTI 也受 libc++ 支持，但在 ndk-build 中默认为停用状态。CMake 和独立工具链默认启用 RTTI。</p>
+<p>要在 ndk-build 中针对整个应用启用 RTTI，请将下面这一行代码添加至 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener">Application.mk</a> 文件：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_CPPFLAGS := -frtti</span><br></pre></td></tr></table></figure>
+
+<p>要针对单一 ndk-build 模块启用 RTTI，请将下面这行代码添加至相应模块的 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 中：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPP_FEATURES := rtti</span><br></pre></td></tr></table></figure>
+
+<p>或者，您可以使用：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOCAL_CPPFLAGS := -frtti</span><br></pre></td></tr></table></figure>
+
+<h2 id="头文件与库文件指定"><a href="#头文件与库文件指定" class="headerlink" title="头文件与库文件指定"></a>头文件与库文件指定</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">--sysroot=XX</span><br><span class="line">	使用xx作为这一次编译的头文件与库文件的查找目录，查找下面的 usr/include usr/lib目录</span><br><span class="line">-isysroot XX</span><br><span class="line">	头文件查找目录,覆盖--sysroot ，查找 XX/usr/include</span><br><span class="line">-isystem XX</span><br><span class="line">	指定头文件查找路径（直接查找根目录）</span><br><span class="line">-IXX</span><br><span class="line">	头文件查找目录</span><br><span class="line">优先级：</span><br><span class="line">	-I -&gt; -isystem -&gt; sysroot</span><br><span class="line">	</span><br><span class="line">-LXX</span><br><span class="line">	指定库文件查找目录</span><br><span class="line">-lxx.so</span><br><span class="line">	指定需要链接的库名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">pie 位置无关的可执行程序</span></span><br><span class="line">export CC="/root/android-ndk-r17b/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin/arm-linux-androideabi-gcc"</span><br><span class="line">export CFLAGS="--sysroot=/root/android-ndk-r17b/platforms/android-21/arch-arm -isysroot /root/android-ndk-r17b/sysroot -isystem /root/android-ndk-r17b/sysroot/usr/include/arm-linux-androideabi -pie"	</span><br><span class="line"><span class="meta">$</span><span class="bash">CC <span class="variable">$CFLAGS</span> -o main main.c</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NDK/" rel="tag"># NDK</a>
+              <a href="/tags/JNI/" rel="tag"># JNI</a>
+              <a href="/tags/Jni/" rel="tag"># Jni</a>
+              <a href="/tags/静态库/" rel="tag"># 静态库</a>
+              <a href="/tags/动态库/" rel="tag"># 动态库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/02/NDK开发JNI起步-3/" rel="prev" title="NDK开发JNI起步[3]">
+      <i class="fa fa-chevron-left"></i> NDK开发JNI起步[3]
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/05/NDK开发Android-mk指南-5/" rel="next" title="NDK开发Android.mk指南[5]">
+      NDK开发Android.mk指南[5] <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-NDK-开发指南"><span class="nav-number">1.</span> <span class="nav-text">Android NDK 开发指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#工作原理"><span class="nav-number">1.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主要组件"><span class="nav-number">1.2.</span> <span class="nav-text">主要组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-交叉编译工具选择"><span class="nav-number">1.3.</span> <span class="nav-text">android 交叉编译工具选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-ndk-工具链"><span class="nav-number">1.4.</span> <span class="nav-text">android ndk 工具链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建工具链"><span class="nav-number">1.4.1.</span> <span class="nav-text">创建工具链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-ABI"><span class="nav-number">1.5.</span> <span class="nav-text">Android ABI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#典型的-ABI-包含以下信息"><span class="nav-number">1.5.1.</span> <span class="nav-text">典型的 ABI 包含以下信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android-支持的ABI"><span class="nav-number">1.6.</span> <span class="nav-text">android 支持的ABI</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#armeabi"><span class="nav-number">1.6.1.</span> <span class="nav-text">armeabi</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#armeabi-v7a"><span class="nav-number">1.6.2.</span> <span class="nav-text">armeabi-v7a</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#arm64-v8a"><span class="nav-number">1.6.3.</span> <span class="nav-text">arm64-v8a</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#x86"><span class="nav-number">1.6.4.</span> <span class="nav-text">x86</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-库支持"><span class="nav-number">1.7.</span> <span class="nav-text">C++ 库支持</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#libc"><span class="nav-number">1.7.1.</span> <span class="nav-text">libc++</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#system"><span class="nav-number">1.7.2.</span> <span class="nav-text">system</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#none"><span class="nav-number">1.7.3.</span> <span class="nav-text">none</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择C-运行时"><span class="nav-number">1.8.</span> <span class="nav-text">选择C++ 运行时</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重要注意事项"><span class="nav-number">1.9.</span> <span class="nav-text">重要注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#静态运行时-静态库"><span class="nav-number">1.9.1.</span> <span class="nav-text">静态运行时(静态库)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#共享运行时-动态库"><span class="nav-number">1.9.2.</span> <span class="nav-text">共享运行时(动态库)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C-异常"><span class="nav-number">1.10.</span> <span class="nav-text">C++异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RTTI"><span class="nav-number">1.11.</span> <span class="nav-text">RTTI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#头文件与库文件指定"><span class="nav-number">2.</span> <span class="nav-text">头文件与库文件指定</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jiarh</p>
+  <div class="site-description" itemprop="description">coding change the world .</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiarh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://jrhlive.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Application.mk官网地址 Application.mk指定了 ndk-build 的项目范围设置。默认情况下，它位于应用项目目录中的jni/Application.mk` 下。 注意：其中许多参数也具有模块等效项。例如，APP_CFLAGS 对应于 LOCAL_CFLAGS。无论何种情况下，特定于模块的选项都将优先于应用范围选项。对于标记，两者都使用，但特定于模块的标记将后出现在命令行">
+<meta name="keywords" content="NDK,JNI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NDK开发Application.mk指南[6]">
+<meta property="og:url" content="http://jrhlive.com/2019/09/05/NDK开发Application-mk指南-6/index.html">
+<meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
+<meta property="og:description" content="Application.mk官网地址 Application.mk指定了 ndk-build 的项目范围设置。默认情况下，它位于应用项目目录中的jni/Application.mk` 下。 注意：其中许多参数也具有模块等效项。例如，APP_CFLAGS 对应于 LOCAL_CFLAGS。无论何种情况下，特定于模块的选项都将优先于应用范围选项。对于标记，两者都使用，但特定于模块的标记将后出现在命令行">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-31T02:30:53.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NDK开发Application.mk指南[6]">
+<meta name="twitter:description" content="Application.mk官网地址 Application.mk指定了 ndk-build 的项目范围设置。默认情况下，它位于应用项目目录中的jni/Application.mk` 下。 注意：其中许多参数也具有模块等效项。例如，APP_CFLAGS 对应于 LOCAL_CFLAGS。无论何种情况下，特定于模块的选项都将优先于应用范围选项。对于标记，两者都使用，但特定于模块的标记将后出现在命令行">
+
+<link rel="canonical" href="http://jrhlive.com/2019/09/05/NDK开发Application-mk指南-6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>NDK开发Application.mk指南[6] | STAY HUNGRY. STAY FOOLISH.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">STAY HUNGRY. STAY FOOLISH.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hi,sweet.A new day.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/09/05/NDK开发Application-mk指南-6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NDK开发Application.mk指南[6]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-05 13:39:51" itemprop="dateCreated datePublished" datetime="2019-09-05T13:39:51+08:00">2019-09-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 10:30:53" itemprop="dateModified" datetime="2019-12-31T10:30:53+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NDK/" itemprop="url" rel="index">
+                    <span itemprop="name">NDK</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Application-mk"><a href="#Application-mk" class="headerlink" title="Application.mk"></a>Application.mk</h1><p><a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener">官网地址</a></p>
+<p>Application.mk<code>指定了 ndk-build 的项目范围设置。默认情况下，它位于应用项目目录中的</code>jni/Application.mk` 下。</p>
+<p><strong>注意</strong>：其中许多参数也具有模块等效项。例如，<code>APP_CFLAGS</code> 对应于 <code>LOCAL_CFLAGS</code>。无论何种情况下，特定于模块的选项都将优先于应用范围选项。对于标记，两者都使用，但特定于模块的标记将后出现在命令行中，因此它们可能会替换项目范围设置。</p>
+<a id="more"></a>
+
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><h5 id="APP-ABI"><a href="#APP-ABI" class="headerlink" title="APP_ABI"></a>APP_ABI</h5><p>默认情况下，NDK 编译系统会为所有非弃用 ABI 生成代码。您可以使用 <code>APP_ABI</code> 设置为特定 ABI 生成代码。表 1 显示了不同指令集的 <code>APP_ABI</code> 设置。</p>
+<p><strong>表 1.</strong> 不同指令集的 <code>APP_ABI</code> 设置。</p>
+<table>
+<thead>
+<tr>
+<th>指令集</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>32 位 ARMv7</td>
+<td><code>APP_ABI := armeabi-v7a</code></td>
+</tr>
+<tr>
+<td>64 位 ARMv8 (AArch64）</td>
+<td><code>APP_ABI := arm64-v8a</code></td>
+</tr>
+<tr>
+<td>x86</td>
+<td><code>APP_ABI := x86</code></td>
+</tr>
+<tr>
+<td>x86-64</td>
+<td><code>APP_ABI := x86_64</code></td>
+</tr>
+<tr>
+<td>所有支持的 ABI（默认）</td>
+<td><code>APP_ABI := all</code></td>
+</tr>
+</tbody></table>
+<p>您也可以指定多个值，方法是将它们放在同一行上，中间用空格分隔。例如：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">APP_ABI := armeabi-v7a arm64-v8a x86</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：Gradle 的 <code>externalNativeBuild</code> 会忽略 <code>APP_ABI</code>。请在 <code>splits</code> 块内部使用 <code>abiFilters</code> 块或（如果使用的是“多个 APK”）<code>abi</code> 块。</p>
+<p>有关所有受支持 ABI 的列表以及有关其用法和限制的详细信息，请参阅 <a href="https://developer.android.com/ndk/guides/abis" target="_blank" rel="noopener">ABI 管理</a>。</p>
+<h5 id="APP-ASFLAGS"><a href="#APP-ASFLAGS" class="headerlink" title="APP_ASFLAGS"></a>APP_ASFLAGS</h5><p>要传递给项目中每个汇编源文件（<code>.s</code> 和 <code>.S</code> 文件）的汇编器的标记。</p>
+<p><strong>注意</strong>：<code>ASFLAGS</code> 与 <code>ASMFLAGS</code> 不同。后者专门适用于 YASM 源文件（请参阅 <a href="https://developer.android.com/ndk/guides/application_mk.html#app-asmflags" target="_blank" rel="noopener">APP_ASMFLAGS</a> 部分）。</p>
+<h5 id="APP-ASMFLAGS"><a href="#APP-ASMFLAGS" class="headerlink" title="APP_ASMFLAGS"></a>APP_ASMFLAGS</h5><p>对于所有 YASM 源文件（<code>.asm</code>，仅限 x86/x86_64），要传递给 YASM 的标记。</p>
+<h5 id="APP-BUILD-SCRIPT"><a href="#APP-BUILD-SCRIPT" class="headerlink" title="APP_BUILD_SCRIPT"></a>APP_BUILD_SCRIPT</h5><p>默认情况下，ndk-build 假定 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 文件位于相对于项目根目录的 <code>jni/Android.mk</code>。</p>
+<p>要从其他位置加载 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 文件，请将 <code>APP_BUILD_SCRIPT</code> 设置为 Android.mk 文件的绝对路径。</p>
+<p><strong>注意</strong>：Gradle 的 <code>externalNativeBuild</code> 将根据 <code>externalNativeBuild.ndkBuild.path</code> 变量自动配置此路径。</p>
+<h5 id="APP-CFLAGS"><a href="#APP-CFLAGS" class="headerlink" title="APP_CFLAGS"></a>APP_CFLAGS</h5><p>要为项目中的所有 C/C++ 编译传递的标记。</p>
+<p><strong>注意</strong>：Include 路径应使用 <code>LOCAL_C_INCLUDES</code> 而不是显式 <code>-I</code> 标记。</p>
+<p>另请参阅：<a href="https://developer.android.com/ndk/guides/application_mk.html#app-conlyflags" target="_blank" rel="noopener">APP_CONLYFLAGS</a>、<a href="https://developer.android.com/ndk/guides/application_mk.html#app-cppflags" target="_blank" rel="noopener">APP_CPPFLAGS</a>。</p>
+<h5 id="APP-CLANG-TIDY"><a href="#APP-CLANG-TIDY" class="headerlink" title="APP_CLANG_TIDY"></a>APP_CLANG_TIDY</h5><p>要为项目中的所有模块启用 clang-tidy，请将此标记设置为“True”。默认处于停用状态。</p>
+<h5 id="APP-CLANG-TIDY-FLAGS"><a href="#APP-CLANG-TIDY-FLAGS" class="headerlink" title="APP_CLANG_TIDY_FLAGS"></a>APP_CLANG_TIDY_FLAGS</h5><p>要为项目中的所有 clang-tidy 执行传递的标记。</p>
+<h5 id="APP-CONLYFLAGS"><a href="#APP-CONLYFLAGS" class="headerlink" title="APP_CONLYFLAGS"></a>APP_CONLYFLAGS</h5><p>要为项目中的所有 C 编译传递的标记。这些标记不会用于 C++ 代码。</p>
+<p>另请参阅：<a href="https://developer.android.com/ndk/guides/application_mk.html#app-cflags" target="_blank" rel="noopener">APP_CFLAGS</a>、<a href="https://developer.android.com/ndk/guides/application_mk.html#app-cppflags" target="_blank" rel="noopener">APP_CPPFLAGS</a>。</p>
+<h5 id="APP-CPPFLAGS"><a href="#APP-CPPFLAGS" class="headerlink" title="APP_CPPFLAGS"></a>APP_CPPFLAGS</h5><p>要为项目中的所有 C++ 编译传递的标记。这些标记不会用于 C 代码。</p>
+<p>另请参阅：<a href="https://developer.android.com/ndk/guides/application_mk.html#app-cflags" target="_blank" rel="noopener">APP_CFLAGS</a>、<a href="https://developer.android.com/ndk/guides/application_mk.html#app-conlyflags" target="_blank" rel="noopener">APP_CONLYFLAGS</a>。</p>
+<h5 id="APP-CXXFLAGS"><a href="#APP-CXXFLAGS" class="headerlink" title="APP_CXXFLAGS"></a>APP_CXXFLAGS</h5><p><strong>注意</strong>：<a href="https://developer.android.com/ndk/guides/application_mk.html#app-cppflags" target="_blank" rel="noopener">APP_CPPFLAGS</a> 应优先于 <code>APP_CXXFLAGS</code>。</p>
+<p>与 <code>APP_CPPFLAGS</code> 相同，但在编译命令中将出现在 <code>APP_CPPFLAGS</code> 之后。例如：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">APP_CPPFLAGS := -DFOO</span><br><span class="line">    APP_CXXFLAGS := -DBAR</span><br></pre></td></tr></table></figure>
+
+<p>以上配置将导致编译命令类似于 <code>clang++ -DFOO -DBAR</code>，而不是 <code>clang++ -DBAR -DFOO</code>。</p>
+<h5 id="APP-DEBUG"><a href="#APP-DEBUG" class="headerlink" title="APP_DEBUG"></a>APP_DEBUG</h5><p>要编译可调试的应用，请将此标记设置为“True”。</p>
+<h5 id="APP-LDFLAGS"><a href="#APP-LDFLAGS" class="headerlink" title="APP_LDFLAGS"></a>APP_LDFLAGS</h5><p>关联可执行文件和共享库时要传递的标记。</p>
+<p><strong>注意</strong>：这些标记对静态库没有影响。不会关联静态库。</p>
+<h5 id="APP-MANIFEST"><a href="#APP-MANIFEST" class="headerlink" title="APP_MANIFEST"></a>APP_MANIFEST</h5><p>AndroidManifest.xml 文件的绝对路径。</p>
+<p>默认情况下将使用 <code>$(APP_PROJECT_PATH)/AndroidManifest.xml)</code>（如果存在）。</p>
+<p><strong>注意</strong>：使用 <code>externalNativeBuild</code> 时，Gradle 不会设置此值。</p>
+<h5 id="APP-MODULES"><a href="#APP-MODULES" class="headerlink" title="APP_MODULES"></a>APP_MODULES</h5><p>要编译的模块的显式列表。此列表的元素是模块在 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 文件的 <code>LOCAL_MODULE</code> 中显示的名称。</p>
+<p>默认情况下，ndk-build 将编译所有共享库、可执行文件及其依赖项。仅当项目使用静态库、项目仅包含静态库或者在 <code>APP_MODULES</code> 中指定了静态库时，才会编译静态库。</p>
+<p><strong>注意</strong>：将不会编译导入的模块（在使用 <code>$(call import-module)</code> 导入的编译脚本中定义的模块），除非要在 <code>APP_MODULES</code> 中编译或列出的模块依赖导入的模块。</p>
+<h5 id="APP-OPTIM"><a href="#APP-OPTIM" class="headerlink" title="APP_OPTIM"></a>APP_OPTIM</h5><p>将此可选变量定义为 <code>release</code> 或 <code>debug</code>。默认情况下，将编译发布二进制文件。</p>
+<p>发布模式会启用优化，并可能生成无法与调试程序一起使用的二进制文件。调试模式会停用优化，以便可以使用调试程序。</p>
+<p>请注意，您可以调试发布二进制文件或调试二进制文件。但是，发布二进制文件在调试期间提供的信息较少。例如，变量可能会被优化掉，导致无法检查代码。此外，代码重新排序会使单步调试代码变得更加困难；堆栈跟踪可能不可靠。</p>
+<p>在应用清单的 <code>&lt;application&gt;</code> 标记中声明 <code>android:debuggable</code> 将导致此变量默认为 <code>debug</code>，而不是 <code>release</code>。通过将 <code>APP_OPTIM</code> 设置为 <code>release</code> 可替换此默认值。</p>
+<p><strong>注意</strong>：使用 <code>externalNativeBuild</code> 进行编译时，Android Studio 将根据您的编译风格适当地设置此标记。</p>
+<h5 id="APP-PLATFORM"><a href="#APP-PLATFORM" class="headerlink" title="APP_PLATFORM"></a>APP_PLATFORM</h5><p><code>APP_PLATFORM</code> 会声明编译此应用所面向的 Android API 级别，并对应于应用的 <code>minSdkVersion</code>。</p>
+<p>如果未指定，ndk-build 将以 NDK 支持的最低 API 级别为目标。最新 NDK 支持的最低 API 级别总是足够低，可以支持几乎所有使用中的设备。</p>
+<p><strong>警告</strong>：将 <code>APP_PLATFORM</code> 设置为高于应用的 <code>minSdkVersion</code> 可能会生成一个无法在旧设备上运行的应用。在大多数情况下，库将无法加载，因为它们引用了在旧设备上不可用的符号。</p>
+<p>例如，值 <code>android-16</code> 指定库使用在 Android 4.1（API 级别 16）以前的版本中不可用的 API，并且无法在运行较低平台版本的设备上使用。有关平台名称和相应 Android 系统映像的完整列表，请参阅 <a href="https://developer.android.com/ndk/guides/stable_apis.html" target="_blank" rel="noopener">Android NDK 原生 API</a>。</p>
+<p>使用 Gradle 和 <code>externalNativeBuild</code> 时，不应直接设置此参数。而是在<a href="https://developer.android.com/studio/build/index.html#module-level" target="_blank" rel="noopener">模块级别</a> <code>build.gradle</code>文件的 <code>defaultConfig</code> 或 <code>productFlavors</code> 块中设置 <code>minSdkVersion</code> 属性。这样就能确保只有在运行足够高 Android 版本的设备上安装的应用才能使用您的库。</p>
+<p>请注意，NDK 不包含 Android 每个 API 级别的库，省略了不包含新的原生 API 的版本以节省 NDK 中的空间。ndk-build 按以下优先级降序使用 API：</p>
+<ol>
+<li>匹配 <code>APP_PLATFORM</code> 的平台版本。</li>
+<li>低于 <code>APP_PLATFORM</code> 的下一个可用 API 级别。例如，<code>APP_PLATFORM</code> 为 <code>android-20</code> 时，将使用 <code>android-19</code>，因为 android-20 中没有新的原生 API。</li>
+<li>NDK 支持的最低 API 级别。</li>
+</ol>
+<h5 id="APP-PROJECT-PATH"><a href="#APP-PROJECT-PATH" class="headerlink" title="APP_PROJECT_PATH"></a>APP_PROJECT_PATH</h5><p>项目根目录的绝对路径。</p>
+<h5 id="APP-SHORT-COMMANDS"><a href="#APP-SHORT-COMMANDS" class="headerlink" title="APP_SHORT_COMMANDS"></a>APP_SHORT_COMMANDS</h5><p><code>LOCAL_SHORT_COMMANDS</code> 的项目范围等效项。有关详情，请参阅 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 中有关 <code>LOCAL_SHORT_COMMANDS</code> 的文档。</p>
+<h5 id="APP-STL"><a href="#APP-STL" class="headerlink" title="APP_STL"></a>APP_STL</h5><p>用于此应用的 C++ 标准库。</p>
+<p>默认情况下使用 <code>system</code> STL。其他选项包括 <code>c++_shared</code>、<code>c++_static</code> 和 <code>none</code>。请参阅 <a href="https://developer.android.com/ndk/guides/cpp-support.html#runtimes" target="_blank" rel="noopener">NDK 运行时和功能</a>。</p>
+<h5 id="APP-STRIP-ARCHIVE"><a href="#APP-STRIP-ARCHIVE" class="headerlink" title="APP_STRIP_ARCHIVE"></a>APP_STRIP_ARCHIVE</h5><p>要为此应用中的模块传递给 <code>strip</code> 的参数。默认为 <code>--strip-unneeded</code>。要避免剥离模块中的所有二进制文件，请设置为 <code>none</code>。有关其他剥离模式，请参阅<a href="https://sourceware.org/binutils/docs/binutils/strip.html" target="_blank" rel="noopener">剥离文档</a>。</p>
+<h5 id="APP-THIN-ARCHIVE"><a href="#APP-THIN-ARCHIVE" class="headerlink" title="APP_THIN_ARCHIVE"></a>APP_THIN_ARCHIVE</h5><p>要为项目中的所有静态库使用瘦归档，请将此变量设置为“True”。有关详情，请参阅 <a href="https://developer.android.com/ndk/guides/android_mk.html" target="_blank" rel="noopener">Android.mk</a> 中有关 <code>LOCAL_THIN_ARCHIVE</code> 的文档。</p>
+<h5 id="APP-WRAP-SH"><a href="#APP-WRAP-SH" class="headerlink" title="APP_WRAP_SH"></a>APP_WRAP_SH</h5><p>要包含在此应用中的 <a href="https://developer.android.com/ndk/guides/wrap-script" target="_blank" rel="noopener">wrap.sh</a> 文件的路径。</p>
+<p>每个 ABI 都存在此变量的变体，ABI 通用变体也是如此：</p>
+<ul>
+<li><code>APP_WRAP_SH</code></li>
+<li><code>APP_WRAP_SH_armeabi-v7a</code></li>
+<li><code>APP_WRAP_SH_arm64-v8a</code></li>
+<li><code>APP_WRAP_SH_x86</code></li>
+<li><code>APP_WRAP_SH_x86_64</code></li>
+</ul>
+<p><strong>注意</strong>：<code>APP_WRAP_SH_&lt;abi&gt;</code> 无法与 <code>APP_WRAP_SH</code> 相结合。如果任何 ABI 使用特定于 ABI 的 wrap.sh，则所有 ABI 都必须使用该 wrap.sh。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NDK/" rel="tag"># NDK</a>
+              <a href="/tags/JNI/" rel="tag"># JNI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/09/05/NDK开发Android-mk指南-5/" rel="prev" title="NDK开发Android.mk指南[5]">
+      <i class="fa fa-chevron-left"></i> NDK开发Android.mk指南[5]
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/23/设计模式精简图册/" rel="next" title="设计模式精简图册">
+      设计模式精简图册 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Application-mk"><span class="nav-number">1.</span> <span class="nav-text">Application.mk</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-number">1.0.1.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-ABI"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">APP_ABI</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-ASFLAGS"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">APP_ASFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-ASMFLAGS"><span class="nav-number">1.0.1.0.3.</span> <span class="nav-text">APP_ASMFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-BUILD-SCRIPT"><span class="nav-number">1.0.1.0.4.</span> <span class="nav-text">APP_BUILD_SCRIPT</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CFLAGS"><span class="nav-number">1.0.1.0.5.</span> <span class="nav-text">APP_CFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CLANG-TIDY"><span class="nav-number">1.0.1.0.6.</span> <span class="nav-text">APP_CLANG_TIDY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CLANG-TIDY-FLAGS"><span class="nav-number">1.0.1.0.7.</span> <span class="nav-text">APP_CLANG_TIDY_FLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CONLYFLAGS"><span class="nav-number">1.0.1.0.8.</span> <span class="nav-text">APP_CONLYFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CPPFLAGS"><span class="nav-number">1.0.1.0.9.</span> <span class="nav-text">APP_CPPFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-CXXFLAGS"><span class="nav-number">1.0.1.0.10.</span> <span class="nav-text">APP_CXXFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-DEBUG"><span class="nav-number">1.0.1.0.11.</span> <span class="nav-text">APP_DEBUG</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-LDFLAGS"><span class="nav-number">1.0.1.0.12.</span> <span class="nav-text">APP_LDFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-MANIFEST"><span class="nav-number">1.0.1.0.13.</span> <span class="nav-text">APP_MANIFEST</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-MODULES"><span class="nav-number">1.0.1.0.14.</span> <span class="nav-text">APP_MODULES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-OPTIM"><span class="nav-number">1.0.1.0.15.</span> <span class="nav-text">APP_OPTIM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-PLATFORM"><span class="nav-number">1.0.1.0.16.</span> <span class="nav-text">APP_PLATFORM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-PROJECT-PATH"><span class="nav-number">1.0.1.0.17.</span> <span class="nav-text">APP_PROJECT_PATH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-SHORT-COMMANDS"><span class="nav-number">1.0.1.0.18.</span> <span class="nav-text">APP_SHORT_COMMANDS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-STL"><span class="nav-number">1.0.1.0.19.</span> <span class="nav-text">APP_STL</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-STRIP-ARCHIVE"><span class="nav-number">1.0.1.0.20.</span> <span class="nav-text">APP_STRIP_ARCHIVE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-THIN-ARCHIVE"><span class="nav-number">1.0.1.0.21.</span> <span class="nav-text">APP_THIN_ARCHIVE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#APP-WRAP-SH"><span class="nav-number">1.0.1.0.22.</span> <span class="nav-text">APP_WRAP_SH</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jiarh</p>
+  <div class="site-description" itemprop="description">coding change the world .</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiarh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

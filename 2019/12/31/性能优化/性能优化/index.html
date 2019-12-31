@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://jrhlive.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="App优化 app 启动优化（视觉体验优化）  白屏、黑屏问题？(不会缩短实际冷启动时间)  12345&amp;lt;application    android:name=&quot;.base.App&quot;    ...    android:theme=&quot;@style/AppThemeBase&quot;    &amp;gt;  styles.xml 增加一个主题叫AppThemeBase 12345&amp;lt;style nam">
+<meta name="keywords" content="android,性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能优化">
+<meta property="og:url" content="http://jrhlive.com/2019/12/31/性能优化/性能优化/index.html">
+<meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
+<meta property="og:description" content="App优化 app 启动优化（视觉体验优化）  白屏、黑屏问题？(不会缩短实际冷启动时间)  12345&amp;lt;application    android:name=&quot;.base.App&quot;    ...    android:theme=&quot;@style/AppThemeBase&quot;    &amp;gt;  styles.xml 增加一个主题叫AppThemeBase 12345&amp;lt;style nam">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://jrhlive.com/Users/jiarh/Documents/%E4%BC%98%E5%8C%96/app%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="http://jrhlive.com/Users/jiarh/project/haoyubihai.github.io/blog/jrh-blog/source/_posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%9C%AA%E4%BC%98%E5%8C%961.png">
+<meta property="og:image" content="http://jrhlive.com/Users/jiarh/project/haoyubihai.github.io/blog/jrh-blog/source/_posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E9%80%9A%E8%BF%87%E6%97%A5%E5%BF%97%E6%9F%A5%E7%9C%8B%E5%B1%95%E7%A4%BA%E6%97%B6%E9%97%B4.png">
+<meta property="og:image" content="http://jrhlive.com/Users/jiarh/Documents/%E4%BC%98%E5%8C%96/%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%8C%96.png">
+<meta property="og:updated_time" content="2019-12-31T06:32:06.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="性能优化">
+<meta name="twitter:description" content="App优化 app 启动优化（视觉体验优化）  白屏、黑屏问题？(不会缩短实际冷启动时间)  12345&amp;lt;application    android:name=&quot;.base.App&quot;    ...    android:theme=&quot;@style/AppThemeBase&quot;    &amp;gt;  styles.xml 增加一个主题叫AppThemeBase 12345&amp;lt;style nam">
+<meta name="twitter:image" content="http://jrhlive.com/Users/jiarh/Documents/%E4%BC%98%E5%8C%96/app%E5%90%AF%E5%8A%A8.png">
+
+<link rel="canonical" href="http://jrhlive.com/2019/12/31/性能优化/性能优化/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>性能优化 | STAY HUNGRY. STAY FOOLISH.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">STAY HUNGRY. STAY FOOLISH.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hi,sweet.A new day.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/31/性能优化/性能优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          性能优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-31 14:07:07 / 修改时间：14:32:06" itemprop="dateCreated datePublished" datetime="2019-12-31T14:07:07+08:00">2019-12-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="App优化"><a href="#App优化" class="headerlink" title="App优化"></a>App优化</h2><ol>
+<li><p>app 启动优化（视觉体验优化）</p>
+<ul>
+<li>白屏、黑屏问题？(不会缩短实际冷启动时间)</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:name</span>=<span class="string">".base.App"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:theme</span>=<span class="string">"@style/AppThemeBase"</span></span></span><br><span class="line"><span class="tag">    &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>styles.xml 增加一个主题叫AppThemeBase</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppThemeBase"</span> <span class="attr">parent</span>=<span class="string">"XUITheme.Phone"</span>&gt;</span></span><br><span class="line">   ...</span><br><span class="line"><span class="xml">    <span class="comment">&lt;!--  设置启动白屏的图片背景 --&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowBackground"</span>&gt;</span>@drawable/theme_bg<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>这样的话启动Activity之后背景会一直在，所以在Activity的onCreate方法中切换成正常主题</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onCreate</span><span class="params">(savedInstanceState: <span class="type">Bundle</span>?)</span></span> &#123;</span><br><span class="line">    setTheme(R.style.AppTheme)</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState)</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>设置透明主题</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.Light.DarkActionBar"</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowFullscreen"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:windowIsTranslucent"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>虽然可以解决黑白屏问题，但是从点击app图标，到APP启动首界面会出现短暂的视觉停留效果。</p>
+</li>
+<li><p>查看app启动时长</p>
+<p><img src="/Users/jiarh/Documents/%E4%BC%98%E5%8C%96/app%E5%90%AF%E5%8A%A8.png" alt="app启动"></p>
+<ul>
+<li><p><strong>通过命令</strong> <code>adb shell am start -S -W 包名/启动类的全限定名</code> ， -S <strong>表示重启当前应用</strong></p>
+<p><img src="/Users/jiarh/project/haoyubihai.github.io/blog/jrh-blog/source/_posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%9C%AA%E4%BC%98%E5%8C%961.png" alt="未优化1"></p>
+</li>
+</ul>
+<p>ThisTime : 最后一个 Activity 的启动耗时</p>
+<p>TotalTime : 启动一连串的 Activity 总耗时</p>
+<p>WaitTime : 应用进程的创建过程 + TotalTime </p>
+<ul>
+<li><strong>系统日志统计</strong></li>
+</ul>
+<p>另外也可以根据系统日志来统计启动耗时，在Android Studio中查找已用时间，必须在logcat视图中禁用过滤器(No Filters)。因为这个是系统的日志输出，而不是应用程序的。你也可以查看其它应用程序的启动耗时。</p>
+<p>过滤<code>displayed</code>输出的启动日志.</p>
+<p><img src="/Users/jiarh/project/haoyubihai.github.io/blog/jrh-blog/source/_posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E9%80%9A%E8%BF%87%E6%97%A5%E5%BF%97%E6%9F%A5%E7%9C%8B%E5%B1%95%E7%A4%BA%E6%97%B6%E9%97%B4.png" alt="通过日志查看展示时间"></p>
+</li>
+<li><p>Application中可能存在的一些耗时操作</p>
+<ul>
+<li>第三方库的初始化操作</li>
+<li>IO操作</li>
+</ul>
+<p>解决方式：</p>
+<ul>
+<li>子线程初始化</li>
+</ul>
+<p><img src="/Users/jiarh/Documents/%E4%BC%98%E5%8C%96/%E5%AD%90%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%8C%96.png" alt="子线程优化"></p>
+<p>可以看出通过子线程优化 由原来的1363 减少至 1293</p>
+<ul>
+<li>需要在主线程中初始化，但不立即使用的库，进行延迟初始化操作</li>
+</ul>
+</li>
+<li><p>冷启动的过程中系统会初始化应用程序进程，创建Application等任务，这时候会展示一个 <strong>启动窗口</strong> Starting Window，上面分析了过，如果没有优化主题的话，那么就是白屏。</p>
+</li>
+<li><p>闪屏页优化</p>
+<p>Application 初始化后会调用 attachBaseContext() 方法，再调用 Application 的 onCreate()，再到入口 Activity的创建和执行 onCreate() 方法。所以我们就可以在 Application 中记录启动时间。</p>
+<p>//Application</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context base)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.attachBaseContext(base);</span><br><span class="line">	SPUtil.putLong(<span class="string">"application_attach_time"</span>, System.currentTimeMillis());<span class="comment">//记录Application初始化时间</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了启动时间，我们得知道入口的 Acitivty 显示给用户的时间,View绘制完毕在onWindowFocusChanged()的回调时机中表示可以获取用户的触摸时间和View的流程绘制完毕，所以我们可以在这个方法里记录显示时间。</p>
+<p>//入口Activity</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onWindowFocusChanged(boolean hasFocus) &#123;</span><br><span class="line">    super.onWindowFocusChanged(hasFocus);</span><br><span class="line">  </span><br><span class="line">      long appAttachTime = SPUtil.getLong(&quot;application_attach_time&quot;);</span><br><span class="line">      long diffTime = System.currentTimeMillis() - appAttachTime;//从application到入口Acitity的时间</span><br><span class="line"> </span><br><span class="line">	 //所以闪屏页展示的时间为 2000ms - diffTime.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以我们就可以动态的设置应用闪屏的显示时间，尽量让每一部手机展示的时间一致，这样就不会让手机配置较低的用户感觉漫长难熬的闪屏页时间（例如初始化了2000ms，又要展示2000ms的闪屏页时间.），优化用户体验。</p>
+</li>
+<li><p>以动态的设置应用闪屏的显示时间，尽量让每一部手机展示的时间一致，这样就不会让手机配置较低的用户感觉漫长难熬的闪屏页时间（例如初始化了2000ms，又要展示2000ms的闪屏页时间.），优化用户体验。</p>
+</li>
+<li></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/android/" rel="tag"># android</a>
+              <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/31/android自定义View/" rel="prev" title="android自定义View">
+      <i class="fa fa-chevron-left"></i> android自定义View
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/31/adb-shell/" rel="next" title="adb shell">
+      adb shell <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App优化"><span class="nav-number">1.</span> <span class="nav-text">App优化</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jiarh</p>
+  <div class="site-description" itemprop="description">coding change the world .</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiarh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

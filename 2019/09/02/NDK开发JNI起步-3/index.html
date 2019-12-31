@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://jrhlive.com').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="采用Android studio进行开发 首先要集成NDK开发环境 参见 “NDK Android studio 环境集成”  按照如下流程操作，新建一个工程项目：  as-&amp;gt;File-&amp;gt;new Project-&amp;gt;Phone and Tablet-&amp;gt;Native C++ &amp;gt; next &amp;gt; C++ support &amp;gt; finish">
+<meta name="keywords" content="Android,NDK,JNI,Jni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NDK开发JNI起步[3]">
+<meta property="og:url" content="http://jrhlive.com/2019/09/02/NDK开发JNI起步-3/index.html">
+<meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
+<meta property="og:description" content="采用Android studio进行开发 首先要集成NDK开发环境 参见 “NDK Android studio 环境集成”  按照如下流程操作，新建一个工程项目：  as-&amp;gt;File-&amp;gt;new Project-&amp;gt;Phone and Tablet-&amp;gt;Native C++ &amp;gt; next &amp;gt; C++ support &amp;gt; finish">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-31T02:30:53.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NDK开发JNI起步[3]">
+<meta name="twitter:description" content="采用Android studio进行开发 首先要集成NDK开发环境 参见 “NDK Android studio 环境集成”  按照如下流程操作，新建一个工程项目：  as-&amp;gt;File-&amp;gt;new Project-&amp;gt;Phone and Tablet-&amp;gt;Native C++ &amp;gt; next &amp;gt; C++ support &amp;gt; finish">
+
+<link rel="canonical" href="http://jrhlive.com/2019/09/02/NDK开发JNI起步-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>NDK开发JNI起步[3] | STAY HUNGRY. STAY FOOLISH.</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">STAY HUNGRY. STAY FOOLISH.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hi,sweet.A new day.</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/09/02/NDK开发JNI起步-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="jiarh">
+      <meta itemprop="description" content="coding change the world .">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NDK开发JNI起步[3]
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-09-02 19:41:32" itemprop="dateCreated datePublished" datetime="2019-09-02T19:41:32+08:00">2019-09-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-31 10:30:53" itemprop="dateModified" datetime="2019-12-31T10:30:53+08:00">2019-12-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NDK/" itemprop="url" rel="index">
+                    <span itemprop="name">NDK</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JNI/" itemprop="url" rel="index">
+                    <span itemprop="name">JNI</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="采用Android-studio进行开发"><a href="#采用Android-studio进行开发" class="headerlink" title="采用Android studio进行开发"></a>采用Android studio进行开发</h3><ol>
+<li><p>首先要集成NDK开发环境 参见 <a href="https://developer.android.google.cn/ndk/guides?hl=zh_cn" target="_blank" rel="noopener">“NDK Android studio 环境集成”</a></p>
+</li>
+<li><p>按照如下流程操作，新建一个工程项目：</p>
+<blockquote>
+<p>as-&gt;File-&gt;new Project-&gt;Phone and Tablet-&gt;Native C++ &gt; next &gt; C++ support &gt; finish</p>
+</blockquote>
+<a id="more"></a>
+
+</li>
+</ol>
+<h3 id="JNI数据类型"><a href="#JNI数据类型" class="headerlink" title="JNI数据类型"></a>JNI数据类型</h3><blockquote>
+<p>JNIEXPORT 和 JNICALL，定义在<code>jni_md.h</code>头文件中。</p>
+<p>JNIEXPORT：</p>
+<p>​    在 Windows 中,定义为<code>__declspec(dllexport)</code>。因为Windows编译 dll 动态库规定，如果动态库中的函数要被外部调用，需要在函数声明中添加此标识，表示将该函数导出在外部可以调用。</p>
+<p>​    在 Linux/Unix/Mac os/Android 这种 Like Unix系统中，定义为<code>__attribute__ ((visibility (&quot;default&quot;)))</code></p>
+<p>​    GCC 有个visibility属性, 该属性是说, 启用这个属性:</p>
+<ol>
+<li>当-fvisibility=hidden时</li>
+</ol>
+<p>动态库中的函数默认是被隐藏的即 hidden. 除非显示声明为<code>__attribute__((visibility(&quot;default&quot;)))</code>.</p>
+<ol start="2">
+<li><p>当-fvisibility=default时</p>
+<p>动态库中的函数默认是可见的.除非显示声明为<code>__attribute__((visibility(&quot;hidden&quot;)))</code>.</p>
+</li>
+</ol>
+<p>JNICALL:</p>
+<p>​    在类Unix中无定义，在Windows中定义为：<code>_stdcall</code> ，一种函数调用约定</p>
+<p>类Unix系统中这两个宏可以省略不加。    </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Java类型</th>
+<th>本地类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td>jboolean</td>
+<td>C/C++8位整型</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>jbyte</td>
+<td>C/C++带符号的8位整型</td>
+</tr>
+<tr>
+<td>char</td>
+<td>jchar</td>
+<td>C/C++无符号的16位整型</td>
+</tr>
+<tr>
+<td>short</td>
+<td>jshort</td>
+<td>C/C++带符号的16位整型</td>
+</tr>
+<tr>
+<td>int</td>
+<td>jint</td>
+<td>C/C++带符号的32位整型</td>
+</tr>
+<tr>
+<td>long</td>
+<td>jlong</td>
+<td>C/C++带符号的64位整型</td>
+</tr>
+<tr>
+<td>float</td>
+<td>jfloat</td>
+<td>C/C++32位浮点型</td>
+</tr>
+<tr>
+<td>double</td>
+<td>jdouble</td>
+<td>C/C++64位浮点型</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>jobject</td>
+<td>任何Java对象，或者没有对应java类型的对象</td>
+</tr>
+<tr>
+<td>Class</td>
+<td>jclass</td>
+<td>Class对象</td>
+</tr>
+<tr>
+<td>String</td>
+<td>jstring</td>
+<td>字符串对象</td>
+</tr>
+<tr>
+<td>Object[]</td>
+<td>jobjectArray</td>
+<td>任何对象的数组</td>
+</tr>
+<tr>
+<td>boolean[]</td>
+<td>jbooleanArray</td>
+<td>布尔型数组</td>
+</tr>
+<tr>
+<td>byte[]</td>
+<td>jbyteArray</td>
+<td>比特型数组</td>
+</tr>
+<tr>
+<td>char[]</td>
+<td>jcharArray</td>
+<td>字符型数组</td>
+</tr>
+<tr>
+<td>short[]</td>
+<td>jshortArray</td>
+<td>短整型数组</td>
+</tr>
+<tr>
+<td>int[]</td>
+<td>jintArray</td>
+<td>整型数组</td>
+</tr>
+<tr>
+<td>long[]</td>
+<td>jlongArray</td>
+<td>长整型数组</td>
+</tr>
+<tr>
+<td>float[]</td>
+<td>jfloatArray</td>
+<td>浮点型数组</td>
+</tr>
+<tr>
+<td>double[]</td>
+<td>jdoubleArray</td>
+<td>双浮点型数组</td>
+</tr>
+</tbody></table>
+<h3 id="基本数据类型的签名"><a href="#基本数据类型的签名" class="headerlink" title="基本数据类型的签名"></a>基本数据类型的签名</h3><blockquote>
+<p>基本数据类型的签名采用一系列大写字母来表示, 如下表所示:</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Java类型</th>
+<th>签名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>boolean</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>short</td>
+<td>S</td>
+</tr>
+<tr>
+<td>float</td>
+<td>F</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>B</td>
+</tr>
+<tr>
+<td>int</td>
+<td>I</td>
+</tr>
+<tr>
+<td>double</td>
+<td>D</td>
+</tr>
+<tr>
+<td>char</td>
+<td>C</td>
+</tr>
+<tr>
+<td>long</td>
+<td>J</td>
+</tr>
+<tr>
+<td>void</td>
+<td>V</td>
+</tr>
+<tr>
+<td>引用类型</td>
+<td>L + 全限定名 + ;</td>
+</tr>
+<tr>
+<td>数组</td>
+<td>[+类型签名</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>可以使用javap来获取反射方法时的签名</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>cd 进入 class所在的目录 执行： javap -s 全限定名,查看输出的 descriptor</span><br><span class="line">D:\Lance\ndk\lsn7_jni\JniTest\app\build\intermediates\classes\debug&gt;javap -s com.dongnao.jnitest.Helper</span><br><span class="line">Compiled from "Helper.java"</span><br><span class="line">public class com.dongnao.jnitest.Helper &#123;</span><br><span class="line">  public com.dongnao.jnitest.Helper();</span><br><span class="line">    descriptor: ()V</span><br><span class="line"></span><br><span class="line">  public void instanceMethod(java.lang.String, int, boolean);</span><br><span class="line">    descriptor: (Ljava/lang/String;IZ)V</span><br><span class="line"></span><br><span class="line">  public static void staticMethod(java.lang.String, int, boolean);</span><br><span class="line">    descriptor: (Ljava/lang/String;IZ)V</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="在java中创建native-方法"><a href="#在java中创建native-方法" class="headerlink" title="在java中创建native 方法"></a>在java中创建native 方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">stringFromJNI</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">showTag</span><span class="params">(<span class="keyword">int</span> num,String msg)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">testArray</span><span class="params">(<span class="keyword">int</span>[] nums,String[] strs)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">testStudent</span><span class="params">(Student student)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="加载-C-库"><a href="#加载-C-库" class="headerlink" title="加载 C++ 库"></a>加载 C++ 库</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    System.loadLibrary(<span class="string">"native-lib"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cmake.text</p>
+<figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">add_library( # Sets the name of the library.</span><br><span class="line">        native-lib</span><br><span class="line">        # Sets the library as a shared library.</span><br><span class="line">        SHARED</span><br><span class="line">        # Provides a relative path to your source file(s).</span><br><span class="line">        native-lib.cpp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="activity中调用native方法"><a href="#activity中调用native方法" class="headerlink" title="activity中调用native方法"></a>activity中调用native方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">       setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Example of a call to a native method</span></span><br><span class="line">       TextView tv = findViewById(R.id.sample_text);</span><br><span class="line">       tv.setText(stringFromJNI());</span><br><span class="line">       showTag(<span class="number">100</span>,<span class="string">"showTag"</span>);</span><br><span class="line">       nums = <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line">       strs = <span class="keyword">new</span> String[]&#123;<span class="string">"aa"</span>,<span class="string">"bb"</span>,<span class="string">"cc"</span>,<span class="string">"dd"</span>,<span class="string">"ee"</span>&#125;;</span><br><span class="line">       testArray(nums,strs);</span><br><span class="line"></span><br><span class="line">       Student student = <span class="keyword">new</span> Student(<span class="string">"jiarh"</span>,<span class="number">20</span>);</span><br><span class="line">       testStudent(student);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>native-lib.cpp</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jni.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;android/log.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LOG(...) __android_log_print(ANDROID_LOG_ERROR,<span class="meta-string">"JNI"</span>,__VA_ARGS__);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> JNIEXPORT jstring JNICALL</span><br><span class="line">Java_jrhlive_com_ndkapplication_MainActivity_stringFromJNI(</span><br><span class="line">        JNIEnv *env,</span><br><span class="line">        jobject <span class="comment">/* this */</span>) &#123;</span><br><span class="line">    <span class="built_in">string</span> hello = <span class="string">"Hello from C++"</span>;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(hello.c_str());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取 int  string 传参的值</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL</span><br><span class="line">Java_jrhlive_com_ndkapplication_MainActivity_showTag(JNIEnv *env, jobject instance, jint num,</span><br><span class="line">                                                     jstring msg_) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *msg = env-&gt;GetStringUTFChars(msg_, <span class="number">0</span>);</span><br><span class="line">    LOG(<span class="string">"获取java传入的参数：num = %d"</span>, num);</span><br><span class="line">    LOG(<span class="string">"获取java传入的参数：msg = %s"</span>, msg);</span><br><span class="line">    env-&gt;ReleaseStringUTFChars(msg_, msg);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 获取java传入的参数：num = 100</span></span><br><span class="line"><span class="comment">// 获取java传入的参数：msg = showTag</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取传入的数组 int[] array[]</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL</span><br><span class="line">Java_jrhlive_com_ndkapplication_MainActivity_testArray(JNIEnv *env, jobject instance,</span><br><span class="line">                                                       jintArray nums_, jobjectArray strs) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取传入的 nums数组的地址</span></span><br><span class="line">    jint *nums = env-&gt;GetIntArrayElements(nums_, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取数组的长度</span></span><br><span class="line">    jint nums_len = env-&gt;GetArrayLength(nums_);</span><br><span class="line">    LOG(<span class="string">"获取java传入的nums长度 %d"</span>, nums_len);   <span class="comment">//获取java传入的nums长度 5</span></span><br><span class="line">    <span class="comment">//遍历数组的值</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums_len; i++) &#123;</span><br><span class="line">        LOG(<span class="string">"nums 的第%d个元素是%d"</span>, i, *(nums + i));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//nums 的第0个元素是1</span></span><br><span class="line"><span class="comment">//nums 的第1个元素是2</span></span><br><span class="line"><span class="comment">//nums 的第2个元素是3</span></span><br><span class="line"><span class="comment">//nums 的第3个元素是4</span></span><br><span class="line"><span class="comment">//nums 的第4个元素是5</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">//释放内存</span></span><br><span class="line">    env-&gt;ReleaseIntArrayElements(nums_, nums, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取字符串数组的长度</span></span><br><span class="line">    jint str_len = env-&gt;GetArrayLength(strs);</span><br><span class="line">    LOG(<span class="string">"获取java传入的strs长度 %d"</span>, str_len); <span class="comment">// 获取java传入的strs长度 5</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; str_len; ++i) &#123;</span><br><span class="line">        jstring str = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;GetObjectArrayElement(strs, i));</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *c_str = env-&gt;GetStringUTFChars(str, <span class="number">0</span>);</span><br><span class="line">        LOG(<span class="string">"字符串有:%s"</span>, c_str);</span><br><span class="line">        <span class="comment">//释放内存</span></span><br><span class="line">        env-&gt;ReleaseStringUTFChars(str, c_str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//字符串有:aa</span></span><br><span class="line"><span class="comment">//字符串有:bb</span></span><br><span class="line"><span class="comment">//字符串有:cc</span></span><br><span class="line"><span class="comment">//字符串有:dd</span></span><br><span class="line"><span class="comment">//字符串有:ee</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 传递引用类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL</span><br><span class="line">Java_jrhlive_com_ndkapplication_MainActivity_testStudent(JNIEnv *env, jobject instance,</span><br><span class="line">                                                         jobject student) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//1:反射获取 Java 对应的class对象。</span></span><br><span class="line">    jclass stu_class = env-&gt;GetObjectClass(student);</span><br><span class="line">    <span class="comment">//2:找到要调用的方法</span></span><br><span class="line">    <span class="comment">// 第三个参数 方法签名</span></span><br><span class="line">    jmethodID get_name = env-&gt;GetMethodID(stu_class,<span class="string">"getName"</span>, <span class="string">"()Ljava/lang/String;"</span>);</span><br><span class="line">    <span class="comment">//调用方法</span></span><br><span class="line">    jstring  strName = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;CallObjectMethod(student, get_name));</span><br><span class="line">    <span class="keyword">const</span>  <span class="keyword">char</span> * str_n = env-&gt;GetStringUTFChars(strName,<span class="number">0</span>);</span><br><span class="line">    LOG(<span class="string">"student的name:%s"</span>, str_n); <span class="comment">//student的name:jiarh</span></span><br><span class="line">    env-&gt;ReleaseStringUTFChars(strName,str_n);</span><br><span class="line"></span><br><span class="line">    jmethodID  get_age = env-&gt;GetMethodID(stu_class,<span class="string">"getAge"</span>, <span class="string">"()I"</span>);</span><br><span class="line">    jint stuAge = env-&gt;CallIntMethod(student,get_age);</span><br><span class="line">    LOG(<span class="string">"student的age:%d"</span>, stuAge); <span class="comment">// student的age:20</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//调用设置属性</span></span><br><span class="line"></span><br><span class="line">    jmethodID  setName = env-&gt;GetMethodID(stu_class,<span class="string">"setName"</span>, <span class="string">"(Ljava/lang/String;)V"</span>);</span><br><span class="line">    jstring  newName = env-&gt;NewStringUTF(<span class="string">"jrhLiveLife"</span>);</span><br><span class="line">    env-&gt;CallVoidMethod(student,setName,newName);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调用 staticMethod</span></span><br><span class="line">    jmethodID show = env-&gt;GetStaticMethodID(stu_class,<span class="string">"show"</span>,<span class="string">"()V"</span>);</span><br><span class="line">    env-&gt;CallStaticVoidMethod(stu_class,show);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//在jni创建java对象</span></span><br><span class="line"></span><br><span class="line">    jclass person_class = env-&gt;FindClass(<span class="string">"jrhlive/com/ndkapplication/Person"</span>);</span><br><span class="line">    <span class="comment">//获得类的构造方法</span></span><br><span class="line">    jmethodID perConstuct = env-&gt;GetMethodID(person_class,<span class="string">"&lt;init&gt;"</span>,<span class="string">"(Ljava/lang/String;)V"</span>);</span><br><span class="line"></span><br><span class="line">    jstring  pName = env-&gt;NewStringUTF(<span class="string">"Person_Live"</span>);</span><br><span class="line">    jobject per = env-&gt;NewObject(person_class,perConstuct,pName);</span><br><span class="line"></span><br><span class="line">    jmethodID getPName = env-&gt;GetMethodID(person_class,<span class="string">"getName"</span>, <span class="string">"()Ljava/lang/String;"</span>);</span><br><span class="line">    env-&gt;CallObjectMethod(per,getPName);<span class="comment">//Person: getName: Person</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//打印name的值</span></span><br><span class="line">    jfieldID  pn = env-&gt;GetFieldID(person_class,<span class="string">"name"</span>,<span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">    jstring  pnStr = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;GetObjectField(per, pn));</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* pn_str = env-&gt;GetStringUTFChars(pnStr,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    LOG(<span class="string">"Person的name:%s"</span>, pn_str);<span class="comment">//Person的name:Person_Live</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取static Filed</span></span><br><span class="line">    jfieldID  p_tag = env-&gt;GetStaticFieldID(person_class,<span class="string">"TAG"</span>,<span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line">    jstring p_tag_str = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;GetStaticObjectField(person_class, p_tag));</span><br><span class="line">    <span class="keyword">const</span>  <span class="keyword">char</span> * pTag = env-&gt;GetStringUTFChars(p_tag_str,<span class="number">0</span>);</span><br><span class="line">    LOG(<span class="string">"Person的TAG=:%s"</span>, pTag); <span class="comment">//Person的TAG=:Person</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    env-&gt;DeleteLocalRef(p_tag_str);</span><br><span class="line">    env-&gt;DeleteLocalRef(per);</span><br><span class="line">    env-&gt;DeleteLocalRef(pName);</span><br><span class="line">    env-&gt;DeleteLocalRef(pnStr);</span><br><span class="line">    env-&gt;DeleteLocalRef(stu_class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>person.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jrhlive.com.ndkapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * desc:</span></span><br><span class="line"><span class="comment"> * Created by jiarh on 2019-09-02 18:00.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"Person"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"getName: Person"</span> );</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Student.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jrhlive.com.ndkapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * desc:</span></span><br><span class="line"><span class="comment"> * Created by jiarh on 2019-09-02 17:06.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"Student"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        Log.e(TAG, <span class="string">"student setName: "</span> + name);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"student show: student"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JNI引用"><a href="#JNI引用" class="headerlink" title="JNI引用"></a>JNI引用</h3><blockquote>
+<p>在 JNI 规范中定义了三种引用：局部引用（Local Reference）、全局引用（Global Reference）、弱全局引用（Weak Global Reference）。</p>
+</blockquote>
+<h4 id="局部引用"><a href="#局部引用" class="headerlink" title="局部引用"></a>局部引用</h4><blockquote>
+<p>大多数JNI函数会创建局部引用。NewObject/FindClass/NewStringUTF 等等都是局部引用。</p>
+<p>局部引用只有在创建它的本地方法返回前有效,本地方法返回后，局部引用会被自动释放。</p>
+<p>因此无法跨线程、跨方法使用。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT jstring JNICALL</span><br><span class="line">xxx(JNIEnv *env, jobject instance) &#123;</span><br><span class="line">	<span class="comment">//错误</span></span><br><span class="line">	<span class="comment">//不能在本地方法中把局部引用存储在静态变量中缓存起来供下一次调用时使用。</span></span><br><span class="line">	<span class="comment">// 第二次执行 str依然有值，但是其引用的 “C++字符串” 已经被释放</span></span><br><span class="line">    <span class="keyword">static</span> jstring str;</span><br><span class="line">    <span class="keyword">if</span>(str == <span class="literal">NULL</span>)&#123;</span><br><span class="line">    	 str = env-&gt;NewStringUTF(<span class="string">"C++字符串"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>释放一个局部引用有两种方式:</strong></p>
+<p><strong>1、本地方法执行完毕后VM自动释放；</strong></p>
+<p><strong>2、通过DeleteLocalRef手动释放；</strong></p>
+<p>VM会自动释放局部引用，为什么还需要手动释放呢？</p>
+<p>因为局部引用会阻止它所引用的对象被GC回收。 </p>
+</blockquote>
+<h4 id="全局引用"><a href="#全局引用" class="headerlink" title="全局引用"></a>全局引用</h4><blockquote>
+<p>全局引用可以跨方法、跨线程使用，直到它被手动释放才会失效 。</p>
+<p>由 NewGlobalRef  函数创建</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT jstring JNICALL</span><br><span class="line">Java_com_dongnao_jnitest_MainActivity_test1(JNIEnv *env, jobject instance) &#123;</span><br><span class="line">	<span class="comment">//正确</span></span><br><span class="line">    <span class="keyword">static</span> jstring globalStr;</span><br><span class="line">    <span class="keyword">if</span>(globalStr == <span class="literal">NULL</span>)&#123;</span><br><span class="line">        jstring str = env-&gt;NewStringUTF(<span class="string">"C++字符串"</span>);</span><br><span class="line">        <span class="comment">//删除全局引用调用  DeleteGlobalRef</span></span><br><span class="line">        globalStr = <span class="keyword">static_cast</span>&lt;jstring&gt;(env-&gt;NewGlobalRef(str));</span><br><span class="line">        <span class="comment">//可以释放，因为有了一个全局引用使用str，局部str也不会使用了</span></span><br><span class="line">        env-&gt;DeleteLocalRef(str);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> globalStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h4><blockquote>
+<p>与全局引用类似，弱引用可以跨方法、线程使用。与全局引用不同的是，弱引用不会阻止GC回收它所指向的VM内部的对象 。</p>
+<p>在对Class进行弱引用是非常合适（FindClass），因为Class一般直到程序进程结束才会卸载。</p>
+<p>在使用弱引用时，必须先检查缓存过的弱引用是指向活动的对象，还是指向一个已经被GC的对象</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT jclass JNICALL</span><br><span class="line">Java_com_dongnao_jnitest_MainActivity_test1(JNIEnv *env, jobject instance) &#123;</span><br><span class="line">    <span class="keyword">static</span> jclass globalClazz = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//对于弱引用 如果引用的对象被回收返回 true，否则为false</span></span><br><span class="line">    <span class="comment">//对于局部和全局引用则判断是否引用java的null对象</span></span><br><span class="line">    jboolean isEqual = env-&gt;IsSameObject(globalClazz, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (globalClazz == <span class="literal">NULL</span> || isEqual) &#123;</span><br><span class="line">        jclass clazz = env-&gt;GetObjectClass(instance);</span><br><span class="line">        <span class="comment">//删除使用 DeleteWeakGlobalRef</span></span><br><span class="line">        globalClazz = <span class="keyword">static_cast</span>&lt;jclass&gt;(env-&gt;NewWeakGlobalRef(clazz));</span><br><span class="line">        env-&gt;DeleteLocalRef(clazz);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> globalClazz;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JNI-OnLoad"><a href="#JNI-OnLoad" class="headerlink" title="JNI_OnLoad"></a>JNI_OnLoad</h3><blockquote>
+<p>调用System.loadLibrary()函数时， 内部就会去查找so中的 JNI_OnLoad 函数，如果存在此函数则调用。</p>
+<p>JNI_OnLoad会：</p>
+<p>告诉 VM 此 native 组件使用的 JNI 版本。</p>
+<p>​    对应了Java版本，android中只支持JNI_VERSION_1_2 、JNI_VERSION_1_4、JNI_VERSION_1_6 </p>
+<p>​    在JDK1.8有 JNI_VERSION_1_8。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span>&#123;</span><br><span class="line">    <span class="comment">// 2、4、6都可以</span></span><br><span class="line">    <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Java：</span></span><br><span class="line"><span class="function">native <span class="keyword">void</span> <span class="title">dynamicNative</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function">native String <span class="title">dynamicNative</span><span class="params">(<span class="keyword">int</span> i)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//C++：</span></span><br><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">dynamicNative1</span><span class="params">(JNIEnv *env, jobject jobj)</span></span>&#123;</span><br><span class="line">    LOGE(<span class="string">"dynamicNative1 动态注册"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">jstring  <span class="title">dynamicNative2</span><span class="params">(JNIEnv *env, jobject jobj,jint i)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(<span class="string">"我是动态注册的dynamicNative2方法"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//需要动态注册的方法数组</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> JNINativeMethod mMethods[] = &#123;</span><br><span class="line">        &#123;<span class="string">"dynamicNative"</span>,<span class="string">"()V"</span>, (<span class="keyword">void</span> *)dynamicNative1&#125;,</span><br><span class="line">        &#123;<span class="string">"dynamicNative"</span>, <span class="string">"(I)Ljava/lang/String;"</span>, (jstring *)dynamicNative2&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//需要动态注册native方法的类名</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span>* mClassName = <span class="string">"com/dongnao/jnitest/MainActivity"</span>;</span><br><span class="line"><span class="function">jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span>&#123;</span><br><span class="line">    JNIEnv* env = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//获得 JniEnv</span></span><br><span class="line">    <span class="keyword">int</span> r = vm-&gt;GetEnv((<span class="keyword">void</span>**) &amp;env, JNI_VERSION_1_4);</span><br><span class="line">    <span class="keyword">if</span>( r != JNI_OK)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    jclass mainActivityCls = env-&gt;FindClass( mClassName);</span><br><span class="line">    <span class="comment">// 注册 如果小于0则注册失败</span></span><br><span class="line">    r = env-&gt;RegisterNatives(mainActivityCls,mMethods,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">if</span>(r  != JNI_OK )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="native线程调用Java"><a href="#native线程调用Java" class="headerlink" title="native线程调用Java"></a>native线程调用Java</h3><blockquote>
+<p>native调用java需要使用JNIEnv这个结构体，而JNIEnv是由Jvm传入与线程相关的变量。</p>
+<p>但是可以通过JavaVM的AttachCurrentThread方法来获取到当前线程中的JNIEnv指针。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">JavaVM* _vm = <span class="number">0</span>;</span><br><span class="line">jobject  _instance = <span class="number">0</span>;</span><br><span class="line"><span class="function">jint <span class="title">JNI_OnLoad</span><span class="params">(JavaVM* vm, <span class="keyword">void</span>* reserved)</span></span>&#123;</span><br><span class="line">    _vm = vm;</span><br><span class="line">    <span class="keyword">return</span> JNI_VERSION_1_4;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">task</span><span class="params">(<span class="keyword">void</span> *args)</span></span>&#123;</span><br><span class="line">    JNIEnv *env;</span><br><span class="line">    <span class="comment">//将本地当前线程附加到jvm，并获得jnienv</span></span><br><span class="line">    <span class="comment">//成功则返回0</span></span><br><span class="line">    _vm-&gt;AttachCurrentThread(&amp;env,<span class="number">0</span>);</span><br><span class="line">    </span><br><span class="line">    jclass clazz = env-&gt;GetObjectClass(_instance);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得具体的静态方法 参数3：方法签名</span></span><br><span class="line">    <span class="comment">//如果不会填 可以使用javap</span></span><br><span class="line">    jmethodID staticMethod = env-&gt;GetStaticMethodID(clazz,<span class="string">"staticMethod"</span>,<span class="string">"(Ljava/lang/String;IZ)V"</span>);</span><br><span class="line">    <span class="comment">//调用静态方法</span></span><br><span class="line">    jstring staticStr= env-&gt;NewStringUTF(<span class="string">"C++调用静态方法"</span>);</span><br><span class="line">    env-&gt;CallStaticVoidMethod(clazz,staticMethod,staticStr,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//获得构造方法</span></span><br><span class="line">    jmethodID constructMethod = env-&gt;GetMethodID(clazz,<span class="string">"&lt;init&gt;"</span>,<span class="string">"()V"</span>);</span><br><span class="line">    <span class="comment">//创建对象</span></span><br><span class="line">    jobject  helper = env-&gt;NewObject(clazz,constructMethod);</span><br><span class="line">    jmethodID instanceMethod = env-&gt;GetMethodID(clazz,<span class="string">"instanceMethod"</span>,<span class="string">"(Ljava/lang/String;IZ)V"</span>);</span><br><span class="line">    jstring instanceStr= env-&gt;NewStringUTF(<span class="string">"C++调用实例方法"</span>);</span><br><span class="line">    env-&gt;CallVoidMethod(helper,instanceMethod,instanceStr,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//释放</span></span><br><span class="line">    env-&gt;DeleteLocalRef(clazz);</span><br><span class="line">    env-&gt;DeleteLocalRef(staticStr);</span><br><span class="line">    env-&gt;DeleteLocalRef(instanceStr);</span><br><span class="line">    env-&gt;DeleteLocalRef(helper);</span><br><span class="line">    <span class="comment">//分离</span></span><br><span class="line">    _vm-&gt;DetachCurrentThread();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Helper 类方法</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span></span><br><span class="line">JNIEXPORT <span class="keyword">void</span> JNICALL</span><br><span class="line">Java_com_dongnao_jnitest_Helper_nativeThread(JNIEnv *env, jobject instance) &#123;</span><br><span class="line">    <span class="keyword">pthread_t</span>  pid;</span><br><span class="line">    <span class="comment">//这里注意释放</span></span><br><span class="line">    _instance = env-&gt;NewGlobalRef(instance);</span><br><span class="line">   pthread_create(&amp;pid,<span class="number">0</span>,task,<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/NDK/" rel="tag"># NDK</a>
+              <a href="/tags/JNI/" rel="tag"># JNI</a>
+              <a href="/tags/Jni/" rel="tag"># Jni</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/30/Andorid优秀博客推荐/" rel="prev" title="Andorid优秀博客推荐">
+      <i class="fa fa-chevron-left"></i> Andorid优秀博客推荐
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/09/05/NDK开发编译知识点汇集-4/" rel="next" title="NDK开发编译知识点汇集[4]">
+      NDK开发编译知识点汇集[4] <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#采用Android-studio进行开发"><span class="nav-number">1.</span> <span class="nav-text">采用Android studio进行开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI数据类型"><span class="nav-number">2.</span> <span class="nav-text">JNI数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型的签名"><span class="nav-number">3.</span> <span class="nav-text">基本数据类型的签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在java中创建native-方法"><span class="nav-number">4.</span> <span class="nav-text">在java中创建native 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载-C-库"><span class="nav-number">5.</span> <span class="nav-text">加载 C++ 库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#activity中调用native方法"><span class="nav-number">6.</span> <span class="nav-text">activity中调用native方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI引用"><span class="nav-number">7.</span> <span class="nav-text">JNI引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#局部引用"><span class="nav-number">7.1.</span> <span class="nav-text">局部引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全局引用"><span class="nav-number">7.2.</span> <span class="nav-text">全局引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#弱引用"><span class="nav-number">7.3.</span> <span class="nav-text">弱引用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNI-OnLoad"><span class="nav-number">8.</span> <span class="nav-text">JNI_OnLoad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#native线程调用Java"><span class="nav-number">9.</span> <span class="nav-text">native线程调用Java</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">jiarh</p>
+  <div class="site-description" itemprop="description">coding change the world .</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jiarh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
