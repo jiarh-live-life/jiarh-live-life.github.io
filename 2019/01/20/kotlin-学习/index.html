@@ -1,30 +1,34 @@
 <!DOCTYPE html>
+
+
+
+
+
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://jrhlive.com').hostname,
     root: '/',
-    scheme: 'Muse',
-    version: '7.6.0',
+    scheme: 'Mist',
+    version: '7.3.0',
     exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
@@ -32,7 +36,6 @@
     mediumzoom: false,
     lazyload: false,
     pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -42,7 +45,12 @@
     },
     localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
   };
 </script>
 
@@ -58,8 +66,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kotlin 学习">
 <meta name="twitter:description" content="Kotlin kotlin的变量没有默认值,需要手动初始化，否则报错  kotlin 空安全  Lateinit var view:View 延迟初始化 kotlin变量默认非空 可以添加 ？设置为可空   var name:String?=null kotlin 线程安全  name?.length   类型推断">
-
-<link rel="canonical" href="http://jrhlive.com/2019/01/20/kotlin-学习/">
+  <link rel="canonical" href="http://jrhlive.com/2019/01/20/kotlin-学习/">
 
 
 <script id="page-configurations">
@@ -67,12 +74,17 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
   <title>kotlin 学习 | STAY HUNGRY. STAY FOOLISH.</title>
+  <meta name="generator" content="Hexo 3.9.0">
   
+
+
 
 
 
@@ -91,6 +103,7 @@
   .use-motion .post-body,
   .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -104,11 +117,11 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
   <div class="container use-motion">
     <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
 
@@ -120,14 +133,15 @@
       </a>
     </div>
         <p class="site-subtitle">Hi,sweet.A new day.</p>
+      
   </div>
 
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
@@ -135,17 +149,53 @@
 <nav class="site-nav">
   
   <ul id="menu" class="menu">
+      
+      
+      
+        
         <li class="menu-item menu-item-home">
+      
+    
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
   </ul>
+
+    
 
 </nav>
 </div>
@@ -158,33 +208,33 @@
   </div>
 
 
-    <main class="main">
+    <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
-
-          <div class="content">
+          <div id="content" class="content">
             
 
-  <div class="posts-expand">
-      
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/01/20/kotlin-学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="jiarh">
       <meta itemprop="description" content="coding change the world .">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          kotlin 学习
+        <h1 class="post-title" itemprop="name headline">kotlin 学习
+
+          
         </h1>
 
         <div class="post-meta">
@@ -194,8 +244,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
+              
+                
+              
+
               <time title="创建时间：2019-01-20 22:11:37" itemprop="dateCreated datePublished" datetime="2019-01-20T22:11:37+08:00">2019-01-20</time>
             </span>
+          
+            
+
+            
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
@@ -203,17 +261,21 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-12-31 14:31:52" itemprop="dateModified" datetime="2019-12-31T14:31:52+08:00">2019-12-31</time>
               </span>
+            
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">kotlin</span>
-                  </a>
-                </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/kotlin/" itemprop="url" rel="index"><span itemprop="name">kotlin</span></a></span>
+
+                
+                
+              
             </span>
+          
 
           
 
@@ -1533,78 +1595,103 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
     
     
     
+        
+      
+        <div id="reward-container">
+  <div>觉得文章对您有帮助请我喝杯咖啡吧^_^</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_wx.png" alt="jiarh 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_zfb.png" alt="jiarh 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
 
       <footer class="post-footer">
+          
+            
+          
           <div class="post-tags">
+            
               <a href="/tags/kotlin/" rel="tag"># kotlin</a>
+            
           </div>
+        
 
         
 
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2018/12/31/android自定义View/" rel="next" title="android自定义View">
+                  <i class="fa fa-chevron-left"></i> android自定义View
+                </a>
+              
+            </div>
 
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/01/29/性能优化/" rel="prev" title="性能优化">
+                  性能优化 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2018/12/31/android自定义View/" rel="prev" title="android自定义View">
-      <i class="fa fa-chevron-left"></i> android自定义View
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/01/29/性能优化/" rel="next" title="性能优化">
-      性能优化 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
+  </div>
+  
+  
+  
   </article>
-  
-  
-  
 
   </div>
 
 
           </div>
           
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 
         </div>
           
   
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
           文章目录
         </li>
-        <li class="sidebar-nav-overview">
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
           站点概览
         </li>
       </ul>
@@ -1612,6 +1699,7 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kotlin"><span class="nav-number">1.</span> <span class="nav-text">Kotlin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#init"><span class="nav-number">1.0.1.</span> <span class="nav-text">init</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final"><span class="nav-number">1.1.</span> <span class="nav-text">final</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#static"><span class="nav-number">1.2.</span> <span class="nav-text">static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#object"><span class="nav-number">1.3.</span> <span class="nav-text">object</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#companion-object"><span class="nav-number">1.3.1.</span> <span class="nav-text">companion object</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常量"><span class="nav-number">1.3.2.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组和集合"><span class="nav-number">1.3.3.</span> <span class="nav-text">数组和集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集合"><span class="nav-number">1.3.4.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sequence"><span class="nav-number">1.3.5.</span> <span class="nav-text">Sequence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可见性修饰符"><span class="nav-number">1.3.6.</span> <span class="nav-text">可见性修饰符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#public"><span class="nav-number">1.3.7.</span> <span class="nav-text">public</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hide"><span class="nav-number">1.3.8.</span> <span class="nav-text">@hide</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#internal"><span class="nav-number">1.3.9.</span> <span class="nav-text">internal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#protected"><span class="nav-number">1.3.10.</span> <span class="nav-text">protected</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#private"><span class="nav-number">1.3.11.</span> <span class="nav-text">private</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器"><span class="nav-number">1.4.</span> <span class="nav-text">构造器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主构造器"><span class="nav-number">1.4.1.</span> <span class="nav-text">主构造器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主构造器里声明属性"><span class="nav-number">1.4.2.</span> <span class="nav-text">主构造器里声明属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数简化"><span class="nav-number">1.5.</span> <span class="nav-text">函数简化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-连接返回值"><span class="nav-number">1.5.1.</span> <span class="nav-text">使用 = 连接返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数默认值"><span class="nav-number">1.5.2.</span> <span class="nav-text">参数默认值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名参数"><span class="nav-number">1.5.3.</span> <span class="nav-text">命名参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地函数（嵌套函数）"><span class="nav-number">1.5.4.</span> <span class="nav-text">本地函数（嵌套函数）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串"><span class="nav-number">1.6.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串模板"><span class="nav-number">1.6.1.</span> <span class="nav-text">字符串模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#raw-string-原生字符串"><span class="nav-number">1.6.2.</span> <span class="nav-text">raw string (原生字符串)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组和集合-1"><span class="nav-number">1.7.</span> <span class="nav-text">数组和集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数组与集合的操作符"><span class="nav-number">1.7.1.</span> <span class="nav-text">数组与集合的操作符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Range"><span class="nav-number">1.7.2.</span> <span class="nav-text">Range</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sequence-1"><span class="nav-number">1.7.3.</span> <span class="nav-text">Sequence</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#条件控制"><span class="nav-number">1.8.</span> <span class="nav-text">条件控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#if-else"><span class="nav-number">1.8.1.</span> <span class="nav-text">if/else</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#when"><span class="nav-number">1.8.2.</span> <span class="nav-text">when</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for"><span class="nav-number">1.8.3.</span> <span class="nav-text">for</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#try-catch"><span class="nav-number">1.8.4.</span> <span class="nav-text">try-catch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#和"><span class="nav-number">1.8.5.</span> <span class="nav-text">?. 和 ?:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#和-1"><span class="nav-number">1.8.6.</span> <span class="nav-text">== 和 ===</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型"><span class="nav-number">1.9.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类型擦除"><span class="nav-number">1.9.1.</span> <span class="nav-text">类型擦除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类型擦除后保留的原始类型"><span class="nav-number">1.9.1.1.</span> <span class="nav-text">类型擦除后保留的原始类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型擦除引起的问题及解决方法"><span class="nav-number">1.9.1.2.</span> <span class="nav-text">类型擦除引起的问题及解决方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#自动类型转换"><span class="nav-number">1.9.1.3.</span> <span class="nav-text">自动类型转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型擦除与多态的冲突和解决方法"><span class="nav-number">1.9.1.4.</span> <span class="nav-text">类型擦除与多态的冲突和解决方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#泛型类型变量不能是基本数据类型"><span class="nav-number">1.9.1.5.</span> <span class="nav-text">泛型类型变量不能是基本数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行时类型查询"><span class="nav-number">1.9.1.6.</span> <span class="nav-text">运行时类型查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#泛型在静态方法和静态类中的问题"><span class="nav-number">1.9.1.7.</span> <span class="nav-text">泛型在静态方法和静态类中的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-中的-extends"><span class="nav-number">1.10.</span> <span class="nav-text">Java 中的 ? extends</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-中的-super"><span class="nav-number">1.11.</span> <span class="nav-text">Java 中的 ? super</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin-中的-out-和-in"><span class="nav-number">1.12.</span> <span class="nav-text">Kotlin 中的 out 和 in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#号"><span class="nav-number">1.13.</span> <span class="nav-text">* 号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#where-关键字"><span class="nav-number">1.14.</span> <span class="nav-text">where 关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reified-关键字"><span class="nav-number">1.15.</span> <span class="nav-text">reified 关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kotlin-的协程"><span class="nav-number">1.16.</span> <span class="nav-text">Kotlin 的协程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程是什么"><span class="nav-number">1.17.</span> <span class="nav-text">协程是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程好在哪"><span class="nav-number">1.18.</span> <span class="nav-text">协程好在哪</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本使用"><span class="nav-number">1.18.1.</span> <span class="nav-text">基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协程的「1-到-0」"><span class="nav-number">1.18.2.</span> <span class="nav-text">协程的「1 到 0」</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#suspend-「挂起」的本质"><span class="nav-number">1.19.</span> <span class="nav-text">suspend 「挂起」的本质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是「非阻塞式挂起」"><span class="nav-number">1.20.</span> <span class="nav-text">什么是「非阻塞式挂起」</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协程与线程"><span class="nav-number">1.21.</span> <span class="nav-text">协程与线程</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -1620,29 +1708,177 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
   <p class="site-author-name" itemprop="name">jiarh</p>
   <div class="site-description" itemprop="description">coding change the world .</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
+  <nav class="site-state motion-element">
       <div class="site-state-item site-state-posts">
+        
           <a href="/archives/">
         
           <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-categories">
+        
+          
             <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">11</span>
-        <span class="site-state-item-name">分类</span></a>
+        <span class="site-state-item-name">分类</span>
+        </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-tags">
+        
+          
             <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">20</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">标签</span>
+        </a>
       </div>
+    
   </nav>
-</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="http://jrhlive.com" title="home &rarr; http://jrhlive.com"><i class="fa fa-fw fa-home"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://jiarh-live-life.github.io/index.html" title="blog &rarr; https://jiarh-live-life.github.io/index.html" rel="noopener" target="_blank"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/haoyubihai" title="GitHub &rarr; https://github.com/haoyubihai" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="/jiarhmail@gmail.com" title="E-Mail &rarr; jiarhmail@gmail.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.android.google.cn/" title="https://developer.android.google.cn/" rel="noopener" target="_blank">Android</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://flutter.dev/" title="https://flutter.dev/" rel="noopener" target="_blank">Flutter</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://kotlin.link/" title="https://kotlin.link/" rel="noopener" target="_blank">Kotlin</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.apple.com/swift/" title="https://developer.apple.com/swift/" rel="noopener" target="_blank">Swift</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://cn.vuejs.org/v2/guide/index.html" title="https://cn.vuejs.org/v2/guide/index.html" rel="noopener" target="_blank">Vue &nbsp;&nbsp;</a>
+        </li>
+      
+    </ul>
+  </div>
 
       </div>
 
@@ -1654,24 +1890,14 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
       </div>
     </main>
 
-    <footer class="footer">
+    <footer id="footer" class="footer">
       <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
-  <span class="with-love">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">jiarh</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
-  </div>
 
         
 
@@ -1682,17 +1908,23 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
 
 
 
+
+
+
+
+        
       </div>
     </footer>
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
 
 
 
@@ -1711,6 +1943,14 @@ Kotlin 还可以创建 Java 中的匿名类，只是写法上有点不同：
 
 
 
+
+
+
+
+
+
+
+  
 
   
 

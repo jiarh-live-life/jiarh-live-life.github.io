@@ -1,26 +1,78 @@
-/* global NexT, CONFIG, Velocity */
+/* global NexT, CONFIG */
 
 window.addEventListener('DOMContentLoaded', () => {
 
+  var sidebarToggleLines = {
+    lines: [],
+    init : function() {
+      this.lines.forEach(line => {
+        line.transform('init');
+      });
+    },
+    arrow: function() {
+      this.lines.forEach(line => {
+        line.transform('arrow');
+      });
+    },
+    close: function() {
+      this.lines.forEach(line => {
+        line.transform('close');
+      });
+    }
+  };
+
+  function SidebarToggleLine(settings) {
+    this.status = Object.assign({
+      init: {
+        width    : '100%',
+        opacity  : 1,
+        transform: 'rotate(0deg)',
+        top      : 0,
+        left     : 0
+      }
+    }, settings.status);
+    this.transform = function(status) {
+      document.querySelector(settings.el).css(this.status[status]);
+    };
+  }
+
   var isRight = CONFIG.sidebar.position === 'right';
+
+  sidebarToggleLines.lines = [new SidebarToggleLine({
+    el    : '.sidebar-toggle-line-first',
+    status: isRight
+      ? {
+        arrow: {width: '50%', transform: 'rotate(-45deg)', top: '2px'},
+        close: {width: '100%', transform: 'rotate(-45deg)', top: '5px'}
+      } : {
+        arrow: {width: '50%', transform: 'rotate(45deg)', top: '2px', left: '50%'},
+        close: {width: '100%', transform: 'rotate(-45deg)', top: '5px', left: '0px'}
+      }
+  }), new SidebarToggleLine({
+    el    : '.sidebar-toggle-line-middle',
+    status: isRight
+      ? {
+        arrow: {width: '90%'},
+        close: {opacity: 0}
+      } : {
+        arrow: {width: '90%', left: '2px'},
+        close: {opacity: 0, left: '0px'}
+      }
+  }), new SidebarToggleLine({
+    el    : '.sidebar-toggle-line-last',
+    status: isRight
+      ? {
+        arrow: {width: '50%', transform: 'rotate(45deg)', top: '-2px'},
+        close: {width: '100%', transform: 'rotate(45deg)', top: '-5px'}
+      } : {
+        arrow: {width: '50%', transform: 'rotate(-45deg)', top: '-2px', left: '50%'},
+        close: {width: '100%', transform: 'rotate(45deg)', top: '-5px', left: '0px'}
+      }
+  })];
+
   var SIDEBAR_WIDTH = CONFIG.sidebar.width || 320;
   var SIDEBAR_DISPLAY_DURATION = 400;
   var mousePos = {}; var touchPos = {};
-
-  var sidebarToggleLines = {
-    lines: document.querySelector('.sidebar-toggle'),
-    init : function() {
-      this.lines.classList.remove('toggle-arrow', 'toggle-close');
-    },
-    arrow: function() {
-      this.lines.classList.remove('toggle-close');
-      this.lines.classList.add('toggle-arrow');
-    },
-    close: function() {
-      this.lines.classList.remove('toggle-arrow');
-      this.lines.classList.add('toggle-close');
-    }
-  };
 
   var sidebarToggleMotion = {
     sidebarEl       : document.querySelector('.sidebar'),
@@ -66,12 +118,12 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     },
     touchstartHandler: function(event) {
-      touchPos.X = event.touches[0].clientX;
-      touchPos.Y = event.touches[0].clientY;
+      touchPos.X = event.originalEvent.touches[0].clientX;
+      touchPos.Y = event.originalEvent.touches[0].clientY;
     },
     touchendHandler: function(event) {
-      var deltaX = event.changedTouches[0].clientX - touchPos.X;
-      var deltaY = event.changedTouches[0].clientY - touchPos.Y;
+      var deltaX = event.originalEvent.changedTouches[0].clientX - touchPos.X;
+      var deltaY = event.originalEvent.changedTouches[0].clientY - touchPos.Y;
       var effectiveSliding = Math.abs(deltaY) < 20 && ((deltaX > 30 && isRight) || (deltaX < -30 && !isRight));
       if (this.isSidebarVisible && effectiveSliding) {
         this.hideSidebar();
@@ -80,46 +132,54 @@ window.addEventListener('DOMContentLoaded', () => {
     showSidebar: function() {
       this.isSidebarVisible = true;
       this.sidebarEl.classList.add('sidebar-active');
-      if (typeof Velocity === 'function') {
-        Velocity(document.querySelectorAll('.sidebar .motion-element'), isRight ? 'transition.slideRightIn' : 'transition.slideLeftIn', {
+      if (typeof $.Velocity === 'function') {
+        $.Velocity(document.querySelectorAll('.sidebar .motion-element:not(.site-state)'), isRight ? 'transition.slideRightIn' : 'transition.slideLeftIn', {
           stagger: 50,
           drag   : true
+        });
+        $.Velocity(document.querySelector('.site-state'), isRight ? 'transition.slideRightIn' : 'transition.slideLeftIn', {
+          stagger: 50,
+          drag   : true,
+          display: 'flex'
         });
       }
 
       sidebarToggleLines.close();
-      NexT.utils.isDesktop() && window.anime(Object.assign({
-        targets : document.body,
-        duration: SIDEBAR_DISPLAY_DURATION,
-        easing  : 'linear'
-      }, isRight ? {
+      NexT.utils.isDesktop() && $('body').stop().animate(isRight ? {
         'padding-right': SIDEBAR_WIDTH
       } : {
         'padding-left': SIDEBAR_WIDTH
-      }));
+      }, SIDEBAR_DISPLAY_DURATION);
     },
     hideSidebar: function() {
       this.isSidebarVisible = false;
       this.sidebarEl.classList.remove('sidebar-active');
 
       sidebarToggleLines.init();
-      NexT.utils.isDesktop() && window.anime(Object.assign({
-        targets : document.body,
-        duration: SIDEBAR_DISPLAY_DURATION,
-        easing  : 'linear'
-      }, isRight ? {
+      NexT.utils.isDesktop() && $('body').stop().animate(isRight ? {
         'padding-right': 0
       } : {
         'padding-left': 0
-      }));
+      }, SIDEBAR_DISPLAY_DURATION);
     }
   };
   sidebarToggleMotion.init();
 
   function updateFooterPosition() {
-    var footer = document.querySelector('.footer');
-    var containerHeight = document.querySelector('.header').offsetHeight + document.querySelector('.main').offsetHeight + footer.offsetHeight;
-    footer.classList.toggle('footer-fixed', containerHeight <= window.innerHeight);
+    var containerHeight = document.querySelector('.container').offsetHeight;
+    var footer = document.getElementById('footer');
+    if (footer.getAttribute('position')) containerHeight += footer.outerHeight(true);
+    if (containerHeight < window.innerHeight) {
+      footer.css({
+        'position': 'fixed',
+        'bottom'  : 0,
+        'left'    : 0,
+        'right'   : 0
+      }).setAttribute('position', 'fixed');
+    } else {
+      footer.removeAttribute('position');
+      footer.style.cssText = '';
+    }
   }
 
   updateFooterPosition();

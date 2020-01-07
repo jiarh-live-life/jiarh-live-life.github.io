@@ -1,30 +1,34 @@
 <!DOCTYPE html>
+
+
+
+
+
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://jrhlive.com').hostname,
     root: '/',
-    scheme: 'Muse',
-    version: '7.6.0',
+    scheme: 'Mist',
+    version: '7.3.0',
     exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
@@ -32,7 +36,6 @@
     mediumzoom: false,
     lazyload: false,
     pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -42,7 +45,12 @@
     },
     localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
   };
 </script>
 
@@ -61,8 +69,7 @@
 <meta name="twitter:title" content="探索 Android 启动优化方法">
 <meta name="twitter:description" content="探索 Android 启动优化方法来源">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/8/19/16ca87e72e9460ed?imageView2/0/w/1280/h/960/format/webp/ignore-error/1">
-
-<link rel="canonical" href="http://jrhlive.com/2019/12/28/探索 Android 启动优化方法/">
+  <link rel="canonical" href="http://jrhlive.com/2019/12/28/探索 Android 启动优化方法/">
 
 
 <script id="page-configurations">
@@ -70,12 +77,17 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
   <title>探索 Android 启动优化方法 | STAY HUNGRY. STAY FOOLISH.</title>
+  <meta name="generator" content="Hexo 3.9.0">
   
+
+
 
 
 
@@ -94,6 +106,7 @@
   .use-motion .post-body,
   .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -107,11 +120,11 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
   <div class="container use-motion">
     <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
 
@@ -123,14 +136,15 @@
       </a>
     </div>
         <p class="site-subtitle">Hi,sweet.A new day.</p>
+      
   </div>
 
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
@@ -138,17 +152,53 @@
 <nav class="site-nav">
   
   <ul id="menu" class="menu">
+      
+      
+      
+        
         <li class="menu-item menu-item-home">
+      
+    
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
   </ul>
+
+    
 
 </nav>
 </div>
@@ -161,33 +211,33 @@
   </div>
 
 
-    <main class="main">
+    <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
-
-          <div class="content">
+          <div id="content" class="content">
             
 
-  <div class="posts-expand">
-      
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/12/28/探索 Android 启动优化方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="jiarh">
       <meta itemprop="description" content="coding change the world .">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          探索 Android 启动优化方法
+        <h1 class="post-title" itemprop="name headline">探索 Android 启动优化方法
+
+          
         </h1>
 
         <div class="post-meta">
@@ -197,8 +247,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
+              
+                
+              
+
               <time title="创建时间：2019-12-28 23:22:20" itemprop="dateCreated datePublished" datetime="2019-12-28T23:22:20+08:00">2019-12-28</time>
             </span>
+          
+            
+
+            
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
@@ -206,23 +264,28 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-12-31 14:46:36" itemprop="dateModified" datetime="2019-12-31T14:46:36+08:00">2019-12-31</time>
               </span>
+            
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/android/" itemprop="url" rel="index"><span itemprop="name">android</span></a></span>
+
+                
+                
                   ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
             </span>
+          
 
           
 
@@ -726,79 +789,105 @@
     
     
     
+        
+      
+        <div id="reward-container">
+  <div>觉得文章对您有帮助请我喝杯咖啡吧^_^</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_wx.png" alt="jiarh 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_zfb.png" alt="jiarh 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
 
       <footer class="post-footer">
+          
+            
+          
           <div class="post-tags">
+            
               <a href="/tags/android/" rel="tag"># android</a>
+            
               <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+            
           </div>
+        
 
         
 
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/12/28/探索 Android 多线程优化方法/" rel="next" title="探索 Android 多线程优化方法">
+                  <i class="fa fa-chevron-left"></i> 探索 Android 多线程优化方法
+                </a>
+              
+            </div>
 
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/12/29/探索 Android 内存优化方法/" rel="prev" title="探索 Android 内存优化方法">
+                  探索 Android 内存优化方法 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/12/28/探索 Android 多线程优化方法/" rel="prev" title="探索 Android 多线程优化方法">
-      <i class="fa fa-chevron-left"></i> 探索 Android 多线程优化方法
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/12/29/探索 Android 内存优化方法/" rel="next" title="探索 Android 内存优化方法">
-      探索 Android 内存优化方法 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
+  </div>
+  
+  
+  
   </article>
-  
-  
-  
 
   </div>
 
 
           </div>
           
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 
         </div>
           
   
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
           文章目录
         </li>
-        <li class="sidebar-nav-overview">
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
           站点概览
         </li>
       </ul>
@@ -806,6 +895,7 @@
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#探索-Android-启动优化方法"><span class="nav-number">1.</span> <span class="nav-text">探索 Android 启动优化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-启动优化的意义"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 启动优化的意义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-文章内容"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 文章内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-三种启动状态"><span class="nav-number">1.2.</span> <span class="nav-text">1. 三种启动状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-热启动"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.1 热启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-暖启动"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2 暖启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-冷启动"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.3 冷启动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-两种测量方法"><span class="nav-number">1.3.</span> <span class="nav-text">2. 两种测量方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-命令测量"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1 命令测量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-输入测量命令"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">2.2.1 输入测量命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-分析测量结果"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2.2.2 分析测量结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-埋点测量"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2 埋点测量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-定义埋点工具类"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">2.2.1 定义埋点工具类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-记录启动时间"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">2.2.2 记录启动时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-计算启动耗时"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">2.2.3 计算启动耗时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-小结"><span class="nav-number">1.3.3.</span> <span class="nav-text">2.3 小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-命令测量优缺点"><span class="nav-number">1.3.4.</span> <span class="nav-text">2.3.1 命令测量优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-埋点测量的特点"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">2.3.2 埋点测量的特点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-两个分析工具"><span class="nav-number">1.4.</span> <span class="nav-text">3. 两个分析工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Traceview"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1 Traceview</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-开始跟踪"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">3.1.1 开始跟踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-分析结果"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">3.1.2 分析结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Systrace"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 Systrace</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2-调用跟踪方法"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">3.2.2 调用跟踪方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-3-查看跟踪结果"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">3.2.3 查看跟踪结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-小结"><span class="nav-number">1.4.3.</span> <span class="nav-text">3.3 小结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-Traceview-的两个特点"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">3.3.1 Traceview 的两个特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-Systrace-的两个特点"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">3.3.2 Systrace 的两个特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3-Traceview-与-Systrace-的两个区别"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">3.3.3 Traceview 与 Systrace 的两个区别</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-两种优化方法"><span class="nav-number">1.5.</span> <span class="nav-text">4. 两种优化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-闪屏页"><span class="nav-number">1.5.1.</span> <span class="nav-text">4.1 闪屏页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-定义闪屏图"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">4.1.1 定义闪屏图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-定义闪屏主题"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">4.1.2 定义闪屏主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-3-设置主题"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">4.1.3 设置主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-4-换回主题"><span class="nav-number">1.5.1.4.</span> <span class="nav-text">4.1.4 换回主题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-异步初始化"><span class="nav-number">1.5.2.</span> <span class="nav-text">4.2 异步初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-1-异步初始化简介"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">4.2.1 异步初始化简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-2-线程池大小"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">4.2.2 线程池大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-3-线程池基本用法"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">4.2.3 线程池基本用法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-改进优化方案"><span class="nav-number">1.6.</span> <span class="nav-text">6. 改进优化方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-线程池实现的不足"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1 线程池实现的不足</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-启动器简介"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.2 启动器简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-启动器工作流程"><span class="nav-number">1.6.3.</span> <span class="nav-text">6.3 启动器工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-实现任务等待执行"><span class="nav-number">1.6.4.</span> <span class="nav-text">6.4 实现任务等待执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-1-添加依赖"><span class="nav-number">1.6.4.1.</span> <span class="nav-text">6.4.1 添加依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-2-定义任务"><span class="nav-number">1.6.4.2.</span> <span class="nav-text">6.4.2 定义任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-3-开始任务"><span class="nav-number">1.6.4.3.</span> <span class="nav-text">6.4.3 开始任务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-实现任务依赖关系"><span class="nav-number">1.6.5.</span> <span class="nav-text">6.5 实现任务依赖关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-5-1-定义任务"><span class="nav-number">1.6.5.1.</span> <span class="nav-text">6.5.1 定义任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-5-2-开始任务"><span class="nav-number">1.6.5.2.</span> <span class="nav-text">6.5.2 开始任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-5-3-小结"><span class="nav-number">1.6.5.3.</span> <span class="nav-text">6.5.3 小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-延迟执行任务"><span class="nav-number">1.7.</span> <span class="nav-text">7. 延迟执行任务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-onPreDraw"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1 onPreDraw</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-1-声明回调接口"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">7.1.1 声明回调接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-2-调用接口方法"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">7.1.2 调用接口方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-3-在-Activity-中监听"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">7.1.3 在 Activity 中监听</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-4-小结"><span class="nav-number">1.7.1.4.</span> <span class="nav-text">7.1.4 小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2-postDelayed"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2 postDelayed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3-延迟启动器"><span class="nav-number">1.7.3.</span> <span class="nav-text">7.3 延迟启动器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-1-延迟启动器基本用法"><span class="nav-number">1.7.3.1.</span> <span class="nav-text">7.3.1 延迟启动器基本用法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">1.8.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">1.9.</span> <span class="nav-text">参考文献</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-视频"><span class="nav-number">1.9.1.</span> <span class="nav-text">1. 视频</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-文章"><span class="nav-number">1.9.2.</span> <span class="nav-text">2. 文章</span></a></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -814,29 +904,177 @@
   <p class="site-author-name" itemprop="name">jiarh</p>
   <div class="site-description" itemprop="description">coding change the world .</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
+  <nav class="site-state motion-element">
       <div class="site-state-item site-state-posts">
+        
           <a href="/archives/">
         
           <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-categories">
+        
+          
             <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">11</span>
-        <span class="site-state-item-name">分类</span></a>
+        <span class="site-state-item-name">分类</span>
+        </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-tags">
+        
+          
             <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">20</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">标签</span>
+        </a>
       </div>
+    
   </nav>
-</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="http://jrhlive.com" title="home &rarr; http://jrhlive.com"><i class="fa fa-fw fa-home"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://jiarh-live-life.github.io/index.html" title="blog &rarr; https://jiarh-live-life.github.io/index.html" rel="noopener" target="_blank"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/haoyubihai" title="GitHub &rarr; https://github.com/haoyubihai" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="/jiarhmail@gmail.com" title="E-Mail &rarr; jiarhmail@gmail.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.android.google.cn/" title="https://developer.android.google.cn/" rel="noopener" target="_blank">Android</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://flutter.dev/" title="https://flutter.dev/" rel="noopener" target="_blank">Flutter</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://kotlin.link/" title="https://kotlin.link/" rel="noopener" target="_blank">Kotlin</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.apple.com/swift/" title="https://developer.apple.com/swift/" rel="noopener" target="_blank">Swift</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://cn.vuejs.org/v2/guide/index.html" title="https://cn.vuejs.org/v2/guide/index.html" rel="noopener" target="_blank">Vue &nbsp;&nbsp;</a>
+        </li>
+      
+    </ul>
+  </div>
 
       </div>
 
@@ -848,24 +1086,14 @@
       </div>
     </main>
 
-    <footer class="footer">
+    <footer id="footer" class="footer">
       <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
-  <span class="with-love">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">jiarh</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
-  </div>
 
         
 
@@ -876,17 +1104,23 @@
 
 
 
+
+
+
+
+        
       </div>
     </footer>
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
 
 
 
@@ -905,6 +1139,14 @@
 
 
 
+
+
+
+
+
+
+
+  
 
   
 

@@ -33,7 +33,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const getIndexByWord = (word, text, caseSensitive) => {
     let wordLen = word.length;
-    if (wordLen === 0) return [];
+    if (wordLen === 0) {
+      return [];
+    }
     let startPosition = 0;
     let position = [];
     let index = [];
@@ -54,7 +56,8 @@ window.addEventListener('DOMContentLoaded', () => {
   // Merge hits into slices
   const mergeIntoSlice = (start, end, index, searchText) => {
     let item = index[index.length - 1];
-    let { position, word } = item;
+    let position = item.position;
+    let word = item.word;
     let hits = [];
     let searchTextCountInSlice = 0;
     while (position + word.length <= end && index.length !== 0) {
@@ -113,7 +116,9 @@ window.addEventListener('DOMContentLoaded', () => {
       // Perform local searching
       datas.forEach(data => {
         // Only match articles with not empty titles
-        if (!data.title) return;
+        if (!data.title) {
+          return;
+        }
         let searchTextCount = 0;
         let title = data.title.trim();
         let titleInLowerCase = title.toLowerCase();
@@ -153,7 +158,8 @@ window.addEventListener('DOMContentLoaded', () => {
           let slicesOfContent = [];
           while (indexOfContent.length !== 0) {
             let item = indexOfContent[indexOfContent.length - 1];
-            let { position, word } = item;
+            let position = item.position;
+            let word = item.word;
             // Cut out 100 characters
             let start = position - 20;
             let end = position + 80;
@@ -238,11 +244,11 @@ window.addEventListener('DOMContentLoaded', () => {
       .then(res => {
         // Get the contents from search data
         isfetched = true;
-        datas = isXml ? [...new DOMParser().parseFromString(res, 'text/xml').querySelectorAll('entry')].map(element => {
+        datas = isXml ? [...new DOMParser().parseFromString(res, 'text/xml').querySelectorAll('entry')].map(item => {
           return {
-            title  : element.querySelector('title').innerHTML,
-            content: element.querySelector('content').innerHTML,
-            url    : element.querySelector('url').innerHTML
+            title  : item.querySelector('title').innerHTML,
+            content: item.querySelector('content').innerHTML,
+            url    : item.querySelector('url').innerHTML
           };
         }) : JSON.parse(res);
 
@@ -270,7 +276,11 @@ window.addEventListener('DOMContentLoaded', () => {
   // Search function
   const searchFunc = () => {
     document.querySelector('.search-pop-overlay').style.display = '';
-    document.querySelector('.search-pop-overlay').innerHTML = '<div class="search-loading-icon"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>';
+    document.querySelector('.search-pop-overlay').innerHTML = '<div id="search-loading-icon"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>';
+    document.querySelector('#search-loading-icon').css({
+      margin      : '20% auto 0 auto',
+      'text-align': 'center'
+    });
     fetchData(proceedSearch);
   };
 
@@ -286,7 +296,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // Handle and trigger popup window
-  document.querySelector('.popup-trigger').addEventListener('click', () => {
+  document.querySelector('.popup-trigger').addEventListener('click', event => {
+    event.stopPropagation();
     if (isfetched === false) {
       searchFunc();
     } else {

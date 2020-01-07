@@ -1,30 +1,34 @@
 <!DOCTYPE html>
+
+
+
+
+
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('http://jrhlive.com').hostname,
     root: '/',
-    scheme: 'Muse',
-    version: '7.6.0',
+    scheme: 'Mist',
+    version: '7.3.0',
     exturl: false,
-    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
@@ -32,7 +36,6 @@
     mediumzoom: false,
     lazyload: false,
     pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -42,24 +45,28 @@
     },
     localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
   };
 </script>
 
-  <meta name="description" content="Android.mk官网链接 本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。 概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替">
+  <meta name="description" content="Android.mk官网链接本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替换特">
 <meta name="keywords" content="Android,NDK,android.mk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NDK开发Android.mk指南[5]">
 <meta property="og:url" content="http://jrhlive.com/2019/09/05/NDK开发Android-mk指南-5/index.html">
 <meta property="og:site_name" content="STAY HUNGRY. STAY FOOLISH.">
-<meta property="og:description" content="Android.mk官网链接 本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。 概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替">
+<meta property="og:description" content="Android.mk官网链接本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替换特">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-12-31T02:30:53.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NDK开发Android.mk指南[5]">
-<meta name="twitter:description" content="Android.mk官网链接 本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。 概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替">
-
-<link rel="canonical" href="http://jrhlive.com/2019/09/05/NDK开发Android-mk指南-5/">
+<meta name="twitter:description" content="Android.mk官网链接本页介绍了 ndk-build 所使用的 Android.mk 编译文件的语法。概览Android.mk 文件位于项目 jni/ 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。Android.mk 文件用于定义 Application.mk、编译系统和环境变量所未定义的项目范围设置。它还可替换特">
+  <link rel="canonical" href="http://jrhlive.com/2019/09/05/NDK开发Android-mk指南-5/">
 
 
 <script id="page-configurations">
@@ -67,12 +74,17 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
   <title>NDK开发Android.mk指南[5] | STAY HUNGRY. STAY FOOLISH.</title>
+  <meta name="generator" content="Hexo 3.9.0">
   
+
+
 
 
 
@@ -91,6 +103,7 @@
   .use-motion .post-body,
   .use-motion .collection-header { opacity: initial; }
 
+  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -104,11 +117,11 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
   <div class="container use-motion">
     <div class="headband"></div>
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
 
@@ -120,14 +133,15 @@
       </a>
     </div>
         <p class="site-subtitle">Hi,sweet.A new day.</p>
+      
   </div>
 
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
   </div>
 </div>
 
@@ -135,17 +149,53 @@
 <nav class="site-nav">
   
   <ul id="menu" class="menu">
+      
+      
+      
+        
         <li class="menu-item menu-item-home">
+      
+    
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
   </ul>
+
+    
 
 </nav>
 </div>
@@ -158,33 +208,33 @@
   </div>
 
 
-    <main class="main">
+    <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
-
-          <div class="content">
+          <div id="content" class="content">
             
 
-  <div class="posts-expand">
-      
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://jrhlive.com/2019/09/05/NDK开发Android-mk指南-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="jiarh">
       <meta itemprop="description" content="coding change the world .">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="STAY HUNGRY. STAY FOOLISH.">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          NDK开发Android.mk指南[5]
+        <h1 class="post-title" itemprop="name headline">NDK开发Android.mk指南[5]
+
+          
         </h1>
 
         <div class="post-meta">
@@ -194,8 +244,16 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
+              
+                
+              
+
               <time title="创建时间：2019-09-05 11:01:05" itemprop="dateCreated datePublished" datetime="2019-09-05T11:01:05+08:00">2019-09-05</time>
             </span>
+          
+            
+
+            
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
@@ -203,23 +261,28 @@
                 <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-12-31 10:30:53" itemprop="dateModified" datetime="2019-12-31T10:30:53+08:00">2019-12-31</time>
               </span>
+            
+          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a></span>
+
+                
+                
                   ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NDK/" itemprop="url" rel="index">
-                    <span itemprop="name">NDK</span>
-                  </a>
-                </span>
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NDK/" itemprop="url" rel="index"><span itemprop="name">NDK</span></a></span>
+
+                
+                
+              
             </span>
+          
 
           
 
@@ -232,9 +295,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Android-mk"><a href="#Android-mk" class="headerlink" title="Android.mk"></a>Android.mk</h1><p><a href https: developer.android.com ndk guides android_mk.html"">官网链接</a></p>
-<p>本页介绍了 <code>ndk-build</code> 所使用的 <code>Android.mk</code> 编译文件的语法。</p>
-<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><code>Android.mk</code> 文件位于项目 <code>jni/</code> 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。<code>Android.mk</code> 文件用于定义 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener"><code>Application.mk</code></a>、编译系统和环境变量所未定义的项目范围设置。它还可替换特定模块的项目范围设置。</p>
+        <h1 id="Android-mk"><a href="#Android-mk" class="headerlink" title="Android.mk"></a>Android.mk</h1><p><a href https: developer.android.com ndk guides android_mk.html"">官网链接</a></p><p>本页介绍了 <code>ndk-build</code> 所使用的 <code>Android.mk</code> 编译文件的语法。</p><h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p><code>Android.mk</code> 文件位于项目 <code>jni/</code> 目录的子目录中，用于向编译系统描述源文件和共享库。它实际上是编译系统解析一次或多次的微小 GNU makefile 片段。<code>Android.mk</code> 文件用于定义 <a href="https://developer.android.com/ndk/guides/application_mk.html" target="_blank" rel="noopener"><code>Application.mk</code></a>、编译系统和环境变量所未定义的项目范围设置。它还可替换特定模块的项目范围设置。</p><a id="more"></a>
+
+
 <p><code>Android.mk</code> 的语法支持将源文件分组为模块。模块是静态库、共享库或独立的可执行文件。您可在每个 <code>Android.mk</code> 文件中定义一个或多个模块，也可在多个模块中使用同一个源文件。编译系统只将共享库放入您的应用软件包。此外，静态库可生成共享库。</p>
 <p>除了封装库之外，编译系统还可为您处理各种其他事项。例如，您无需在 <code>Android.mk</code> 文件中列出头文件或生成的文件之间的显式依赖关系。NDK 编译系统会自动计算这些关系。因此，您应该能够享受到未来 NDK 版本中新工具链/平台支持带来的益处，而无需处理 <code>Android.mk</code> 文件。</p>
 <p>此文件的语法与随整个 <a href="https://source.android.com/" target="_blank" rel="noopener">Android 开源项目</a>分发的 <code>Android.mk</code> 文件中使用的语法非常接近。虽然使用这些语法的编译系统实现并不相同，但通过有意将语法设计得相似，可使应用开发者更轻松地将源代码重复用于外部库。</p>
@@ -479,80 +542,107 @@
     
     
     
+        
+      
+        <div id="reward-container">
+  <div>觉得文章对您有帮助请我喝杯咖啡吧^_^</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_wx.png" alt="jiarh 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/jiarh_zfb.png" alt="jiarh 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
 
       <footer class="post-footer">
+          
+            
+          
           <div class="post-tags">
+            
               <a href="/tags/Android/" rel="tag"># Android</a>
+            
               <a href="/tags/NDK/" rel="tag"># NDK</a>
+            
               <a href="/tags/android-mk/" rel="tag"># android.mk</a>
+            
           </div>
+        
 
         
 
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/05/NDK开发编译知识点汇集-4/" rel="next" title="NDK开发编译知识点汇集[4]">
+                  <i class="fa fa-chevron-left"></i> NDK开发编译知识点汇集[4]
+                </a>
+              
+            </div>
 
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/05/NDK开发Application-mk指南-6/" rel="prev" title="NDK开发Application.mk指南[6]">
+                  NDK开发Application.mk指南[6] <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
         
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/09/05/NDK开发编译知识点汇集-4/" rel="prev" title="NDK开发编译知识点汇集[4]">
-      <i class="fa fa-chevron-left"></i> NDK开发编译知识点汇集[4]
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/09/05/NDK开发Application-mk指南-6/" rel="next" title="NDK开发Application.mk指南[6]">
-      NDK开发Application.mk指南[6] <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
       </footer>
     
+  </div>
+  
+  
+  
   </article>
-  
-  
-  
 
   </div>
 
 
           </div>
           
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
 
         </div>
           
   
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
   </div>
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
+        <li class="sidebar-nav-toc" data-target="post-toc-wrap">
           文章目录
         </li>
-        <li class="sidebar-nav-overview">
+        <li class="sidebar-nav-overview" data-target="site-overview-wrap">
           站点概览
         </li>
       </ul>
@@ -560,6 +650,7 @@
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
           <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Android-mk"><span class="nav-number">1.</span> <span class="nav-text">Android.mk</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">1.1.</span> <span class="nav-text">概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础知识"><span class="nav-number">1.1.1.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量和宏"><span class="nav-number">1.1.2.</span> <span class="nav-text">变量和宏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NDK定义的include变量"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">NDK定义的include变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CLEAR-VARS"><span class="nav-number">1.1.2.1.1.</span> <span class="nav-text">CLEAR_VARS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BUILD-SHARED-LIBRARY"><span class="nav-number">1.1.2.1.2.</span> <span class="nav-text">BUILD_SHARED_LIBRARY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BUILD-STATIC-LIBRARY"><span class="nav-number">1.1.2.1.3.</span> <span class="nav-text">BUILD_STATIC_LIBRARY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PUBLIC-SHARED-LIBRARY"><span class="nav-number">1.1.2.1.4.</span> <span class="nav-text">PUBLIC_SHARED_LIBRARY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PUBLIC-STATIC-LIBRARY"><span class="nav-number">1.1.2.1.5.</span> <span class="nav-text">PUBLIC_STATIC_LIBRARY</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标信息变量"><span class="nav-number">1.1.3.</span> <span class="nav-text">目标信息变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TARGET-ARCH"><span class="nav-number">1.1.3.0.1.</span> <span class="nav-text">TARGET_ARCH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TARGET-PLATFORM"><span class="nav-number">1.1.3.0.2.</span> <span class="nav-text">TARGET_PLATFORM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TARGET-ARCH-ABI"><span class="nav-number">1.1.3.0.3.</span> <span class="nav-text">TARGET_ARCH_ABI</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TARGET-ABI"><span class="nav-number">1.1.3.0.4.</span> <span class="nav-text">TARGET_ABI</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块描述变量"><span class="nav-number">1.1.4.</span> <span class="nav-text">模块描述变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-PATH"><span class="nav-number">1.1.4.0.1.</span> <span class="nav-text">LOCAL_PATH</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-MODULE"><span class="nav-number">1.1.4.0.2.</span> <span class="nav-text">LOCAL_MODULE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-MODULE-FILENAME"><span class="nav-number">1.1.4.0.3.</span> <span class="nav-text">LOCAL_MODULE_FILENAME</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-SRC-FILES"><span class="nav-number">1.1.4.0.4.</span> <span class="nav-text">LOCAL_SRC_FILES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-CPP-EXTENSION"><span class="nav-number">1.1.4.0.5.</span> <span class="nav-text">LOCAL_CPP_EXTENSION</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-CPP-FEATURES"><span class="nav-number">1.1.4.0.6.</span> <span class="nav-text">LOCAL_CPP_FEATURES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-C-INCLUDES"><span class="nav-number">1.1.4.0.7.</span> <span class="nav-text">LOCAL_C_INCLUDES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-CFLAGS"><span class="nav-number">1.1.4.0.8.</span> <span class="nav-text">LOCAL_CFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-CPPFLAGS"><span class="nav-number">1.1.4.0.9.</span> <span class="nav-text">LOCAL_CPPFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-STATIC-LIBRARIES"><span class="nav-number">1.1.4.0.10.</span> <span class="nav-text">LOCAL_STATIC_LIBRARIES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-SHARED-LIBRARIES"><span class="nav-number">1.1.4.0.11.</span> <span class="nav-text">LOCAL_SHARED_LIBRARIES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-WHOLE-STATIC-LIBRARIES"><span class="nav-number">1.1.4.0.12.</span> <span class="nav-text">LOCAL_WHOLE_STATIC_LIBRARIES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-LDLIBS"><span class="nav-number">1.1.4.0.13.</span> <span class="nav-text">LOCAL_LDLIBS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-LDFLAGS"><span class="nav-number">1.1.4.0.14.</span> <span class="nav-text">LOCAL_LDFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-ALLOW-UNDEFINED-SYMBOLS"><span class="nav-number">1.1.4.0.15.</span> <span class="nav-text">LOCAL_ALLOW_UNDEFINED_SYMBOLS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-ARM-MODE"><span class="nav-number">1.1.4.0.16.</span> <span class="nav-text">LOCAL_ARM_MODE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-ARM-NEON"><span class="nav-number">1.1.4.0.17.</span> <span class="nav-text">LOCAL_ARM_NEON</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-DISABLE-FORMAT-STRING-CHECKS"><span class="nav-number">1.1.4.0.18.</span> <span class="nav-text">LOCAL_DISABLE_FORMAT_STRING_CHECKS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-EXPORT-CFLAGS"><span class="nav-number">1.1.4.0.19.</span> <span class="nav-text">LOCAL_EXPORT_CFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-EXPORT-CPPFLAGS"><span class="nav-number">1.1.4.0.20.</span> <span class="nav-text">LOCAL_EXPORT_CPPFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-EXPORT-C-INCLUDES"><span class="nav-number">1.1.4.0.21.</span> <span class="nav-text">LOCAL_EXPORT_C_INCLUDES</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-EXPORT-LDFLAGS"><span class="nav-number">1.1.4.0.22.</span> <span class="nav-text">LOCAL_EXPORT_LDFLAGS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-EXPORT-LDLIBS"><span class="nav-number">1.1.4.0.23.</span> <span class="nav-text">LOCAL_EXPORT_LDLIBS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-SHORT-COMMANDS"><span class="nav-number">1.1.4.0.24.</span> <span class="nav-text">LOCAL_SHORT_COMMANDS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-THIN-ARCHIVE"><span class="nav-number">1.1.4.0.25.</span> <span class="nav-text">LOCAL_THIN_ARCHIVE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LOCAL-FILTER-ASM"><span class="nav-number">1.1.4.0.26.</span> <span class="nav-text">LOCAL_FILTER_ASM</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NDK提供的函数宏"><span class="nav-number">1.1.5.</span> <span class="nav-text">NDK提供的函数宏</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#my-dir"><span class="nav-number">1.1.5.0.1.</span> <span class="nav-text">my-dir</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#all-subdir-makefiles"><span class="nav-number">1.1.5.0.2.</span> <span class="nav-text">all-subdir-makefiles</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#this-makefile"><span class="nav-number">1.1.5.0.3.</span> <span class="nav-text">this-makefile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#parent-makefile"><span class="nav-number">1.1.5.0.4.</span> <span class="nav-text">parent-makefile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#grand-parent-makefile"><span class="nav-number">1.1.5.0.5.</span> <span class="nav-text">grand-parent-makefile</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#import-module"><span class="nav-number">1.1.5.0.6.</span> <span class="nav-text">import-module</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -568,29 +659,177 @@
   <p class="site-author-name" itemprop="name">jiarh</p>
   <div class="site-description" itemprop="description">coding change the world .</div>
 </div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
+  <nav class="site-state motion-element">
       <div class="site-state-item site-state-posts">
+        
           <a href="/archives/">
         
           <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-categories">
+        
+          
             <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">11</span>
-        <span class="site-state-item-name">分类</span></a>
+        <span class="site-state-item-name">分类</span>
+        </a>
       </div>
+    
+      
+      
       <div class="site-state-item site-state-tags">
+        
+          
             <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
         <span class="site-state-item-count">20</span>
-        <span class="site-state-item-name">标签</span></a>
+        <span class="site-state-item-name">标签</span>
+        </a>
       </div>
+    
   </nav>
-</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="http://jrhlive.com" title="home &rarr; http://jrhlive.com"><i class="fa fa-fw fa-home"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://jiarh-live-life.github.io/index.html" title="blog &rarr; https://jiarh-live-life.github.io/index.html" rel="noopener" target="_blank"><i class="fa fa-fw fa-rss"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="https://github.com/haoyubihai" title="GitHub &rarr; https://github.com/haoyubihai" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+      
+        
+      
+        <a href="/jiarhmail@gmail.com" title="E-Mail &rarr; jiarhmail@gmail.com"><i class="fa fa-fw fa-envelope"></i></a>
+      </span>
+    
+  </div>
 
 
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.android.google.cn/" title="https://developer.android.google.cn/" rel="noopener" target="_blank">Android</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://flutter.dev/" title="https://flutter.dev/" rel="noopener" target="_blank">Flutter</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://kotlin.link/" title="https://kotlin.link/" rel="noopener" target="_blank">Kotlin</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://developer.apple.com/swift/" title="https://developer.apple.com/swift/" rel="noopener" target="_blank">Swift</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="https://cn.vuejs.org/v2/guide/index.html" title="https://cn.vuejs.org/v2/guide/index.html" rel="noopener" target="_blank">Vue &nbsp;&nbsp;</a>
+        </li>
+      
+    </ul>
+  </div>
 
       </div>
 
@@ -602,24 +841,14 @@
       </div>
     </main>
 
-    <footer class="footer">
+    <footer id="footer" class="footer">
       <div class="footer-inner">
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
-  <span class="with-love">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">jiarh</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
-  </div>
 
         
 
@@ -630,17 +859,23 @@
 
 
 
+
+
+
+
+        
       </div>
     </footer>
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script>
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/muse.js?v=7.3.0"></script>
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
 
 
 
@@ -659,6 +894,14 @@
 
 
 
+
+
+
+
+
+
+
+  
 
   
 
